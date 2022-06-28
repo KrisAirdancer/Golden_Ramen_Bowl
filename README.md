@@ -40,7 +40,9 @@ hint: invocation.
     - The HTML files referenced by the post objects should also be stored in a separate container in the same MongoDB database.
 - See if we can run MongoDB locally on the Pi.
 - Collections
-    - 
+    - Posts
+    - Users
+    - HTML Pages
 
 **Admin Interface**
 
