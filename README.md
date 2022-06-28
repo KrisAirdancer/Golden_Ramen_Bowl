@@ -166,3 +166,10 @@ hint: invocation.
 - "older" button should only appear when there is a page of older posts ahead of the current page.
 
 **Stage 9** - ...
+
+
+# Thinking...
+
+- Use nodejs-crash-course/views/posts/details.ejs as an example of how to make a post page.
+    - This project generated a post's page using this template and the data it pulled from the MongoDB database. See line 10, `<p><%= post.body %></p>` where the `body` field from the object in the database is inserted intot the HTML using EJS.
+    - We could store HTML in the `body` field of a `Post` object and then insert that here. Just exclude the surrounding `<p>` tags.
