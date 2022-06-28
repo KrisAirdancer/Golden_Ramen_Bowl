@@ -47,11 +47,13 @@ hint: invocation.
     - Add tags to posts
     - Add categories to posts
     - Insert images and align them left, right, or center
-- Admin page
-    - Post writing interface and schdeuling pages are hidden behind an admin login page
+- Admin Login Page
+    - Post writing interface and schdeuling pages are hidden behind this admin login page
 - Blog homepage displays a set number of posts and allows users to scroll through "pages" of posts.
     - Posts are ordered from newest (on first page) to oldest (on last page).
     - Start with 5 posts per page.
+- Posts are saved
+    - Posts should be saved to either a database or to local (XML, JSON, etc.)
 
 **Upgrades**
 
@@ -112,3 +114,55 @@ hint: invocation.
 - This [YouTube tutorial](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=1739s) shows how to build a blog site that allows you to write posts in markdown.
     - It might be worth considering using the markdown interface. It looks easy to implement. (see ~29:00)
     - Here is the [source code](https://github.com/WebDevSimplified/Markdown-Blog) for the tutorial project.
+- Will want to use something like Mongoose if we go with a database.
+    - "Mongoose is an Object Document Mapper (ODM). This means that Mongoose allows you to define objects with a strongly-typed schema that is mapped to a MongoDB document." That is, you can define the structure of how an object will be stored in a database. This definition is called a Schema and Mongoose allows you do do this easily.
+    - Read more on this [here](https://code.tutsplus.com/articles/an-introduction-to-mongoose-for-mongodb-and-nodejs--cms-29527)
+
+# Development Stages
+
+**Stage 1** - Setup server
+
+- Build a basic Node.js server with an index.html (or .ejs) page.
+
+**Stage 2** - Basic Routing
+
+- Create additional filler pages (.html or .ejs with a header) for,
+    - About
+    - 404
+- Setup routing between the new pages
+
+**Stage 3** - Add post objects and storage
+
+- Create an object to represent a blog post.
+    - May wan to do this using a Mongoose schema. (if using MongoDB)
+- Setup MongoDB database to store the posts
+    - See if MongoDB can be hosted on local (on linux - Debian)
+    - Or, instead of MongoDB, store posts to local using JSON.
+
+**Stage 4** - Create basic post creation interface
+
+- Make a page create.ejs (or similar) with a form for creating posts.
+    - Basic fields for now. Similar to the one I made in the Node.js tutorial.
+- Connect the post submission form to the MongoDB database.
+    - Posts are saved to MongoDB when "Submit" is clicked.
+
+**Stage 5** - Sort posts on homepage
+
+- Pull posts from database (or JSON file), sort them from newest (on top) to oldest, and list them on the homepage.
+
+**Stage 6** - Hyperlink posts on homepage to link to actual post pages
+
+- Hyperlink the posts in the post list on the homepage
+- Setup the system to generate an HTML page for a post when a user visits that post's URL. Such as via the new hyperlinks.
+
+**Stage 7** - Create post pages on homepage
+
+- Setup the homepage to show only the 5 most recent posts
+
+**Stage 8** - Make older posts available on homepage
+
+- Add "older" and "newer" links to homepage to allow users to scroll through posts, 5 at a time, starting with the newest posts.
+- "newer" button should only appear when there is a page of newer posts ahead of the current page.
+- "older" button should only appear when there is a page of older posts ahead of the current page.
+
+**Stage 9** - ...
