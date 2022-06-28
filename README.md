@@ -1,11 +1,12 @@
 # Golden_Ramen_Bowl
+
 A website where my wife and I document our travels.
 
 The current version of this site is built using Wordpress and can be viewed [here](https://www.goldenramenbowl.com).
 
 This site might eventually replace the current one and be hosted on our Raspberry Pi instead of on Bluehost.
 
-## Setting up this project for development
+# Setting up this project for development
 
 - 1. Clone the repository to local.
 - 2. Run 'npm install' in the terminal to download all of the requried dependencies.
@@ -14,7 +15,7 @@ This site might eventually replace the current one and be hosted on our Raspberr
     - 'nodemon app' to run using Nodemon
     - 'node app' to run using vanilla Node.js
 
-## Git SOP
+# Git SOP
 
 - When pulling changes down to the Pi, pull them onto an "upgrading" branch and then merge that branch into the main branch.
 - [This](https://stackoverflow.com/questions/62653114/how-can-i-deal-with-this-git-warning-pulling-without-specifying-how-to-reconci) might help with the below error.
@@ -32,7 +33,32 @@ hint: preference for all repositories. You can also pass --rebase, --no-rebase,
 hint: or --ff-only on the command line to override the configured default per
 hint: invocation.
 
-## TODO/OUTLINE
+# Features
+
+**Minimum Features**
+
+- Post writing interface w/ ability to...
+    - Add new posts
+    - Schedule posts to be released at a certain date and time
+    - Update posts that have already been posted
+    - Delete posts (remove them from the blog and database)
+    - Unpublish posts
+    - Write posts in either markdown or HTML
+    - Add tags to posts
+    - Add categories to posts
+    - Insert images and align them left, right, or center
+- Admin page
+    - Post writing interface and schdeuling pages are hidden behind an admin login page
+- Blog homepage displays a set number of posts and allows users to scroll through "pages" of posts.
+    - Posts are ordered from newest (on first page) to oldest (on last page).
+    - Start with 5 posts per page.
+
+**Upgrades**
+
+- Image gallery (side scrolling image panel) in post writing interface
+- Image collage (a group of images clustered together) in post writing interface
+
+# Outline
 
 **Database Setup**
 
@@ -79,7 +105,10 @@ hint: invocation.
 - Setup a recurring backup system to save all of the blog information to a separate cloud storage service.
     - Do this manually (copy & paste style) until this is setup.
 
-## Resources
+# Resources
 
 - This [source code](https://github.com/kunaal438/blogging-site) and associated [YouTube tutorial](https://www.youtube.com/watch?v=AWHGQfzfHxI) may be helpful in getting this project outlined.
     - It would be worth downloading the source code and starting it up to see how it works.
+- This [YouTube tutorial](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=1739s) shows how to build a blog site that allows you to write posts in markdown.
+    - It might be worth considering using the markdown interface. It looks easy to implement. (see ~29:00)
+    - Here is the [source code](https://github.com/WebDevSimplified/Markdown-Blog) for the tutorial project.
