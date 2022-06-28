@@ -1,5 +1,5 @@
 # Golden_Ramen_Bowl
-A scratch built personal website for me and my wife.
+A website where me and my wife document our travels.
 
 The current version of this site is built using Wordpress and can be viewed [here](https://www.goldenramenbowl.com).
 
