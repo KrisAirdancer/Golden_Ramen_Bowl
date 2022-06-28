@@ -1,5 +1,5 @@
 # Golden_Ramen_Bowl
-A website where me and my wife document our travels.
+A website where my wife and I document our travels.
 
 The current version of this site is built using Wordpress and can be viewed [here](https://www.goldenramenbowl.com).
 
