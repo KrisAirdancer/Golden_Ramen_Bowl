@@ -120,26 +120,29 @@ hint: invocation.
 - Will want to use something like Mongoose if we go with a database.
     - "Mongoose is an Object Document Mapper (ODM). This means that Mongoose allows you to define objects with a strongly-typed schema that is mapped to a MongoDB document." That is, you can define the structure of how an object will be stored in a database. This definition is called a Schema and Mongoose allows you do do this easily.
     - Read more on this [here](https://code.tutsplus.com/articles/an-introduction-to-mongoose-for-mongodb-and-nodejs--cms-29527)
+- A list of [HTML Tags](https://www.tutorialstonight.com/html-tags-list-with-examples.php#:~:text=%20HTML%20Tags%20List%20%201%20HTML%20Basic,create%20any%20hyperlink%2C%20defining%20connection%20with...%20More%20)
+    - Look over section 11, "General Tags"
+    - We will likely want to put the central section of the site (post content, the list of posts, etc.) inside a `<main>` tag.
 
 # Development Stages
 
-COMPLETE **Stage 1** - Setup server
+✔️ **Stage 1** - Setup server
 
 - Build a basic Node.js server with an index.html (or .ejs) page.
 
-COMPLETE **Stage 2** - Add pages
+✔️ **Stage 2** - Add pages
 
 - Create additional filler pages (.html or .ejs with a header) for,
     - About
     - 404
 
-COMPLETE **Stage 2.1** - Add Nav Bar
+✔️ **Stage 2.1** - Add Nav Bar
 
 - Add partials to project and make the nav bar (menu) partials.
 - Skip footer, header, etc. for now.
 - Add Nav Bar to all pages.
 
-COMPLETE **Stage 2.2** - Basic Routing
+✔️ **Stage 2.2** - Basic Routing
 
 - Setup routing between the new pages.
 - Routing for,
@@ -147,7 +150,7 @@ COMPLETE **Stage 2.2** - Basic Routing
     - Homepage
     - 404 not found page
 
-**Stage 2.3** - Finish adding partials
+✔️ **Stage 2.3** - Finish adding partials
 
 - See head.ejs in Node.js Crash Course project for how this works.
 - Replace the `<head>` tags currently in the page .ejs files with an EJS tag that pulls in the head.ejs.
