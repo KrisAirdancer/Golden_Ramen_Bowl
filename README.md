@@ -57,8 +57,11 @@ hint: invocation.
 
 **Upgrades**
 
-- Image gallery (side scrolling image panel) in post writing interface
-- Image collage (a group of images clustered together) in post writing interface
+- Image gallery (side scrolling image panel) in post writing interface.
+- Image collage (a group of images clustered together) in post writing interface.
+- Add logging to the site.
+    - i.e. Error logging, logging requests made to the site, etc.
+    - Store these in a separate Collection in MongoDB server. Maybe...(might just want to store these in a text file that gets deleted every few days to prevent a data storage overload issue).
 
 # Outline
 
@@ -136,13 +139,17 @@ COMPLETE **Stage 2.1** - Add Nav Bar
 - Skip footer, header, etc. for now.
 - Add Nav Bar to all pages.
 
-**Stage 2.2** - Basic Routing
+COMPLETE **Stage 2.2** - Basic Routing
 
-- Setup routing between the new pages
+- Setup routing between the new pages.
+- Routing for,
+    - About Us page
+    - Homepage
 
 **Stage 2.3** - Finish adding partials
 
 - See head.ejs in Node.js Crash Course project for how this works.
+- Replace the `<head>` tags currently in the page .ejs files with an EJS tag that pulls in the head.ejs.
 - Add the rest of the partials for the site:
     - footer.ejs
     - header.ejs
@@ -185,6 +192,43 @@ COMPLETE **Stage 2.1** - Add Nav Bar
 - "older" button should only appear when there is a page of older posts ahead of the current page.
 
 **Stage 9** - ...
+
+**Stage ??** - Figure out syntax in 404 handler
+
+- In the 404 handler a "title" property is passed into the .render() call. Figure out what that title is for and what it does.
+
+**Stage ??** - Add 'title' headers
+
+- For each of the responses that we make from app.js (or anywhere that sends stuff to the browser), add a header to the response as is done in the 404 handler in app.js.
+- The header should set the title that appears in the tab on the browser. I think...
+- Go look in Nodem.js Crash Course udner views/partials/head.js line 4. Figure out where that title variable is being pulled in by EJS. I think that sets the text seen in the browser tab.
+
+**Stage ??** - Add status codes to all .render() calls
+
+- For all calls to .render(), specify the status code to return.
+- This is truly optional.
+- See the 404 page handler for this in app.js.
+
+**Stage Last** - Finialize Documentation
+
+- We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
+- Go throgh the entire project and do the following,
+    - Add documentation comments anywhere that I haven't already. Fill in the gaps.
+        - Over explain if necessary, even if it feels silly. It is easy to forget how this stuff communicates.
+    - Add a section to this README that explains (in stepwise fashion) how the entire project runs.
+        - How the server is setup.
+        - How browser requests are made.
+        - How our server responds to requests.
+        - How HTML pages are built before being served to the browser.
+        - How any JavaScript works/fits into the project.
+        - etc. 
+        - Explain and document everything.
+
+**Ongoing Maintenance**
+
+- Each time we add a feature (or remove/update something), add documentation for it.
+    - Add a section to the README explaining how it works.
+    - Add in-code comments to any new code that explains how that code works.
 
 
 # Thinking...

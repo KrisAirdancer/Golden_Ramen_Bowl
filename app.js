@@ -1,5 +1,9 @@
+/***** IMPORTS *****/
+
 // Imports the Express package
 const express = require('express');
+
+/***** SERVER SETUP *****/
 
 // Creates the server object as an express server.
 const app = express();
@@ -20,7 +24,28 @@ app.use(express.static('public'));
 // This makes the directory 'public' and all of it's contents available to the frontend.
 app.use(express.static('public'));
 
+/***** ROUTING *****/
+
 // This handles requests for the base domain https://www.goldenramenbowl.com/ - the homepage.
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', { title: 'Home'} );
+});
+
+/* 'app' is the server object. When a request is made to the server (browser sends a 
+ *  request to the server), the server object (app) gets that request. We can access
+ *  that request using .get, .post, etc. and respond to it. In this case, we parse the
+ *  URL that comes in as a GET request and if it matches the specified path ('/about-us')
+ *  we use the response object to send the desired HTML (.ejs) page back to the browser.
+ */
+app.get('/about-us', (req, res) => {
+    res.render('about-us', { title: 'About Us'} );
+});
+
+/*  Handling invalid URLs by redirecting that request to the 404 page. If no match is found in any of the above functions, this function will fire. If a match is found above, this function will never run.
+ *  This function does not take in a URL as a parameter b/c it fires for any request. This is why this one must be at the bottom of the file. It is the default case if all others don't match the incoming request. If you move this up in the code, it will cause other valid URLs to go to the 404 page.
+ *  This method does not automatically know that we're handling a 404 or serving any other kind of page for that matter. So we have to specify with the .status() function.
+ *  This method is used to run middleware
+ */
+app.use( (req, res) => { 
+    res.status(404).render('404', { title: '404'} );
 });
