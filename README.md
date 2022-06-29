@@ -145,6 +145,7 @@ COMPLETE **Stage 2.2** - Basic Routing
 - Routing for,
     - About Us page
     - Homepage
+    - 404 not found page
 
 **Stage 2.3** - Finish adding partials
 
