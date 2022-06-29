@@ -120,16 +120,35 @@ hint: invocation.
 
 # Development Stages
 
-**Stage 1** - Setup server
+COMPLETE **Stage 1** - Setup server
 
 - Build a basic Node.js server with an index.html (or .ejs) page.
 
-**Stage 2** - Basic Routing
+COMPLETE **Stage 2** - Add pages
 
 - Create additional filler pages (.html or .ejs with a header) for,
     - About
     - 404
+
+COMPLETE **Stage 2.1** - Add Nav Bar
+
+- Add partials to project and make the nav bar (menu) partials.
+- Skip footer, header, etc. for now.
+- Add Nav Bar to all pages.
+
+**Stage 2.2** - Basic Routing
+
 - Setup routing between the new pages
+
+**Stage 2.3** - Finish adding partials
+
+- See head.ejs in Node.js Crash Course project for how this works.
+- Add the rest of the partials for the site:
+    - footer.ejs
+    - header.ejs
+    - sidebar.ejs - just do something basic for this one for now.
+- Add EJS "imports" for each of these components to all of the .ejs pages that need them.
+    - All pages need all of thse partials (including nav bar).
 
 **Stage 3** - Add post objects and storage
 
