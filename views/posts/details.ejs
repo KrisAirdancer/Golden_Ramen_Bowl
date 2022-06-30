@@ -1,0 +1,34 @@
+<html lang="en">
+    <%- include('../partials/header.ejs') %>
+
+    <body>
+        <%- include('../partials/nav-bar.ejs') %>
+
+        <div class="details content">
+            <h2><%= post.title %></h2>
+            <div class="content">
+                <p><%= post.body %></p>
+            </div>
+            <a class="delete" data-doc="<%= post._id %>">
+                <img src="/trashcan.svg" alt="trashcan icon">
+            </a>
+        </div>
+
+        <%- include("../partials/footer.ejs") %>
+
+        <script>
+            const trashcan = document.querySelector('a.delete');
+
+            trashcan.addEventListener('click', (e) => {
+                const endpoint = `/posts/${trashcan.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+                fetch(endpoint, {
+                    method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
+                })
+                .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
+                .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
+                .catch(err => console.log(err));
+            });
+        </script>
+
+    </body>
+</html>

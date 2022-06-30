@@ -1,0 +1,30 @@
+<!-- The HTML files used wiht hte EJS package manager have the extension .ejs -->
+<html lang="en">
+    <%- include('../partials/header.ejs') %>
+    <body>
+
+        <!-- Including the content from the nav-bar.ejs file. Note: The '=' sign escapes special characters to give as a raw HTML output while the '-' sign doesn't do this so we can write code. -->
+        <%- include('../partials/nav-bar.ejs') %>
+
+        <div class="post content">
+            <h2>All Posts</h2>
+
+            <!-- Adding some JavaScript to this HTML template -->
+            <!-- This is expecting an array of posts b/c it is cycling through all of the posts sent to it. -->
+            <% if (posts.length > 0) { %>
+                <!-- Iterate through the posts and generate HTML for each one -->
+                <% posts.forEach(post => { %>
+                    <!-- The anchor tag below is hyperlinking each post on the homepage to a page that shows only that post. The post._id part is assigning a unique ID to each of the hyperlinks so that they lead to a different page for each post. -->
+                    <a class="single" href="/posts/<%= post._id %>">
+                        <h3 class="title"><%= post.title %></h3>
+                        <p class="snippet"><%= post.snippet %></p>
+                    </a>
+
+                <% }) %>
+            <% } else { %>
+                <p>There are no posts to display.</p>
+            <% } %>
+        </div>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

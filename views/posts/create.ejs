@@ -1,0 +1,21 @@
+<!-- The HTML files used wiht hte EJS package manager have the extension .ejs -->
+<html lang="en">
+    <%- include('../partials/header.ejs') %>
+    <body>
+        <%- include('../partials/nav-bar.ejs') %>
+        <div class="create-post content">
+            <!-- The attributes labeled "name" below can be used to access those fields in other files -->
+            <!-- The action attribute causes the Submit buttion to send a POST request to the specified URL. However, we have to handle this on the server side with an app.post function. -->
+            <form action="/posts" method="POST">
+                <label for="title">Post title:</label>
+                <input type="text" id="title" name="title" required>
+                <label for="snippet">Post snippet:</label>
+                <input type="text" id="snippet" name="snippet" required>
+                <label for="body">Post body:</label>
+                <textarea id="body" name="body" required></textarea>
+                <button>Submit</button>
+            </form>
+        </div>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>
