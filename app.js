@@ -10,14 +10,19 @@ const mongoose = require('mongoose');
 // Creates the server object as an express server.
 const app = express();
 
-const dbURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@goldenramenbowl.i1xlf.mongodb.net/?retryWrites=true&w=majority`;
+// This is the connection string for MongoDB. It provides the login credentails and the information necessary to access the database over the internet.
+const dbURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@goldenramenbowl.i1xlf.mongodb.net/goldenRamenBowl?retryWrites=true&w=majority`;
+
+// Connecting to the database using Mongoose. Also starting the server and listening on port 11000.
+mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true })
+    .then(result => {
+        app.listen(11000);
+        console.log("Connected to database and server started on port 11000.");
+    })
+    .catch(err => { console.log(err.message) }); // TODO: Figure out a better way to deal with database connection issues. Is there a way to notify us if there is an issue here? At the very least, set this up to log to a logging file instead of the console so we can see the error logs after something happens.
 
 // EJS is a view engine. It allows you to write JavaScript directly in an html file (in this case a .ejs file). When that file is served to the browser, before it is sent, the view engine (EJS), and to some degree Express, will run that JavaScript and use it to generate additional HTML that it inserts into the HTML page before sending it to the browser. This is useful for inserting content from a database or filling the values of variables. Here's how to use it: https://www.youtube.com/watch?v=yXEesONd_54 and here's the docs https://ejs.co/
 app.set('view engine', 'ejs');
-
-// TODO: Might need to add some kind of error handling on server startup.
-// This starts the server listening on port 11000.
-app.listen(11000);
 
 // Allows app.js to use functions that can parse URL encoded data.
 app.use(express.urlencoded({ extended: true }));
