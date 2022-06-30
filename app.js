@@ -2,6 +2,7 @@
 
 // Imports the Express package
 const express = require('express');
+const mongoose = require('mongoose');
 
 /***** SERVER SETUP *****/
 
