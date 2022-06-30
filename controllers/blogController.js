@@ -1,4 +1,4 @@
-// This file contains all of the functions that act as control in the MVC model.
+// This file contains all of the functions that act as control in the MVC model. The below functions are called in postRoutes.js
 
 const Post = require('../models/post')
 
