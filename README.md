@@ -161,20 +161,37 @@ hint: invocation.
 - Add EJS "imports" for each of these components to all of the .ejs pages that need them.
     - All pages need all of thse partials (including nav bar).
 
-**Stage 3** - Add post objects and storage
+✔️ **Stage 3** - Add post objects and storage
 
 - Create an object to represent a blog post.
-    - May wan to do this using a Mongoose schema. (if using MongoDB)
+    - Do this using a Mongoose schema. (b/c using MongoDB)
 - Setup MongoDB database to store the posts
-    - See if MongoDB can be hosted on local (on linux - Debian)
-    - Or, instead of MongoDB, store posts to local using JSON.
+    - MongoDB has a free plan that will work for our small blog.
 
 **Stage 4** - Create basic post creation interface
 
 - Make a page create.ejs (or similar) with a form for creating posts.
     - Basic fields for now. Similar to the one I made in the Node.js tutorial.
+    - In fact, just pull that one into this project and modify it to fit our needs.
 - Connect the post submission form to the MongoDB database.
     - Posts are saved to MongoDB when "Submit" is clicked.
+
+**Stage 4.1** - Upgrade post creation page
+
+- Get the post creation page structured to accept markdown for the body of the post.
+    - This only needs to be done for the body. All other post elements will be styled using styles.css.
+- Add any other necessary fields
+    - May want to remove the "snippet" field.
+    - Post status (Draft, Published, etc.) dropdown menu
+    - Featured image
+        - Each post should have a featured image.
+        - This could just be a partial that has a variable that gets filled with a path to an image on local using an EJS variable. The path to the image could be stored in the Post Schema on and thus on MongoDB.
+
+**Stage 4.2** - Determine how to store images for posts
+
+- Figure out how to store images for posts.
+- If possible have them backup to somewhere.
+- It should be possible to just include a `<img>` tag in the markdown body of the post which contains a path to the image. Then when a page is served, it is pulled from local. Check if this works before trying anything else.
 
 **Stage 5** - Sort posts on homepage
 
@@ -196,6 +213,17 @@ hint: invocation.
 - "older" button should only appear when there is a page of older posts ahead of the current page.
 
 **Stage 9** - ...
+
+**Stage ??** - Hide admin pages behind a login
+
+- Remove all links to admin pages (post creation page, etc.)
+- Add a login system that is required to access the admin pages.
+- Add users accounts.
+    - (This should be done on the backend. No need to create a frontend way to do this since we will almost never, if ever, need to add new users.)
+    - Vista
+    -Chris
+    - Golden Ramen Bowl (gneric site management account)
+
 
 **Stage ??** - Figure out syntax in 404 handler
 
