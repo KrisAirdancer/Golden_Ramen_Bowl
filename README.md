@@ -1,17 +1,12 @@
-# nodejs-crash-course
+# Golden_Ramen_Bowl
 
-My code from following The Net Ninja's YouTube tutorial [Node.js Crash Course](https://www.youtube.com/watch?v=zb3Qk8SG5Ms&amp;list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&amp;index=1). 
+A website where my wife and I document our travels.
 
-99% of the code in this project was developed by The Net Ninja. I modified it slightly and added comments to help me learn from the tutorial videos.
+The current version of this site is built using Wordpress and can be viewed [here](https://www.goldenramenbowl.com).
 
-## Demonstration
+This site might eventually replace the current one and be hosted on our Raspberry Pi instead of on Bluehost.
 
-<img src="demo_content/NodeJS Project Demo.gif" alt="a gif recording of my project in use" width="100%">
-
-
-
-
-## Setting up this project
+# Setting up this project for development
 
 - 1. Clone the repository to local.
 - 2. Run 'npm install' in the terminal to download all of the requried dependencies.
@@ -20,74 +15,256 @@ My code from following The Net Ninja's YouTube tutorial [Node.js Crash Course](h
     - 'nodemon app' to run using Nodemon
     - 'node app' to run using vanilla Node.js
 
+# Git SOP
 
-## Notes
+- When pulling changes down to the Pi, pull them onto an "upgrading" branch and then merge that branch into the main branch.
+- [This](https://stackoverflow.com/questions/62653114/how-can-i-deal-with-this-git-warning-pulling-without-specifying-how-to-reconci) might help with the below error.
+- Look into how best to handle this error:
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint:
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
 
-- The package-lock.json file keeps track of the different dependency versions for our project.
-- The package.json file keeps track of details regarding our project.
-    - This includes scripts that can be run for our project.
-    - keeps track of our project's dependencies.
-    - The package.json file can be generated automatically using the terminal command 'npm init' and then answering the questions when prompted. The answers to those questions are placed in the package.json file and can thus be changed there later.
-    - The package.json file makes sharing the project easier.
-        - The node_modules file could be huge b/c of many dependencies. The package.json file allows us to specify the required dependencies so we can share only the project code, and not the node_modules folder with all of the dependency code, which saves bandwidth and cloud storage space when sharing the project.
-        - If we download a project, we can run the 'npm install' command and it will parse the packages.json file and install all of the specified dependencies for us.
-- View engines are used to add dynamic content to webpages.
-    - We can use HTML syntax, but include variables that get filled from something like a database before sending the HTML to the browser.
-    - Some options for view engines inclue Express Handlebars, Pug, or EJS (the one we are using in this tutorial).
-- Middleware
-    - Code that runs on the server between the server receiving a request and sending a response is middleware.
-        - ex. Server gets a request > middleware runs to do something > server sends a response
-    - Middleware is generally run using the .use() function.
-    - We can have many different middleware running.
-    - ex. The .get() function is middleware.
-    - Middleware runs top to bottom in the code and will keep running unitl it completes or we tell it to stop.
-    - Middleware can be used for...
-        - Logging
-        - Authentication
-        - Parsing JSON requests
-        - Returning 404 pages
-        - And much, much more!
-- MongoDB
-    - A NoSQL database.
-    - Collections
-        - Like tables in SQL databases.
-        - Store a specific type of data.
-        - Contain only one kind of data.
-        - Can make more than one collection.
-    - Documents
-        - The data stored by collections.
-        - Store key-value pairs (This is the actual data. The document is just the container for the data.)
-    - Collections are containers collections of (containers for) Documents and Documents are collections of key-value pairs (data).
-    - Installing MongoDB
-        - Can install locally or on a cloud service.
-- Mongoose
-    - Mongoose is an ODM library: Object Document Mapping library
-    - It provides an easier way to interact with a database.
-    - It makes queries, etc. for us.
-    - Uses schemas & models
-        - Schemas define how a type of data is structured. Such as a blog post always has a title, a snippet, and a body.
-        - Models define how an application communicates with a database.
-            - Has functions for carrying out operations to read, write, and perform other actions on the database.
-- Request Types for REST/CRUD
-    - **GET:** Requests to get a resource.
-    - **POST:** Requests to create new data (eg. a new blog post).
-    - **DELETE:** Requests to delete data (eg. remove a blog post).
-    - **PUT:** Requests to update data (eg. change a blog post).
-- Route Parameters
-    - Route parameters are the parts of a route that can change
-    - eg. localhost:3000/posts/:id --- The :id is a variable
-    - eg. localhost:3000/posts/50 --- The 50 is a variable
-- Express Router
-    - The Express Router is a package that comes with Node.js.
-    - Express allows us to group routes into groups of related routes.
-        - eg. All of the '/posts/...' routes can be grouped so that there aren't a bunch of route calls in the app.js file itself. Instead, we only need one.
-    - This makes the code cleaner and easier to maintain and develop.
-    - It is good practice to organize the routes into a directory called routes. Wherein there are files that define the routes.
-- MVC
-    - Model View Controller.
-    - Models are how the data structures are defined (databases, etc.).
-    - Views are the HTML templaes and CSS.
-    - Controllers link the Model and View.
-        - These are the route handlers.
-        - Using MVC, we will pull the route handlers out of the code and put them into their own file.
->>>>>>> tutorial-11-express-and-MVC
+# Features
+
+**Minimum Features**
+
+- Post writing interface w/ ability to...
+    - Add new posts
+    - Schedule posts to be released at a certain date and time
+    - Update posts that have already been posted
+    - Delete posts (remove them from the blog and database)
+    - Unpublish posts
+    - Write posts in either markdown or HTML
+    - Add tags to posts
+    - Add categories to posts
+    - Insert images and align them left, right, or center
+- Admin Login Page
+    - Post writing interface and schdeuling pages are hidden behind this admin login page
+- Blog homepage displays a set number of posts and allows users to scroll through "pages" of posts.
+    - Posts are ordered from newest (on first page) to oldest (on last page).
+    - Start with 5 posts per page.
+- Posts are saved
+    - Posts should be saved to either a database or to local (XML, JSON, etc.)
+
+**Upgrades**
+
+- Image gallery (side scrolling image panel) in post writing interface.
+- Image collage (a group of images clustered together) in post writing interface.
+- Add logging to the site.
+    - i.e. Error logging, logging requests made to the site, etc.
+    - Store these in a separate Collection in MongoDB server. Maybe...(might just want to store these in a text file that gets deleted every few days to prevent a data storage overload issue).
+
+# Outline
+
+**Database Setup**
+
+- Store post objects (and all other objects) in a MongoDB database
+    - The HTML files referenced by the post objects should also be stored in a separate container in the same MongoDB database.
+- See if we can run MongoDB locally on the Pi.
+- Collections
+    - Posts
+    - Users
+    - HTML Pages
+
+**Admin Interface**
+
+- Make a "hidden" admin page that has a login on it.
+- The admin page will have a simple interface for creating new posts.
+    - Allows new posts to be made.
+        - Add title, tags, categories, everything except the body of the post.
+        - When a new post is made, a new Post object will be created on the backend along with its associated HTML page.
+        - The created HTML page will be a skeleton post page. As the user, we will then go write the post in that HTML (.ejs) file on the backend. When we the post is fully written, we can use this admin page to schedule a time for it to be posted.
+    - Allows posts to be scheduled.
+        - All posts will default to "draft" status until changed by the user.
+    - Allows posts to be updated.
+        - The user will be able to select a post. When they do, they will be taken to a page that allows them to make changes to all but the HTML information associated with that post. When they click "Save" the post object will be updated in the database.
+        - Additionally, when the "save" button is clicked on the update page, the HTML page will be re-uploaded to the database. This way, the user can change the HTML on the backend and then come to the admin page and have the post be updated in the database easily.
+        - Make sure to include a "back" button on the updates page that exits the updates page and doesn't save any of the data.
+            - Should have a warning about the data not being saved when this button is clickd. A popup alert with a confirm button.
+
+**Objects**
+
+- Post Objects
+    - Properties/Fields
+        - Updated Array
+            - An array field that keeps a running list of the dates and times that that post was updated.
+            - Each time a post is updated, a timestamp will be added to this list.
+- User Objects
+
+**Other**
+
+- Tags
+- Categories
+
+**Eventually/Upgrades**
+
+- Setup a recurring backup system to save all of the blog information to a separate cloud storage service.
+    - Do this manually (copy & paste style) until this is setup.
+
+# Resources
+
+- This [source code](https://github.com/kunaal438/blogging-site) and associated [YouTube tutorial](https://www.youtube.com/watch?v=AWHGQfzfHxI) may be helpful in getting this project outlined.
+    - It would be worth downloading the source code and starting it up to see how it works.
+- This [YouTube tutorial](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=1739s) shows how to build a blog site that allows you to write posts in markdown.
+    - It might be worth considering using the markdown interface. It looks easy to implement. (see ~29:00)
+    - Here is the [source code](https://github.com/WebDevSimplified/Markdown-Blog) for the tutorial project.
+- Will want to use something like Mongoose if we go with a database.
+    - "Mongoose is an Object Document Mapper (ODM). This means that Mongoose allows you to define objects with a strongly-typed schema that is mapped to a MongoDB document." That is, you can define the structure of how an object will be stored in a database. This definition is called a Schema and Mongoose allows you do do this easily.
+    - Read more on this [here](https://code.tutsplus.com/articles/an-introduction-to-mongoose-for-mongodb-and-nodejs--cms-29527)
+- A list of [HTML Tags](https://www.tutorialstonight.com/html-tags-list-with-examples.php#:~:text=%20HTML%20Tags%20List%20%201%20HTML%20Basic,create%20any%20hyperlink%2C%20defining%20connection%20with...%20More%20)
+    - Look over section 11, "General Tags"
+    - We will likely want to put the central section of the site (post content, the list of posts, etc.) inside a `<main>` tag.
+
+# Development Stages
+
+✔️ **Stage 1** - Setup server
+
+- Build a basic Node.js server with an index.html (or .ejs) page.
+
+✔️ **Stage 2** - Add pages
+
+- Create additional filler pages (.html or .ejs with a header) for,
+    - About
+    - 404
+
+✔️ **Stage 2.1** - Add Nav Bar
+
+- Add partials to project and make the nav bar (menu) partials.
+- Skip footer, header, etc. for now.
+- Add Nav Bar to all pages.
+
+✔️ **Stage 2.2** - Basic Routing
+
+- Setup routing between the new pages.
+- Routing for,
+    - About Us page
+    - Homepage
+    - 404 not found page
+
+✔️ **Stage 2.3** - Finish adding partials
+
+- See head.ejs in Node.js Crash Course project for how this works.
+- Replace the `<head>` tags currently in the page .ejs files with an EJS tag that pulls in the head.ejs.
+- Add the rest of the partials for the site:
+    - footer.ejs
+    - header.ejs
+    - sidebar.ejs - just do something basic for this one for now.
+- Add EJS "imports" for each of these components to all of the .ejs pages that need them.
+    - All pages need all of thse partials (including nav bar).
+
+✔️ **Stage 3** - Add post objects and storage
+
+- Create an object to represent a blog post.
+    - Do this using a Mongoose schema. (b/c using MongoDB)
+- Setup MongoDB database to store the posts
+    - MongoDB has a free plan that will work for our small blog.
+
+**Stage 4** - Create basic post creation interface
+
+- Make a page create.ejs (or similar) with a form for creating posts.
+    - Basic fields for now. Similar to the one I made in the Node.js tutorial.
+    - In fact, just pull that one into this project and modify it to fit our needs.
+- Connect the post submission form to the MongoDB database.
+    - Posts are saved to MongoDB when "Submit" is clicked.
+
+**Stage 4.1** - Upgrade post creation page
+
+- Get the post creation page structured to accept markdown for the body of the post.
+    - This only needs to be done for the body. All other post elements will be styled using styles.css.
+- Add any other necessary fields
+    - May want to remove the "snippet" field.
+    - Post status (Draft, Published, etc.) dropdown menu
+    - Featured image
+        - Each post should have a featured image.
+        - This could just be a partial that has a variable that gets filled with a path to an image on local using an EJS variable. The path to the image could be stored in the Post Schema on and thus on MongoDB.
+
+**Stage 4.2** - Determine how to store images for posts
+
+- Figure out how to store images for posts.
+- If possible have them backup to somewhere.
+- It should be possible to just include a `<img>` tag in the markdown body of the post which contains a path to the image. Then when a page is served, it is pulled from local. Check if this works before trying anything else.
+
+**Stage 5** - Sort posts on homepage
+
+- Pull posts from database (or JSON file), sort them from newest (on top) to oldest, and list them on the homepage.
+
+**Stage 6** - Hyperlink posts on homepage to link to actual post pages
+
+- Hyperlink the posts in the post list on the homepage
+- Setup the system to generate an HTML page for a post when a user visits that post's URL. Such as via the new hyperlinks.
+
+**Stage 7** - Create post pages on homepage
+
+- Setup the homepage to show only the 5 most recent posts
+
+**Stage 8** - Make older posts available on homepage
+
+- Add "older" and "newer" links to homepage to allow users to scroll through posts, 5 at a time, starting with the newest posts.
+- "newer" button should only appear when there is a page of newer posts ahead of the current page.
+- "older" button should only appear when there is a page of older posts ahead of the current page.
+
+**Stage 9** - ...
+
+**Stage ??** - Hide admin pages behind a login
+
+- Remove all links to admin pages (post creation page, etc.)
+- Add a login system that is required to access the admin pages.
+- Add users accounts.
+    - (This should be done on the backend. No need to create a frontend way to do this since we will almost never, if ever, need to add new users.)
+    - Vista
+    -Chris
+    - Golden Ramen Bowl (gneric site management account)
+
+
+**Stage ??** - Figure out syntax in 404 handler
+
+- In the 404 handler a "title" property is passed into the .render() call. Figure out what that title is for and what it does.
+
+**Stage ??** - Add 'title' headers
+
+- For each of the responses that we make from app.js (or anywhere that sends stuff to the browser), add a header to the response as is done in the 404 handler in app.js.
+- The header should set the title that appears in the tab on the browser. I think...
+- Go look in Nodem.js Crash Course udner views/partials/head.js line 4. Figure out where that title variable is being pulled in by EJS. I think that sets the text seen in the browser tab.
+
+**Stage ??** - Add status codes to all .render() calls
+
+- For all calls to .render(), specify the status code to return.
+- This is truly optional.
+- See the 404 page handler for this in app.js.
+
+**Stage Last** - Finialize Documentation
+
+- We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
+- Go throgh the entire project and do the following,
+    - Add documentation comments anywhere that I haven't already. Fill in the gaps.
+        - Over explain if necessary, even if it feels silly. It is easy to forget how this stuff communicates.
+    - Add a section to this README that explains (in stepwise fashion) how the entire project runs.
+        - How the server is setup.
+        - How browser requests are made.
+        - How our server responds to requests.
+        - How HTML pages are built before being served to the browser.
+        - How any JavaScript works/fits into the project.
+        - etc. 
+        - Explain and document everything.
+
+**Ongoing Maintenance**
+
+- Each time we add a feature (or remove/update something), add documentation for it.
+    - Add a section to the README explaining how it works.
+    - Add in-code comments to any new code that explains how that code works.
+
+
+# Thinking...
+
+- Use nodejs-crash-course/views/posts/details.ejs as an example of how to make a post page.
+    - This project generated a post's page using this template and the data it pulled from the MongoDB database. See line 10, `<p><%= post.body %></p>` where the `body` field from the object in the database is inserted intot the HTML using EJS.
+    - We could store HTML in the `body` field of a `Post` object and then insert that here. Just exclude the surrounding `<p>` tags.
