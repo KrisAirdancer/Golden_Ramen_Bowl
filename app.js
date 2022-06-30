@@ -4,6 +4,7 @@
 require('dotenv/config');
 const express = require('express');
 const mongoose = require('mongoose');
+const Post = require('./models/post'); // This pulls the Post Schema into the scope of this file.
 
 /***** SERVER SETUP *****/
 
@@ -32,6 +33,48 @@ app.use(express.static('public'));
 
 // This makes the directory 'public' and all of it's contents available to the frontend.
 app.use(express.static('public'));
+
+/***** MONGODB COMMUNICATION *****/
+
+// This function creates a new post and adds it to the MongoDB database.
+app.get('/auto-post', (req, res) => {
+    // This creates a new instance of a Post object
+    const post = new Post({
+        title: 'Auto Post',
+        snippet: "An auto-generated post.",
+        body: "This post was auto-generated."
+    });
+
+    // This call saves the new post object to the MongoDB database. This is asynchronous and returns a Promise.
+    post.save()
+        .then( (result) => {
+            res.send(result); // This line sends the new post object (it's data) to the MongoDB database.
+        })
+        .catch( (err) => {
+            console.log(err.message);
+        })
+});
+
+// This function returns all of the posts saved in the MongoDB database.
+app.get('/get-all-posts', (req, res) => {
+    Post.find()
+        .then( (result) => {
+            res.send(result); // This sends the data (blog posts retrieved from the database) to the browser.
+        })
+        .catch( (err) => {
+            console.log(err.message);
+        })
+});
+
+app.get('/get-post', (req, res) => {
+    Post.findById('62bd02562df2e39ad99c7d36') // Mongoose handles the conversion of the Id from a string on our end to an ID object for use with MongoDB.
+        .then( (result) => {
+            res.send(result); // Sending the retrieved data to the browser
+        })
+        .catch( (err) => {
+            console.log(err.message);
+        })
+});
 
 /***** ROUTING *****/
 
