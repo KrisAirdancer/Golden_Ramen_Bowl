@@ -1,6 +1,7 @@
 /***** IMPORTS *****/
 
 // Imports the Express package
+require('dotenv/config');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -8,6 +9,8 @@ const mongoose = require('mongoose');
 
 // Creates the server object as an express server.
 const app = express();
+
+const dbURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@goldenramenbowl.i1xlf.mongodb.net/?retryWrites=true&w=majority`;
 
 // EJS is a view engine. It allows you to write JavaScript directly in an html file (in this case a .ejs file). When that file is served to the browser, before it is sent, the view engine (EJS), and to some degree Express, will run that JavaScript and use it to generate additional HTML that it inserts into the HTML page before sending it to the browser. This is useful for inserting content from a database or filling the values of variables. Here's how to use it: https://www.youtube.com/watch?v=yXEesONd_54 and here's the docs https://ejs.co/
 app.set('view engine', 'ejs');
