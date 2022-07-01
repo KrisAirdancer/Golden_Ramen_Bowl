@@ -176,17 +176,22 @@ hint: invocation.
 - Connect the post submission form to the MongoDB database.
     - Posts are saved to MongoDB when "Submit" is clicked.
 
-**Stage 4.1** - Upgrade post creation page
+**Stage 4.1** - Add markdown/html support to post creation page
 
 - Get the post creation page structured to accept markdown for the body of the post.
     - This only needs to be done for the body. All other post elements will be styled using styles.css.
     - Make the markdown an upgrade if it isn't intuitive. Could just type HTML into the text box and have that stored as the body of the text and it just gets injected directly into the page that displays the post.
-- Add any other necessary fields
-    - May want to remove the "snippet" field.
-    - Post status (Draft, Published, etc.) dropdown menu
+
+**Stage 4.1.1** - Add additional post creation fields
+
+- Add the following,
     - Featured image
         - Each post should have a featured image.
         - This could just be a partial that has a variable that gets filled with a path to an image on local using an EJS variable. The path to the image could be stored in the Post Schema on and thus on MongoDB.
+    - Any images in a given post should be placed in a single resources directory to make referencing them easy.
+    - An image upload field.
+        - Should allow a user to upload an image.
+        - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<immg>` tags to the post body.
 
 **Stage 4.2** - Determine how to store images for posts
 
