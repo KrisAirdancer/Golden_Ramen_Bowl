@@ -280,6 +280,11 @@ hint: invocation.
         - etc. 
         - Explain and document everything.
 
+**Future Upgrades** - Upgrades that might be added in the future
+
+- Consider adding support for markdown in the new post creation editor.
+    - Didn't do this initially b/c HTML could be injected raw into the post by EJS which this provided the fastest and easiest route to get images and other HTML-built content into the posts. Additionally, rendering markdown would have requried a package install (marked library), which is one more dependency and therefore more potential maintenance in the future. See [here](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00 for more on that point.
+
 **Ongoing Maintenance**
 
 - Each time we add a feature (or remove/update something), add documentation for it.
