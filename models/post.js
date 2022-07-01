@@ -25,7 +25,11 @@ const postSchema = new Schema({
     body: {
         type: String,
         required: true
-    }
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
 }, { timestamps: true }); // This will automatically genrate timestamps on each blog object
 
 // This will mean that mongoose is looking for the "Posts" collection in the MongoDB database. The name it looks for is the plural of the passed name.

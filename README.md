@@ -191,7 +191,7 @@ hint: invocation.
     - Any images in a given post should be placed in a single resources directory to make referencing them easy.
     - An image upload field.
         - Should allow a user to upload an image.
-        - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<immg>` tags to the post body.
+        - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
 
 **Stage 4.2** - Determine how to store images for posts
 
@@ -255,6 +255,11 @@ hint: invocation.
 - For all calls to .render(), specify the status code to return.
 - This is truly optional.
 - See the 404 page handler for this in app.js.
+
+**Stage Other** - Additional stuff that doesn't fit in a single stage yet
+
+- Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
+  - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
 
 **Stage ??** - Archive learning material
 
