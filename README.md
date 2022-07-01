@@ -224,6 +224,10 @@ hint: invocation.
     -Chris
     - Golden Ramen Bowl (gneric site management account)
 
+**Stage ??** - Clicking author's name displays all posts by that author
+
+- Each post should have the author's name listed at the bottom. 
+- The author's name will be hyperlinked and when it is clicked on, it will take the user to a page that lists all of the posts written by that author.
 
 **Stage ??** - Figure out syntax in 404 handler
 
