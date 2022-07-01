@@ -260,6 +260,8 @@ hint: invocation.
 
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
+- Once the first complete and usable version of the site is live on the RPI, tag the version that went out as GRBv1.0.
+    - Figure out how to get the verison tag to appear on GitHub (because it looks cool).
 
 **Stage ??** - Archive learning material
 
