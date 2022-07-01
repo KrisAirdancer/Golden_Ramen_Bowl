@@ -5,6 +5,15 @@ const Schema = mongoose.Schema; // .Schema is a constructor function
 
 // This defines a Schema for a blog post
 const postSchema = new Schema({
+    postStatus: { // Published or Draft. Note that we won't be able to schedule posts in GRBv1.0
+        type: String,
+        // required: true,
+        // TODO: Might need to set a default value here. The HTML dropdown box might be able to do this for us instead of here.
+    },
+    author: { // The values for this must be selected from the list of extant users.
+        type: String,
+        // required: true,
+    },
     title: {
         type: String,
         required: true

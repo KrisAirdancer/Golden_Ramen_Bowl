@@ -1,3 +1,11 @@
+//   _____ _____  ____       __   ___  
+//  / ____|  __ \|  _ \     /_ | / _ \ 
+// | |  __| |__) | |_) |_   _| || | | |
+// | | |_ |  _  /|  _ <\ \ / / || | | |
+// | |__| | | \ \| |_) |\ V /| || |_| |
+//  \_____|_|  \_\____/  \_/ |_(_)___/ 
+// https://onlineasciitools.com/convert-text-to-ascii-art
+
 /* This file, the app.js file, is exactly the same as the server.js file we made earlier in this course
  * (with maybe a few additional features). That is, they do the same thing, but this one takes advantage
  * of the Express package for Node.js. The Express package simplifies
@@ -12,6 +20,7 @@ const express = require('express');
 const morgan = require('morgan'); // A middleware package for logging
 const mongoose = require('mongoose');
 const postsRoutes = require('./routes/postsRoutes') // Importing the router from the blogRoutes.js file.
+const bodyParser = require('body-parser');
 require('dotenv/config');
 
 // Setting up the Express app object
@@ -36,6 +45,8 @@ app.set('view engine', 'ejs');
 
 // Allows app.js to use functions that can parse URL encoded data.
 app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: true} ));
 
 // This makes the directory 'public' and all of it's contents available to the frontend.
 app.use(express.static('public'));

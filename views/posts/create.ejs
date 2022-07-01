@@ -7,12 +7,23 @@
             <!-- The attributes labeled "name" below can be used to access those fields in other files -->
             <!-- The action attribute causes the Submit buttion to send a POST request to the specified URL. However, we have to handle this on the server side with an app.post function. -->
             <form action="/posts" method="POST">
+                <!-- For the <select> tags, when the form is submitted, the selected option is added to the body of the post request with the label in the "name" attribute in the <select> tag. The label must match the corresponding label in the post.js Schema exactly for the data to be stored in the post object and eventually make it to the database. -->
+                <select name="postStatus" id="id_postStatus" required>
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                </select>
+                <select name="author" id="id_authorSelect" requried>
+                    <option value="Golden Ramen Bowl">Golden Ramen Bowl</option>
+                    <option value="Vista">Vista</option>
+                    <option value="Chris">Chris</option>
+                </select>
                 <label for="title">Post title:</label>
                 <input type="text" id="title" name="title" required>
                 <label for="snippet">Post snippet:</label>
                 <input type="text" id="snippet" name="snippet" required>
                 <label for="body">Post body:</label>
                 <textarea id="body" name="body" required></textarea>
+                <!-- When this button is clicked, it fires an event. That event bubbles through parent elements and triggers any event listeners on those elements. In this case, the event listener on the <form> tag. -->
                 <button>Submit</button>
             </form>
         </div>
