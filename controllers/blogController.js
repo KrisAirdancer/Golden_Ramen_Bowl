@@ -32,7 +32,7 @@ const blog_create_get = (req, res) => {
 const blog_create_post = (req, res) => {
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
     const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
-
+    console.log(req.body);
     post.save()
         .then( (result) => {
             res.redirect('/posts');

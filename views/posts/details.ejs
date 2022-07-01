@@ -9,6 +9,11 @@
             <div class="content">
                 <p><%= post.body %></p>
             </div>
+            <!-- TODO: Remove this meta data and put it into a partial that is loaded on this page so we can easily include the author's image, etc. -->
+            <div>
+                <p>Auhor: <%= post.author %></p>
+                <p>Status: <%= post.postStatus %></p>
+            </div>
             <a class="delete" data-doc="<%= post._id %>">
                 <img src="/trashcan.svg" alt="trashcan icon">
             </a>

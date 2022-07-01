@@ -168,7 +168,7 @@ hint: invocation.
 - Setup MongoDB database to store the posts
     - MongoDB has a free plan that will work for our small blog.
 
-**Stage 4** - Create basic post creation interface
+✔️ **Stage 4** - Create basic post creation interface
 
 - Make a page create.ejs (or similar) with a form for creating posts.
     - Basic fields for now. Similar to the one I made in the Node.js tutorial.
@@ -213,6 +213,11 @@ hint: invocation.
 - "older" button should only appear when there is a page of older posts ahead of the current page.
 
 **Stage 9** - ...
+
+**Stage ??** - Setting up post snippets/"more" divider
+
+- Figure out how to set up the posts such that when we write a post, we don't have to include a snipped field separate from the post. Instead, we should be able to write the post and have the frontend JavaScript search the post and pull out only the first paragraph and show that on the homepage of the site. This way, we don't have to write that separately or copy and paste it from the actual post into the "snippet" textbox.
+    - This might be doable by having the JavaScript parse the HTML tags and find the first set of `<p>` tags in the post and display that text as the post preview.
 
 **Stage ??** - Hide admin pages behind a login
 
