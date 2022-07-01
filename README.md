@@ -180,6 +180,7 @@ hint: invocation.
 
 - Get the post creation page structured to accept markdown for the body of the post.
     - This only needs to be done for the body. All other post elements will be styled using styles.css.
+    - Make the markdown an upgrade if it isn't intuitive. Could just type HTML into the text box and have that stored as the body of the text and it just gets injected directly into the page that displays the post.
 - Add any other necessary fields
     - May want to remove the "snippet" field.
     - Post status (Draft, Published, etc.) dropdown menu
