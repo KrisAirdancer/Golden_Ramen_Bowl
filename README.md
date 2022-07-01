@@ -245,6 +245,10 @@ hint: invocation.
 - This is truly optional.
 - See the 404 page handler for this in app.js.
 
+**Stage ??** - Archive learning material
+
+- Archive all of the tutorials that I've followed to get this stuff setup.
+
 **Stage Last** - Finialize Documentation
 
 - We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
