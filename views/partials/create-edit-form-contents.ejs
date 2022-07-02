@@ -1,0 +1,23 @@
+<!-- Adding the partial that adds the publishing status and author selection boxes. -->
+<%- include('../partials/pubStatus-author-selector-form.ejs')  %> 
+
+<!-- TODO: Make the tags field a dropdown that lists all current tags or allows a new tag to be defined. -->
+<label for="id_tags">Tags:</label>
+<label for="id_tags">*comma separated</label>
+<input value="<%= postData.tags %>" type="text" id="id_tags" name="tags" required>
+
+<!-- TODO: Make the featured image field a selection dropdown that lists all of the image files that have been uploaded (that are currently in the 'images' file) -->
+<label for="id_featuredImage">Featured image:</label>
+<input value="<%= postData.featuredImage %>" type="text" id="id_featuredImage" name="featuredImage" required>
+
+<label for="id_title">Post title:</label>
+<input value="<%= postData.title %>" type="text" id="id_title" name="title" required>
+
+<label for="id_snippet">Post snippet:</label>
+<input value="<%= postData.snippet %>" type="text" id="id_snippet" name="snippet" required>
+
+<label for="id_body">Post body:</label>
+<textarea id="id_body" name="body" required><%= postData.body %></textarea>
+
+<!-- When this button is clicked, it fires an event. That event bubbles through parent elements and triggers any event listeners on those elements. In this case, the event listener on the <form> tag. -->
+<button>Submit</button>

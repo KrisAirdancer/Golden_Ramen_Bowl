@@ -198,6 +198,8 @@ hint: invocation.
 
 **Stage 4.2.1** - Add an image upload field to "Create" and "Edit" pages
 
+- Make a partial .ejs file for this.
+    - Drop it into the create-edit-form.ejs as a part of the `<form>`, but don't make it a required field.
 - An image upload field.
     - Should allow a user to upload an image.
     - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
@@ -241,6 +243,7 @@ hint: invocation.
     - If we need to update the post, we just copy and paste into the edit box.
 - Figure out how to set up the posts such that when we write a post, we don't have to include a snipped field separate from the post. Instead, we should be able to write the post and have the frontend JavaScript search the post and pull out only the first paragraph and show that on the homepage of the site. This way, we don't have to write that separately or copy and paste it from the actual post into the "snippet" textbox.
     - This might be doable by having the JavaScript parse the HTML tags and find the first set of `<p>` tags in the post and display that text as the post preview.
+    - It might be good to generate a list of all tags in the system on server startup by looping over all of the post objects in the MongoDB database and add them to a HashSet or something.
 
 **Stage ??** - Hide admin pages behind a login
 
@@ -275,6 +278,8 @@ hint: invocation.
 
 **Stage Other** - Additional stuff that doesn't fit in a single stage yet
 
+- Fix routing on post creation and edit
+    - When the "submit" button is clicked on the "create" and "edit" pages, the user is redirected to the homepage. Change this so that the "create" page redirects them to the "edit" page for the post that they just created and the "edit" page keeps them on the edit page, but sends the new data to the MongoDB database.
 - Rig the site to show the correct name in the browser tabs/window.
     - This can be done in part by setting the 'title' value in the objects that are passed into .render() in blogController.js.
     - That passed value is passsed as data to the .ejs page for the page being rendered (along with any .ejs pages that are injected into that page, such as header.ejs) and can be used as variables via `<%= variable-name %>`
@@ -312,6 +317,10 @@ hint: invocation.
 
 **Future Upgrades** - Upgrades that might be added in the future
 
+- Add post previews to admin portal.
+    - The admin portal should have a list of all draft posts on it.
+        - Just a list of hyperlinked post titles.
+        - When a draft post is clicked on, it will show the post like it would on the homepage.
 - Consider adding support for markdown in the new post creation editor.
     - Didn't do this initially b/c HTML could be injected raw into the post by EJS which this provided the fastest and easiest route to get images and other HTML-built content into the posts. Additionally, rendering markdown would have requried a package install (marked library), which is one more dependency and therefore more potential maintenance in the future. See [here](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00 for more on that point.
 - Add a list of tags to each post.

@@ -35,13 +35,9 @@ const blog_create_get = (req, res) => {
 const blog_edit = (req, res) => {
     // Pull the id of the post that has been requested to be edited
     const id = req.params.id;
-    
-    // Set the 'select' tags to the correct option
-
 
     Post.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
         .then(result => {
-            // console.log('Test: ' + result); // This prints the entire object to the console.
             // Render the page (aka. send the page to the browser).
             // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
             res.render('posts/edit', { title: 'Edit', postData: result, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
