@@ -70,14 +70,14 @@ const blog_create_post = (req, res) => {
     console.log(req.body); // TODO: May want to remvoe this print line.
     post.save()
         .then( (result) => {
-            res.redirect('/posts');
+            res.redirect(`/posts/edit/${result.id}`);
         })
         .catch( (err) => {
             console.log(err.message);
         })
 }
 
-// This sends a _______ request to the MongoDB database to update the contents of an existing post.
+// This updates the post in the MongoDB database
 const blog_edit_update = (req, res) => {
     console.log('blog_edit_update');
 
@@ -99,65 +99,6 @@ const blog_edit_update = (req, res) => {
             // console.log(err.message);
             res.status(404).render('404', { title: 'Blog not found' })
         })
-
-
-
-
-
-
-
-
-    // const id = req.params.id;
-    // console.log(`ID: ${req.params.id}`);
-
-    // // const post = Post.findById(id);
-    // const post = Post.findOne();
-    // // console.log(`POST OBJ: ${post.body}`);
-
-    // post.title = 'Did this work?';
-
-    // post.save();
-
-
-
-
-
-    // // Get the post id
-    // const id = req.params.id;
-
-    // // Get the post object to be updated
-    // console.log(`ID: ${id}`);
-    // Post.findById(id)
-    //     .then(post => {
-    //         console.log(`Update Post: ${post}`)
-    //         post.tags = parseTags(req.body.tags);
-
-    //         console.log(req.body); // TODO: May want to remvoe this print line.
-    //         post.save()
-    //             .then( (result) => {
-    //                 console.log(`RESULT: ${result}`);
-    //                 res.redirect('/posts');
-    //             })
-    //             .catch( (err) => {
-    //                 console.log(err.message);
-    //             })
-    //     })
-
-
-
-
-
-    // Convert the string of tags into an array of tags
-    // post.tags = parseTags(req.body.tags);
-
-    // console.log(req.body); // TODO: May want to remvoe this print line.
-    // post.save()
-    //     .then( (result) => {
-    //         res.redirect('/posts');
-    //     })
-    //     .catch( (err) => {
-    //         console.log(err.message);
-    //     })
 }
 
 const blog_delete = (req, res) => {
