@@ -10,9 +10,7 @@ const blogController = require('../controllers/blogController')
 const router = express.Router();
 
 // Updates a post's data in the MongoDB database
-router.put('/:id', blogController.blog_edit_put);
-
-
+router.post('/update-post/:id', blogController.blog_edit_update);
 
 // Displays a page that displays all of the blog posts on it.
 router.get('/', blogController.blog_index);
