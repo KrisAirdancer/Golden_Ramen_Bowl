@@ -8,10 +8,10 @@ This site might eventually replace the current one and be hosted on our Raspberr
 
 # Setting up this project for development
 
-- 1. Clone the repository to local.
-- 2. Run 'npm install' in the terminal to download all of the requried dependencies.
+1. Clone the repository to local.
+2. Run 'npm install' in the terminal to download all of the requried dependencies.
     - The required dependencies are listed in the projects.json file and will be downloaded by this command.
-- 3. The project can now be run using either,
+3. The project can now be run using either,
     - 'nodemon app' to run using Nodemon
     - 'node app' to run using vanilla Node.js
 
@@ -191,6 +191,7 @@ hint: invocation.
     - An image upload field.
         - Should allow a user to upload an image.
         - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
+    - Tags (not adding categories for now)
     - Any images in a given post should be placed in a single resources directory to make referencing them easy.
 
 **Stage 4.2** - Make posts editable
@@ -200,6 +201,10 @@ hint: invocation.
 
 **Stage 4.3** - Hide edit and create behind admin login
 
+- At the bottom of the site, have an "admin" link.
+    - This link will ask for a login.
+    - If the correct login is provided, the user will be redirected to a page with two links: "edit" and "new post."
+    - If a user tries to access any of the admin pages directly, they will be redirected to the login page.
 - When the edit button is clicked, it should ask for a password and username.
     - If vaild credentials are given, the user should be taken to the "edit post" page.
     - If credentials are invalid, redirect the user to the blog homepage and display a notification that their login credentials were incorrect. Just use an `alert()` for this.
