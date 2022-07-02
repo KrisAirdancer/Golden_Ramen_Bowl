@@ -318,6 +318,10 @@ hint: invocation.
 
 **Future Upgrades** - Upgrades that might be added in the future
 
+- On the "Create" and "Edit" pages, add a field that lists all of the images currently stored in the "images" directory.
+    - This will make it easier to select images for posts.
+    - This would make it easy to see what images are available for both the Featured Image and the in-post-body images.
+    - Add a small thumbnail of the image next to its file name.
 - Add post previews to admin portal.
     - The admin portal should have a list of all draft posts on it.
         - Just a list of hyperlinked post titles.
