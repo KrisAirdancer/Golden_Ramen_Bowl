@@ -272,6 +272,9 @@ hint: invocation.
 
 **Stage Other** - Additional stuff that doesn't fit in a single stage yet
 
+- Rig the site to show the correct name in the browser tabs/window.
+    - This can be done in part by setting the 'title' value in the objects that are passed into .render() in blogController.js.
+    - That passed value is passsed as data to the .ejs page for the page being rendered (along with any .ejs pages that are injected into that page, such as header.ejs) and can be used as variables via `<%= variable-name %>`
 - Pages to add:
     - A page that lists all of the post titles as hyperlinks automatically.
         - This is the equivalent of the "Super Simple Archive" WordPress plugin we use.
@@ -285,7 +288,7 @@ hint: invocation.
 - Once the first complete and usable version of the site is live on the RPI, tag the version that went out as GRBv1.0.
     - Figure out how to get the verison tag to appear on GitHub (because it looks cool).
 
-**Stage ??** - Archive learning material
+**Stage Second to Last** - Archive learning material
 
 - Archive all of the tutorials that I've followed to get this stuff setup.
 

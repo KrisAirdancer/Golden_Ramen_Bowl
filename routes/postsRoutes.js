@@ -24,6 +24,9 @@ router.post('/', blogController.blog_create_post);
 // Displays the form to create a new blog post.
 router.get('/create', blogController.blog_create_get);
 
+// Displays the form to edit an existing blog post
+router.get('/edit/:id', blogController.blog_edit);
+
 // Displays a single post.
 router.get('/:id', blogController.blog_details); // We must use the colon in front of the route parameter. If we don't, it will be interpreted as a string literal.
 

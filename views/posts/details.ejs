@@ -6,22 +6,28 @@
         
         <div class="details content">
 
+            <h2><%= post.title %></h2>
+            
             <!-- <img src="/glenfinnan-viaduct-uk.jpg" alt="featured image"/> -->
             <img src="/images/<%= post.featuredImage %> " alt="featured image"/>
 
-            <h2><%= post.title %></h2>
             <div class="content">
                 <!-- This injects the content directly into the HTML. Thus, it will be parsed like HTML. -->
                 <%- post.body %>
             </div>
+
             <!-- TODO: Remove this meta data and put it into a partial that is loaded on this page so we can easily include the author's image, etc. -->
             <div>
                 <p>Auhor: <%= post.author %></p>
                 <p>Status: <%= post.postStatus %></p>
             </div>
+
             <a class="delete" data-doc="<%= post._id %>">
                 <img src="/trashcan.svg" alt="trashcan icon">
             </a>
+
+            <!-- This links to the edit page for this post. -->
+            <a class="class_edit" href="/posts/edit/<%= post.id %>">Edit Post</a>
         </div>
 
         <%- include("../partials/footer.ejs") %>

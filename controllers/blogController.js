@@ -25,10 +25,33 @@ const blog_details = (req, res) => {
         })
 }
 
+// This serves the page with the create post form on it to the browser.
 const blog_create_get = (req, res) => {
+    // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
     res.render('posts/create', { title: 'Create'} );
 }
 
+// This serves the pages with the edit post form on it to the browser.
+const blog_edit = (req, res) => {
+    // Pull the id of the post that has been requested to be edited
+    const id = req.params.id;
+
+    Post.findById(id) // This retrieves the post associated with the ID from the database.
+        .then(result => {
+            // res.render('posts/details', { post: result, title: 'Edit Post' }); // 'details' is the view (a file called details.ejs) that contains the HTML outline of the page.
+            // Render the page (aka. send the page to the browser).
+            // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
+            res.render('posts/edit', { title: 'Edit'} ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+        })
+        .catch(err => {
+            // console.log(err.message);
+            res.status(404).render('404', { title: 'Blog not found' })
+        })
+}
+
+/* This sends a POST request to the MongoDB database to add a newly created post to
+ * the database and then redirects the user to the blog homepage.
+ */
 const blog_create_post = (req, res) => {
     
     // Get list of tags from  - tags is a string
@@ -52,6 +75,9 @@ const blog_create_post = (req, res) => {
         })
 }
 
+// This sends a _______ request to the MongoDB database to update the contents of an existing post.
+// TODO: Implement this function.
+
 const blog_delete = (req, res) => {
     const id = req.params.id;
     
@@ -70,5 +96,6 @@ module.exports = {
     blog_details,
     blog_create_get,
     blog_create_post,
-    blog_delete
+    blog_delete,
+    blog_edit
 }
