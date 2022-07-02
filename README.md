@@ -123,6 +123,7 @@ hint: invocation.
 - A list of [HTML Tags](https://www.tutorialstonight.com/html-tags-list-with-examples.php#:~:text=%20HTML%20Tags%20List%20%201%20HTML%20Basic,create%20any%20hyperlink%2C%20defining%20connection%20with...%20More%20)
     - Look over section 11, "General Tags"
     - We will likely want to put the central section of the site (post content, the list of posts, etc.) inside a `<main>` tag.
+- List of all Mongoose [Schema methods](https://mongoosejs.com/docs/api/document.html). 
 
 # Development Stages
 
@@ -191,7 +192,7 @@ hint: invocation.
     - ✔️ Tags (not adding categories for now)
     - Any images in a given post should be placed in a single resources directory to make referencing them easy.
 
-**Stage 4.2** - Make posts editable
+✔️ **Stage 4.2** - Make posts editable
 
 - Add an option to edit the posts.
 - Add a small link to the bottom of all posts that leads to the "edit post" page.
@@ -204,7 +205,7 @@ hint: invocation.
     - Should allow a user to upload an image.
     - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
 
-**Stage 4.3** - Hide edit and create behind admin login
+**Stage 4.3** - Hide edit and create pages behind admin login
 
 - At the bottom of the site, have an "admin" link.
     - This link will ask for a login.
