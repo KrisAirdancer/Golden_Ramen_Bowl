@@ -188,9 +188,6 @@ hint: invocation.
     - ✔️ Featured image
         - Each post should have a featured image.
         - This could just be a partial that has a variable that gets filled with a path to an image on local using an EJS variable. The path to the image could be stored in the Post Schema on and thus on MongoDB.
-    - An image upload field.
-        - Should allow a user to upload an image.
-        - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
     - ✔️ Tags (not adding categories for now)
     - Any images in a given post should be placed in a single resources directory to make referencing them easy.
 
@@ -198,6 +195,12 @@ hint: invocation.
 
 - Add an option to edit the posts.
 - Add a small link to the bottom of all posts that leads to the "edit post" page.
+
+**Stage 4.2.1** - Add an image upload field to "Create" and "Edit" pages
+
+- An image upload field.
+    - Should allow a user to upload an image.
+    - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
 
 **Stage 4.3** - Hide edit and create behind admin login
 

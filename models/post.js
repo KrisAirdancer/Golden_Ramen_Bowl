@@ -20,7 +20,7 @@ const postSchema = new Schema({
     featuredImage: {
         type: String,
     },
-    postStatus: { // Published or Draft. Note that we won't be able to schedule posts in GRBv1.0
+    publishingStatus: { // Published or Draft. Note that we won't be able to schedule posts in GRBv1.0
         type: String,
         // required: true,
         // TODO: Might need to set a default value here. The HTML dropdown box might be able to do this for us instead of here.
