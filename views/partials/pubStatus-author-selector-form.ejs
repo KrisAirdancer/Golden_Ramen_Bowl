@@ -1,0 +1,72 @@
+<!-- ***** BEGIN IN-HTML JAVASCRIPT ***** -->
+<!-- This is how you have to (can) generate HTML in the browser. -->
+
+<!-- This is dynamically generating the 'select' dropdowns such that when a post is being edited, the correct post status and author will be populated (selected) in the dropdown based on the values saved in the post being edited. -->
+<% if (editing) { %>
+
+    <!-- Setting publishing status -->
+
+    <% if (postData.publishingStatus === 'published') { %> 
+        <!-- For the <select> tags, when the form is submitted, the selected option is added to the body of the post request with the label in the "name" attribute in the <select> tag. The label must match the corresponding label in the post.js Schema exactly for the data to be stored in the post object and eventually make it to the database. -->
+        <select name="publishingStatus" id="id_publishingStatus" required>
+            <option value="draft">Draft</option>
+            <option value="published" selected>Published</option>
+        </select>
+
+    <% } else { %> 
+                
+        <select name="publishingStatus" id="id_publishingStatus" required>
+            <option value="draft" selected >Draft</option>
+            <option value="published">Published</option>
+        </select>
+    
+    <% } %> 
+
+    <!-- Setting author -->
+
+    <% if (postData.author === 'Vista') { %> 
+
+        <select name="author" id="id_authorSelect" requried>
+            <option value="Golden Ramen Bowl">Golden Ramen Bowl</option>
+            <option value="Vista" selected>Vista</option>
+            <option value="Chris">Chris</option>
+        </select>
+
+    <% } else if (postData.author === 'Chris') { %> 
+
+        <select name="author" id="id_authorSelect" requried>
+            <option value="Golden Ramen Bowl">Golden Ramen Bowl</option>
+            <option value="Vista">Vista</option>
+            <option value="Chris" selected>Chris</option>
+        </select>
+    
+    <% } else { %> 
+    
+        <select name="author" id="id_authorSelect" requried>
+            <option value="Golden Ramen Bowl" selected>Golden Ramen Bowl</option>
+            <option value="Vista">Vista</option>
+            <option value="Chris">Chris</option>
+        </select>
+    
+    <% } %> 
+
+
+<% } else { %>
+
+    <!-- If creating a new post, set selection boxes to default values. -->
+
+    <!-- For the <select> tags, when the form is submitted, the selected option is added to the body of the post request with the label in the "name" attribute in the <select> tag. The label must match the corresponding label in the post.js Schema exactly for the data to be stored in the post object and eventually make it to the database. -->
+    <select name="publishingStatus" id="id_publishingStatus" required>
+        <option value="draft" selected >Draft</option>
+        <option value="published">Published</option>
+    </select>
+
+    <select name="author" id="id_authorSelect" requried>
+        <option value="Golden Ramen Bowl" selected>Golden Ramen Bowl</option>
+        <option value="Vista">Vista</option>
+        <option value="Chris">Chris</option>
+    </select>
+
+<% } %>
+
+<!-- ***** END IN-HTML JAVASCRIPT ***** -->

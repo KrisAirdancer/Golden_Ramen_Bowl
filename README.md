@@ -182,7 +182,7 @@ hint: invocation.
     - This only needs to be done for the body. All other post elements will be styled using styles.css.
     - Make the markdown an upgrade if it isn't intuitive. Could just type HTML into the text box and have that stored as the body of the text and it just gets injected directly into the page that displays the post.
 
-**Stage 4.1.1** - Add additional post creation fields
+✔️ **Stage 4.1.1** - Add additional post creation fields
 
 - Add the following,
     - ✔️ Featured image

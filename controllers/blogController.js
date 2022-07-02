@@ -28,7 +28,7 @@ const blog_details = (req, res) => {
 // This serves the page with the create post form on it to the browser.
 const blog_create_get = (req, res) => {
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
-    res.render('posts/create', { title: 'Create', postData: new Post() } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
+    res.render('posts/create', { title: 'Create', postData: new Post(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
 }
 
 // This serves the pages with the edit post form on it to the browser.
@@ -37,14 +37,14 @@ const blog_edit = (req, res) => {
     const id = req.params.id;
     
     // Set the 'select' tags to the correct option
-    
+
 
     Post.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
         .then(result => {
             // console.log('Test: ' + result); // This prints the entire object to the console.
             // Render the page (aka. send the page to the browser).
             // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
-            res.render('posts/edit', { title: 'Edit', postData: result } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+            res.render('posts/edit', { title: 'Edit', postData: result, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
         })
         .catch(err => {
             // console.log(err.message);
