@@ -32,7 +32,7 @@ const blog_create_get = (req, res) => {
 }
 
 // This serves the pages with the edit post form on it to the browser.
-const blog_edit = (req, res) => {
+const blog_edit_post = (req, res) => {
     // Pull the id of the post that has been requested to be edited
     const id = req.params.id;
 
@@ -75,7 +75,9 @@ const blog_create_post = (req, res) => {
 }
 
 // This sends a _______ request to the MongoDB database to update the contents of an existing post.
-// TODO: Implement this function.
+const blog_edit_put = (req, res) => {
+
+}
 
 const blog_delete = (req, res) => {
     const id = req.params.id;
