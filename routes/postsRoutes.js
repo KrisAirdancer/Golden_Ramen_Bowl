@@ -9,6 +9,9 @@ const blogController = require('../controllers/blogController')
 
 const router = express.Router();
 
+// Uploads a file to the server (Stores files in the /images directory. Not in the MongoDB database.)
+router.post('/upload-image', blogController.blog_uploadImage);
+
 // Updates a post's data in the MongoDB database
 router.post('/update-post/:id', blogController.blog_edit_update);
 
