@@ -176,7 +176,7 @@ hint: invocation.
 - Connect the post submission form to the MongoDB database.
     - Posts are saved to MongoDB when "Submit" is clicked.
 
-**Stage 4.1** - Add markdown/html support to post creation page
+✔️ **Stage 4.1** - Add markdown/html support to post creation page
 
 - Get the post creation page structured to accept markdown for the body of the post.
     - This only needs to be done for the body. All other post elements will be styled using styles.css.
@@ -185,19 +185,26 @@ hint: invocation.
 **Stage 4.1.1** - Add additional post creation fields
 
 - Add the following,
-    - Featured image
+    - ✔️ Featured image
         - Each post should have a featured image.
         - This could just be a partial that has a variable that gets filled with a path to an image on local using an EJS variable. The path to the image could be stored in the Post Schema on and thus on MongoDB.
-    - Any images in a given post should be placed in a single resources directory to make referencing them easy.
     - An image upload field.
         - Should allow a user to upload an image.
         - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
+    - Any images in a given post should be placed in a single resources directory to make referencing them easy.
 
-**Stage 4.2** - Determine how to store images for posts
+**Stage 4.2** - Make posts editable
 
-- Figure out how to store images for posts.
-- If possible have them backup to somewhere.
-- It should be possible to just include a `<img>` tag in the markdown body of the post which contains a path to the image. Then when a page is served, it is pulled from local. Check if this works before trying anything else.
+- Add an option to edit the posts.
+- Add a small link to the bottom of all posts that leads to the "edit post" page.
+
+**Stage 4.3** - Hide edit and create behind admin login
+
+- When the edit button is clicked, it should ask for a password and username.
+    - If vaild credentials are given, the user should be taken to the "edit post" page.
+    - If credentials are invalid, redirect the user to the blog homepage and display a notification that their login credentials were incorrect. Just use an `alert()` for this.
+- Have a "hidden" page (can only be accessed by typing the direct URL into the browser) (or maybe have a small "admin" link at the bottom of the page) that leads to the a login that works the same as the "edit" button, but when the correct credentials are given, the user is taken to the "create post" page.
+- Google/YouTube how to setup a login system.
 
 **Stage 5** - Sort posts on homepage
 
@@ -208,7 +215,7 @@ hint: invocation.
 - Hyperlink the posts in the post list on the homepage
 - Setup the system to generate an HTML page for a post when a user visits that post's URL. Such as via the new hyperlinks.
 
-**Stage 7** - Create post pages on homepage
+**Stage 7** - Show only 5 posts per page
 
 - Setup the homepage to show only the 5 most recent posts
 
@@ -222,6 +229,8 @@ hint: invocation.
 
 **Stage ??** - Setting up post snippets/"more" divider
 
+- It may be easiest to start by just leaving the snippets field and copy and pasting the first paragraph of the post into that field.
+    - If we need to update the post, we just copy and paste into the edit box.
 - Figure out how to set up the posts such that when we write a post, we don't have to include a snipped field separate from the post. Instead, we should be able to write the post and have the frontend JavaScript search the post and pull out only the first paragraph and show that on the homepage of the site. This way, we don't have to write that separately or copy and paste it from the actual post into the "snippet" textbox.
     - This might be doable by having the JavaScript parse the HTML tags and find the first set of `<p>` tags in the post and display that text as the post preview.
 

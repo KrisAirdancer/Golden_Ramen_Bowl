@@ -12,7 +12,11 @@ const postSchema = new Schema({
     },
     author: { // The values for this must be selected from the list of extant users.
         type: String,
+        // TODO: Figure out how to add the "required" field to all fields in here.
         // required: true,
+    },
+    featuredImage: {
+        type: String,
     },
     title: {
         type: String,

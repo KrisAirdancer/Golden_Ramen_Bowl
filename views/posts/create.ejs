@@ -17,12 +17,15 @@
                     <option value="Vista">Vista</option>
                     <option value="Chris">Chris</option>
                 </select>
-                <label for="title">Post title:</label>
-                <input type="text" id="title" name="title" required>
-                <label for="snippet">Post snippet:</label>
-                <input type="text" id="snippet" name="snippet" required>
-                <label for="body">Post body:</label>
-                <textarea id="body" name="body" required></textarea>
+                <!-- TODO: Make the featured image field a selection dropdown that lists all of the image files that have been uploaded (that are currently in the 'images' file) -->
+                <label for="id_featuredImage">Featured image:</label>
+                <input type="text" id="id_featuredImage" name="featuredImage" required>
+                <label for="id_title">Post title:</label>
+                <input type="text" id="id_title" name="title" required>
+                <label for="id_snippet">Post snippet:</label>
+                <input type="text" id="id_snippet" name="snippet" required>
+                <label for="id_body">Post body:</label>
+                <textarea id="id_body" name="body" required></textarea>
                 <!-- When this button is clicked, it fires an event. That event bubbles through parent elements and triggers any event listeners on those elements. In this case, the event listener on the <form> tag. -->
                 <button>Submit</button>
             </form>

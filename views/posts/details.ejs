@@ -3,10 +3,15 @@
 
     <body>
         <%- include('../partials/nav-bar.ejs') %>
-
+        
         <div class="details content">
+
+            <!-- <img src="/glenfinnan-viaduct-uk.jpg" alt="featured image"/> -->
+            <img src="/<%= post.featuredImage %> " alt="featured image"/>
+
             <h2><%= post.title %></h2>
             <div class="content">
+                <!-- This injects the content directly into the HTML. Thus, it will be parsed like HTML. -->
                 <%- post.body %>
             </div>
             <!-- TODO: Remove this meta data and put it into a partial that is loaded on this page so we can easily include the author's image, etc. -->
