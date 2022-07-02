@@ -191,7 +191,7 @@ hint: invocation.
     - An image upload field.
         - Should allow a user to upload an image.
         - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
-    - Tags (not adding categories for now)
+    - ✔️ Tags (not adding categories for now)
     - Any images in a given post should be placed in a single resources directory to make referencing them easy.
 
 **Stage 4.2** - Make posts editable
@@ -272,6 +272,14 @@ hint: invocation.
 
 **Stage Other** - Additional stuff that doesn't fit in a single stage yet
 
+- Pages to add:
+    - A page that lists all of the post titles as hyperlinks automatically.
+        - This is the equivalent of the "Super Simple Archive" WordPress plugin we use.
+    - Posts by activity type page
+    - Posts by year page
+    - *Might be able to automate the "posts by..." pages.
+        - Activity type uses tags to list them out: 'if tag === hiking, add <h2>Hiking</h2> and list posts with that tag'
+        - Same thing for year, but using the year tags.
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
 - Once the first complete and usable version of the site is live on the RPI, tag the version that went out as GRBv1.0.
@@ -300,6 +308,8 @@ hint: invocation.
 
 - Consider adding support for markdown in the new post creation editor.
     - Didn't do this initially b/c HTML could be injected raw into the post by EJS which this provided the fastest and easiest route to get images and other HTML-built content into the posts. Additionally, rendering markdown would have requried a package install (marked library), which is one more dependency and therefore more potential maintenance in the future. See [here](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00 for more on that point.
+- Add a list of tags to each post.
+    - The tags are hyperlinked and, when clicked, will display all posts with that tag.
 
 **Ongoing Maintenance**
 

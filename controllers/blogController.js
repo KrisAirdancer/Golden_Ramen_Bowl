@@ -30,9 +30,19 @@ const blog_create_get = (req, res) => {
 }
 
 const blog_create_post = (req, res) => {
+    
+    // Get list of tags from  - tags is a string
+    let tags = req.body.tags;
+    // Strip all whitespace
+    tags = tags.replace(/\s+/g, '');
+    // Split tags on commas - tagList is an Array
+    let tagList = tags.split(',');
+
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
     const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
-    console.log(req.body);
+    // Storing the array in the new object
+    post.tags = tagList;
+    console.log(req.body); // TODO: May want to remvoe this print line.
     post.save()
         .then( (result) => {
             res.redirect('/posts');
