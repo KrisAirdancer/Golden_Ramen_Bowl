@@ -52,18 +52,12 @@ const blog_edit_post = (req, res) => {
  * the database and then redirects the user to the blog homepage.
  */
 const blog_create_post = (req, res) => {
-    
-    // Get list of tags from  - tags is a string
-    let tags = req.body.tags;
-    // Strip all whitespace
-    tags = tags.replace(/\s+/g, '');
-    // Split tags on commas - tagList is an Array
-    let tagList = tags.split(',');
 
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
     const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
-    // Storing the array in the new object
-    post.tags = tagList;
+    // Convert the tags string into an array of tags
+    post.tags = parseTags(req.body.tags);
+    
     console.log(req.body); // TODO: May want to remvoe this print line.
     post.save()
         .then( (result) => {
@@ -76,7 +70,20 @@ const blog_create_post = (req, res) => {
 
 // This sends a _______ request to the MongoDB database to update the contents of an existing post.
 const blog_edit_put = (req, res) => {
+    const id = req.params.id;
 
+
+
+    // Storing the array in the new object
+    post.tags = tagList;
+    console.log(req.body); // TODO: May want to remvoe this print line.
+    post.save()
+        .then( (result) => {
+            res.redirect('/posts');
+        })
+        .catch( (err) => {
+            console.log(err.message);
+        })
 }
 
 const blog_delete = (req, res) => {
@@ -98,5 +105,18 @@ module.exports = {
     blog_create_get,
     blog_create_post,
     blog_delete,
-    blog_edit
+    blog_edit_post,
+    blog_edit_put
+}
+
+/* Takes in a string of comma separated post tags and returns an
+ * array of tags.
+ */
+function parseTags(tags) {
+        // Strip all whitespace
+        tags = tags.replace(/\s+/g, '');
+        // Split tags on commas - tagList is an Array
+        let tagList = tags.split(',');
+
+        return tagList;
 }
