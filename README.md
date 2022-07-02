@@ -310,6 +310,8 @@ hint: invocation.
     - Didn't do this initially b/c HTML could be injected raw into the post by EJS which this provided the fastest and easiest route to get images and other HTML-built content into the posts. Additionally, rendering markdown would have requried a package install (marked library), which is one more dependency and therefore more potential maintenance in the future. See [here](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00 for more on that point.
 - Add a list of tags to each post.
     - The tags are hyperlinked and, when clicked, will display all posts with that tag.
+- Consider changing from MongoDB to self-hosted JSON Server.
+    - See these two tutorials from The Net Ninja: [Part 1](https://www.youtube.com/watch?v=mAqYJF-yxO8&t=1503s) and [Part 2](https://www.youtube.com/watch?v=VF3TI4Pj_kM&t=401s).
 
 **Ongoing Maintenance**
 
