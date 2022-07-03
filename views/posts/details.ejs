@@ -26,8 +26,10 @@
                 <img src="/trashcan.svg" alt="trashcan icon">
             </a>
 
+            <!-- TODO: Remove the links to edit and delete posts. They should now be on the admin page. -->
+
             <!-- This links to the edit page for this post. -->
-            <a class="class_edit" href="/posts/edit/<%= post.id %>">Edit Post</a>
+            <a class="class_edit" href="/admin/edit/<%= post.id %>">Edit Post</a>
         </div>
 
         <%- include("../partials/footer.ejs") %>
@@ -36,7 +38,7 @@
             const trashcan = document.querySelector('a.delete');
 
             trashcan.addEventListener('click', (e) => {
-                const endpoint = `/posts/${trashcan.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+                const endpoint = `/admin/${trashcan.dataset.doc}`; // This is getting the id from the data-doc=... object above.
                 fetch(endpoint, {
                     method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
                 })
