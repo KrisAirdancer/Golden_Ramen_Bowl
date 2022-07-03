@@ -109,7 +109,7 @@ WIP...
 - Add an option to edit the posts.
 - Add a small link to the bottom of all posts that leads to the "edit post" page.
 
-**Stage 4.2.1** - Add an image upload field to "Create" and "Edit" pages
+✔️ **Stage 4.2.1** - Add an image upload field to "Create" and "Edit" pages
 
 - Make a partial .ejs file for this.
     - Drop it into the create-edit-form.ejs as a part of the `<form>`, but don't make it a required field.
