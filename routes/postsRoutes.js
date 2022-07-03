@@ -5,12 +5,10 @@
 // Note: The .get, .put, etc. calls are synonomus with GET, PUT, etc. - the method names specify the type of call, so we are okay to re-use URL path strings when they correspond to different types of requests.
 
 const express = require('express');
+const multer = require('multer');
 const blogController = require('../controllers/blogController')
 
 const router = express.Router();
-
-// Uploads a file to the server (Stores files in the /images directory. Not in the MongoDB database.)
-router.post('/upload-image', blogController.blog_uploadImage);
 
 // Updates a post's data in the MongoDB database
 router.post('/update-post/:id', blogController.blog_edit_update);
@@ -33,5 +31,39 @@ router.get('/:id', blogController.blog_details); // We must use the colon in fro
 // Deletes a post.
 router.delete('/:id', blogController.blog_delete);
 
+/***** MULTER FILE UPLOAD CODE *****/
+
+// This sets the filename of the file that is being uploaded. Without this the file would be given an alphanumeric name with no file extension.
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        const { originalname } = file;
+        // or 
+        // uuid, or fieldname
+        cb(null, originalname);
+    }
+})
+
+// This is Multer object that we use below in the .post() request to process the file.
+const multerUploader = multer({ storage: storage }); // or simply { dest: 'uploads/' }
+
+/* Uploads a file to the server (Stores files in the /images directory. Not in the
+ * MongoDB database.)
+ * The 'name_imageUpload' argument is linking the Malta middleware to the file input
+ * HTML field in image-upload.jpg. This is how the file gets sent from the HTML form
+ * to this method to be uploaded.
+ * 
+ * Followed this tutorial to set this up: https://www.youtube.com/watch?v=ysS4sL6lLDU&t=374s
+ */
+router.post('/upload-image', multerUploader.single('name_imageUpload'), (req, res) => {
+    console.log('AT: router.post(\'upload-image\')');
+
+    // return res.json({ status: 'OK' });
+    // res.end();
+});
+
+/***** END MULTER FILE UPLOAD CODE *****/
 
 module.exports = router;

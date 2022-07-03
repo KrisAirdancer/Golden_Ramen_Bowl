@@ -1,8 +1,7 @@
 // This file contains all of the functions that act as control in the MVC model. The below functions are called in postRoutes.js
 
 const Post = require('../models/post');
-const formidable = require("formidable"); // Note: formidable v3 is NOT compatible with something else I am using. I had to downgrade to v2.
-const fs = require('fs');
+
 
 const blog_index = (req, res) => {
     console.log('blog_index');
@@ -103,74 +102,6 @@ const blog_edit_update = (req, res) => {
         })
 }
 
-// Uploads a file to the server (Stores files in the /images directory. Not in the MongoDB database.)
-const blog_uploadImage = (req, res, next) => {
-    console.log('blog_uploadImages');
-
-    let form = new formidable.IncomingForm();
-    
-    form.parse(req, function(err, fields, file) {
-        
-        // let filepath = file.fileupload.filepath;
-        let filepath = file.filepath;
-        let newpath = 'C:/Users/chris/repos/Golden_Ramen_Bowl/public/images/';
-        newpath += file.originalFilename;
-        console.log(`filepath: ${filepath}`);
-        console.log(`newpath: ${newpath}`);
-        fs.rename(filepath, newpath, function() {
-            res.write('Success!');
-            res.end();
-        });
-    });
-
-
-
-
-
-    // var form = new formidable.IncomingForm();
-    // let filePath = '';
-
-    // console.log(`form: ${form}`);
-
-    // form.parse(req);
-
-    // form.on('fileBegin', (name, file) => {
-    //     // filePath = __dirname + ''
-    //     console.log(`__dirname: ${__dirname}`);
-
-    //     console.log(`filePath Inner: ${filePath}`);
-
-    //     file.path = 'C:/Users/chris/repos/Golden_Ramen_Bowl/public/images/' + file.name;
-    //     // file.path = filePath;
-        
-    //     console.log(`file.path: ${file.path}`);
-    // })
-    // console.log(`filePath Outer: ${filePath}`);
-
-    // // res.sendFile(filePath);
-    // res.sendFile('../views/posts/index.ejs');
-
-
-
-
-    // const form = formidable.IncomingForm();
-    // // const form = formidable({ multiples: false });
-
-    // console.log(`FILE: ${file.abc}`);
-
-    // form.parse(req, (err, fields, file) => {
-    //     if (err) {
-    //         next(err);
-    //         return;
-    //     }
-    //     console.log(fields, file );
-    //     // res.json({ fields, files });
-    //     fs.rename(file.path, '../public/images', () => {
-
-    //     });
-    // });
-}
-
 const blog_delete = (req, res) => {
     console.log('blog_delete');
 
@@ -205,6 +136,5 @@ module.exports = {
     blog_create_post,
     blog_delete,
     blog_edit_post,
-    blog_edit_update,
-    blog_uploadImage
+    blog_edit_update
 }
