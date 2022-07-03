@@ -119,22 +119,16 @@ WIP...
 
 **Stage 5** - Hide edit and create pages behind admin login
 
-- At the bottom of the site, have an "admin" link.
-    - This link will ask for a login.
-    - If the correct login is provided, the user will be redirected to a page with two links: "edit" and "new post."
-    - If a user tries to access any of the admin pages directly, they will be redirected to the login page.
-- When the edit button is clicked, it should ask for a password and username.
-    - If vaild credentials are given, the user should be taken to the "edit post" page.
-    - If credentials are invalid, redirect the user to the blog homepage and display a notification that their login credentials were incorrect. Just use an `alert()` for this.
-- Have a "hidden" page (can only be accessed by typing the direct URL into the browser) (or maybe have a small "admin" link at the bottom of the page) that leads to the a login that works the same as the "edit" button, but when the correct credentials are given, the user is taken to the "create post" page.
-- Google/YouTube how to setup a login system.
-- Remove all links to admin pages (post creation page, etc.)
-- Add a login system that is required to access the admin pages.
-- Add users accounts.
-    - (This should be done on the backend. No need to create a frontend way to do this since we will almost never, if ever, need to add new users.)
-    - Vista
-    -Chris
-    - Golden Ramen Bowl (gneric site management account)
+- Route for admin is localhost:11000/admin
+- Pages
+    - "Admin" page
+        - Has links to "Create Post", "Edit Posts", and "File Upload" pages
+    - "Create Post" and "File Upload" pages are exactly as they currently are.
+    - "Edit Posts" page...
+        - Lists all of the posts currently in the database
+        - Each post title is hyperlinked. This link leads to the edit page for that post. This edit page is just as it is now.
+        - Each link is accompanied by a trashcan icon that can be used to delete the post.
+- If a user enters the URL to any of the admin pages, they should be required to login.
 
 **Stage 6** - Improve post display format on all posts page (homepage)
 
