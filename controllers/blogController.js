@@ -3,8 +3,8 @@
 const Post = require('../models/post');
 
 
-const blog_index = (req, res) => {
-    console.log('blog_index');
+const serve_index_page = (req, res) => {
+    console.log('AT: serve_index_page');
 
     Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
     .then( (result) => {
@@ -15,8 +15,8 @@ const blog_index = (req, res) => {
     })
 }
 
-const blog_details = (req, res) => {
-    console.log('blog_details');
+const serve_post_details_page = (req, res) => {
+    console.log('AT: serve_post_details_page');
 
     const id = req.params.id; // This gets the ID from the path that was generated in the browser by the JavaScript. I think. Something close to that. It definitely isn't accessing the database.
     // console.log(id); // This just logs the id to the console to show that it is working.
@@ -31,16 +31,16 @@ const blog_details = (req, res) => {
 }
 
 // This serves the page with the create post form on it to the browser.
-const blog_create_get = (req, res) => {
-    console.log('blog_create_get');
+const serve_create_post_page = (req, res) => {
+    console.log('AT: serve_create_post_page');
 
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
     res.render('posts/create', { title: 'Create', postData: new Post(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
 }
 
 // This serves the pages with the edit post form on it to the browser.
-const blog_edit_post = (req, res) => {
-    console.log('blog_edit_post');
+const serve_edit_post_page = (req, res) => {
+    console.log('AT: serve_edit_post_page');
 
     // Pull the id of the post that has been requested to be edited
     const id = req.params.id;
@@ -57,11 +57,19 @@ const blog_edit_post = (req, res) => {
         })
 }
 
+/* Serves the page with the file upload form.
+ */
+const serve_file_upload_page = (req, res) => {
+    console.log('AT: serve_file_upload_page');
+
+    res.render('posts/file-upload-form', { title: 'File Upload' } );
+}
+
 /* This sends a POST request to the MongoDB database to add a newly created post to
  * the database and then redirects the user to the blog homepage.
  */
-const blog_create_post = (req, res) => {
-    console.log('blog_create_post');
+const send_new_post_to_database = (req, res) => {
+    console.log('AT: send_new_post_to_database');
 
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
     const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
@@ -79,8 +87,8 @@ const blog_create_post = (req, res) => {
 }
 
 // This updates the post in the MongoDB database
-const blog_edit_update = (req, res) => {
-    console.log('blog_edit_update');
+const update_post_in_database = (req, res) => {
+    console.log('AT: update_post_in_database');
 
     // Get the id of the post to be updated from the request (req)
     const id = req.params.id;
@@ -102,8 +110,10 @@ const blog_edit_update = (req, res) => {
         })
 }
 
-const blog_delete = (req, res) => {
-    console.log('blog_delete');
+/* Deletes the specified post from the MongoDB database.
+ */
+const delete_post_from_database = (req, res) => {
+    console.log('AT: delete_post_from_database');
 
     const id = req.params.id;
     
@@ -130,11 +140,12 @@ function parseTags(tags) {
 
 // This makes the specified functions available outside this module.
 module.exports = {
-    blog_index,
-    blog_details,
-    blog_create_get,
-    blog_create_post,
-    blog_delete,
-    blog_edit_post,
-    blog_edit_update
+    serve_index_page,
+    serve_post_details_page,
+    serve_create_post_page,
+    serve_edit_post_page,
+    serve_file_upload_page,
+    send_new_post_to_database,
+    update_post_in_database,
+    delete_post_from_database
 }

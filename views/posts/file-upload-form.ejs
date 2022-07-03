@@ -1,0 +1,17 @@
+<html lang="en">
+<%- include('../partials/header.ejs') %>
+<body>
+    <%- include('../partials/nav-bar.ejs') %>
+    <div class="create-post content">
+
+        <h1>File Upload</h1>
+
+        <form action="/posts/upload-image" method="post" enctype="multipart/form-data">
+            <input type="file" name="name_imageUpload" multiple/>
+            <button>Upload</button>
+        </form>
+    </div>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
