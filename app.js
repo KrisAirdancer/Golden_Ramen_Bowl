@@ -20,6 +20,7 @@ const express = require('express');
 const morgan = require('morgan'); // A middleware package for logging
 const mongoose = require('mongoose');
 const postsRoutes = require('./routes/postsRoutes') // Importing the router from the blogRoutes.js file.
+const adminRoutes = require('./routes/adminRoutes');
 const bodyParser = require('body-parser');
 require('dotenv/config');
 
@@ -65,6 +66,12 @@ app.get('/', (req, res) => {
 
 // The syntax for this can be .use(postsRoutes) or as below. If we use it as below, it only uses the routes in postsRoutes.js if the URL has /posts in it. As such, when we define the routes inside postsRoutes, we don't have to include /posts in front of every route in that file. Instead, in the postsRoutes.js file, we can just write the part of the route that comes after the /posts. eg. The route for /posts/:id would just be /:id in the postsRoutes.js file.
 app.use('/posts', postsRoutes); // This tells Node.js to apply all of the handlers that are defined in postsRoutes.js to the app.js object. This is equivalent to putting all of the code from postsRoutes.js right here. In fact, if you look at previous commits before Express was added, that is exactly what you will see.
+
+/***** ADMIN ROUTES *****/
+
+app.use('/admin', adminRoutes);
+
+/***** OTHER ROUTES *****/
 
 /* 'app' is the server object. When a request is made to the server (browser sends a 
  *  request to the server), the server object (app) gets that request. We can access

@@ -19,8 +19,8 @@ router.get('/', blogController.serve_index_page);
 // Sends a new blog post to the database.
 router.post('/', blogController.send_new_post_to_database);
 
-// Displays the form to create a new blog post.
-router.get('/create', blogController.serve_create_post_page);
+// // Displays the form to create a new blog post.
+// router.get('/create', blogController.serve_create_post_page);
 
 /* Serves the file upload page. The page where files can be uploaded to the server.
  */
