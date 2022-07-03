@@ -105,6 +105,12 @@ const serve_edit_post_page = (req, res) => {
         })
 }
 
+const serve_edit_posts_list_page = (req, res) => {
+    console.log('AT: serve_edit_posts_list_page');
+
+    res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
+}
+
 /***** HELPER METHODS *****/
 
 /* Takes in a string of comma separated post tags and returns an
@@ -126,5 +132,6 @@ module.exports = {
     serve_file_upload_page,
     send_new_post_to_database,
     update_post_in_database,
-    delete_post_from_database
+    delete_post_from_database,
+    serve_edit_posts_list_page
 }

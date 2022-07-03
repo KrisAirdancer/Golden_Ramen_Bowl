@@ -17,6 +17,11 @@ router.post('/', adminController.send_new_post_to_database);
  */
 router.get('/upload', adminController.serve_file_upload_page);
 
+/* Serves the edit posts list page. A list of posts, hyperlinked to thier
+ * corresponding "Edit Post" page.
+ */
+router.get('/edit-posts-list', adminController.serve_edit_posts_list_page);
+
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a
  * route will be interpreted as an id and the id route triggered.
