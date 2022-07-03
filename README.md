@@ -129,6 +129,7 @@ WIP...
         - Each post title is hyperlinked. This link leads to the edit page for that post. This edit page is just as it is now.
         - Each link is accompanied by a trashcan icon that can be used to delete the post.
 - If a user enters the URL to any of the admin pages, they should be required to login.
+- Use [this](https://www.youtube.com/watch?v=-RCnNyD0L-s&t=787s) YouTube tutorial to set this up.
 
 **Stage 6** - Improve post display format on all posts page (homepage)
 
@@ -182,6 +183,10 @@ WIP...
     - *Might be able to automate the "posts by..." pages.
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
+
+**Stage Third to Last** - Cleare TODOs
+
+- Go through the entire project and handle any TODOs that are left.
 
 **Stage Second to Last** - Archive learning material
 
