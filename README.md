@@ -119,11 +119,18 @@ WIP...
 
 **Stage 5** - Hide edit and create pages behind admin login
 
+- REMAINING TODO
+    - Build out the "Edit Posts List" page.
+    - Remove "Edit" and "Delete" links from details.ejs (move these to the "Edit Posts List" page).
+    - Hide all of the admin pages behind a login system.
+    - Thouroughly test the system.
+        - It doesn't need to be airtight. Just make it so that it isn't easy to accidentally reach an admin page.
+
 - Route for admin is localhost:11000/admin
 - Pages
-    - "Admin" page
+    - ✔️ "Admin" page
         - Has links to "Create Post", "Edit Posts", and "File Upload" pages
-    - "Create Post" and "File Upload" pages are exactly as they currently are.
+    - ✔️ "Create Post" and "File Upload" pages are exactly as they currently are.
     - "Edit Posts" page...
         - Lists all of the posts currently in the database
         - Each post title is hyperlinked. This link leads to the edit page for that post. This edit page is just as it is now.
