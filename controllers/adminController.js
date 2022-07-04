@@ -127,10 +127,19 @@ const serve_login_page = (req, res) => {
     res.render('admin/login', { title: 'Admin Login' } );
 }
 
+import { isLoggedIn } from '../app';
 /* Logs user in.
  */
 const log_user_in = (req, res) => {
     console.log('AT: log_user_in');
+
+    console.log(`isLoggedIn: ${isLoggedIn()}`);
+    if (isLoggedIn()) {
+         console.log("SUCCESSFUL LOGIN");
+    } else {
+        console.log("FAILED LOGIN");
+    }
+
 
     // TODO: Set 'loggedIn = true'
 }

@@ -24,6 +24,8 @@ const adminRoutes = require('./routes/adminRoutes');
 const bodyParser = require('body-parser');
 require('dotenv/config');
 
+var loggedIn = false;
+
 // Setting up the Express app object
 const app = express(); // Initialize the Express app object. Not an instance of this file (app.js).
 
@@ -92,3 +94,12 @@ app.use( (req, res) => {
     res.status(404).render('404', { title: '404'} );
 });
 
+/***** OTHER FUNCTIONS *****/
+
+const isLoggedIn = () => {
+    return loggedIn;
+}
+
+module.export = {
+    isLoggedIn
+}
