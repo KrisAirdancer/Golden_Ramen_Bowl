@@ -136,6 +136,7 @@ WIP...
 - If a user enters the URL to any of the admin pages, they should be required to login.
 - Route for admin is localhost:11000/admin
 - Use [this](https://www.youtube.com/watch?v=-RCnNyD0L-s&t=787s) YouTube tutorial to set this up.
+    - [This](https://www.youtube.com/watch?v=W5Tb1MIeg-I) tutorial might be better.
 
 **Stage 6** - Improve post display format on all posts page (homepage)
 

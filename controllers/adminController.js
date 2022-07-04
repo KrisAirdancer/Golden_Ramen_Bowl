@@ -124,6 +124,8 @@ const serve_edit_posts_list_page = (req, res) => {
 const serve_login_page = (req, res) => {
     console.log('AT: serve_login_page');
 
+    console.log(`request data: ${req.params}`)
+
     res.render('admin/login', { title: 'Admin Login' } );
 }
 
