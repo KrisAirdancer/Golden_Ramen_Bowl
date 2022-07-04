@@ -121,6 +121,12 @@ const serve_edit_posts_list_page = (req, res) => {
 
 }
 
+const serve_login_page = (req, res) => {
+    console.log('AT: serve_login_page');
+
+    res.render('admin/login', { title: 'Admin Login' } );
+}
+
 /***** HELPER METHODS *****/
 
 /* Takes in a string of comma separated post tags and returns an
@@ -143,5 +149,6 @@ module.exports = {
     send_new_post_to_database,
     update_post_in_database,
     delete_post_from_database,
-    serve_edit_posts_list_page
+    serve_edit_posts_list_page,
+    serve_login_page
 }

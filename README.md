@@ -125,8 +125,6 @@ WIP...
     - Hide all of the admin pages behind a login system.
     - Thouroughly test the system.
         - It doesn't need to be airtight. Just make it so that it isn't easy to accidentally reach an admin page.
-
-- Route for admin is localhost:11000/admin
 - Pages
     - ✔️ "Admin" page
         - Has links to "Create Post", "Edit Posts", and "File Upload" pages
@@ -136,6 +134,7 @@ WIP...
         - Each post title is hyperlinked. This link leads to the edit page for that post. This edit page is just as it is now.
         - Each link is accompanied by a trashcan icon that can be used to delete the post.
 - If a user enters the URL to any of the admin pages, they should be required to login.
+- Route for admin is localhost:11000/admin
 - Use [this](https://www.youtube.com/watch?v=-RCnNyD0L-s&t=787s) YouTube tutorial to set this up.
 
 **Stage 6** - Improve post display format on all posts page (homepage)

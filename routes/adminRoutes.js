@@ -22,6 +22,10 @@ router.get('/upload', adminController.serve_file_upload_page);
  */
 router.get('/edit-posts-list', adminController.serve_edit_posts_list_page);
 
+/* Serves the login page.
+ */
+router.get('/login', adminController.serve_login_page);
+
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a
  * route will be interpreted as an id and the id route triggered.
