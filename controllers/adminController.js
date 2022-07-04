@@ -26,7 +26,7 @@ const delete_post_from_database = (req, res) => {
     
     Post.findByIdAndDelete(id)
       .then(result => {
-        res.json({ redirect: '/admin' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
+        res.json({ redirect: '/admin/edit-posts-list' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
       })
       .catch(err => {
         console.log(err.message);
@@ -108,7 +108,17 @@ const serve_edit_post_page = (req, res) => {
 const serve_edit_posts_list_page = (req, res) => {
     console.log('AT: serve_edit_posts_list_page');
 
-    res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
+    // res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
+
+    Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
+    .then( (result) => {
+        res.render('admin/edit-posts-list', { title: 'Edit Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+    })
+    .catch( (err) => {
+        console.log(err.message);
+    })
+
+
 }
 
 /***** HELPER METHODS *****/

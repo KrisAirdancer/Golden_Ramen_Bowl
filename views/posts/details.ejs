@@ -22,31 +22,9 @@
                 <p>Status: <%= post.publishingStatus %></p>
             </div>
 
-            <a class="delete" data-doc="<%= post._id %>">
-                <img src="/trashcan.svg" alt="trashcan icon">
-            </a>
-
-            <!-- TODO: Remove the links to edit and delete posts. They should now be on the admin page. -->
-
-            <!-- This links to the edit page for this post. -->
-            <a class="class_edit" href="/admin/edit/<%= post.id %>">Edit Post</a>
         </div>
 
         <%- include("../partials/footer.ejs") %>
-
-        <script>
-            const trashcan = document.querySelector('a.delete');
-
-            trashcan.addEventListener('click', (e) => {
-                const endpoint = `/admin/${trashcan.dataset.doc}`; // This is getting the id from the data-doc=... object above.
-                fetch(endpoint, {
-                    method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
-                })
-                .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
-                .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
-                .catch(err => console.log(err));
-            });
-        </script>
 
     </body>
 </html>

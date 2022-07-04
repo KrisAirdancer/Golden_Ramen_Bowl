@@ -120,8 +120,8 @@ WIP...
 **Stage 5** - Hide edit and create pages behind admin login
 
 - REMAINING TODO
-    - Build out the "Edit Posts List" page.
-    - Remove "Edit" and "Delete" links from details.ejs (move these to the "Edit Posts List" page).
+    - ✔️ Build out the "Edit Posts List" page.
+    - ✔️ Remove "Edit" and "Delete" links from details.ejs (move these to the "Edit Posts List" page).
     - Hide all of the admin pages behind a login system.
     - Thouroughly test the system.
         - It doesn't need to be airtight. Just make it so that it isn't easy to accidentally reach an admin page.
