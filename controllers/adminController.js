@@ -127,6 +127,14 @@ const serve_login_page = (req, res) => {
     res.render('admin/login', { title: 'Admin Login' } );
 }
 
+/* Logs user in.
+ */
+const log_user_in = (req, res) => {
+    console.log('AT: log_user_in');
+
+    // TODO: Set 'loggedIn = true'
+}
+
 /***** HELPER METHODS *****/
 
 /* Takes in a string of comma separated post tags and returns an
@@ -150,5 +158,6 @@ module.exports = {
     update_post_in_database,
     delete_post_from_database,
     serve_edit_posts_list_page,
-    serve_login_page
+    serve_login_page,
+    log_user_in
 }

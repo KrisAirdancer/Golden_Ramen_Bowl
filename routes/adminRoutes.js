@@ -26,6 +26,8 @@ router.get('/edit-posts-list', adminController.serve_edit_posts_list_page);
  */
 router.get('/login', adminController.serve_login_page);
 
+router.post('/login', adminController.log_user_in);
+
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a
  * route will be interpreted as an id and the id route triggered.
