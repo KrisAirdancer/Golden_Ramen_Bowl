@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const passport = require('passport-local');
 const adminController = require('../controllers/adminController')
 
 const router = express.Router();
@@ -25,6 +26,15 @@ router.get('/edit-posts-list', adminController.serve_edit_posts_list_page);
 /* Serves the login page.
  */
 router.get('/login', adminController.serve_login_page);
+
+/* Logs user in using the Passport middleware.
+ */
+// router.post('/login', adminController.log_user_in);
+// router.post('/login', passport.authenticate('local', {
+//     successRedirect: '/admin',
+//     failureRedirect: '/admin/login',
+//     failureFlash: true
+// }));
 
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a

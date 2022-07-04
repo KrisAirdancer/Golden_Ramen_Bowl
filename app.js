@@ -55,6 +55,138 @@ app.use(express.static('public'));
 // Setting up logging with morgan. This loggs information to the console.
 app.use(morgan('dev'));
 
+
+
+
+
+// **************************************
+/***** LOGIN SYSTEM SETUP ATTEMPT 2 *****/
+// **************************************
+
+const bcrypt = require('bcrypt');
+const passport = require('passport')
+const flash = require('express-flash')
+const session = require('express-session')
+const methodOverride = require('method-override')
+
+const initializePassport = require('./views/admin/passport-config')
+initializePassport.initialize(
+  passport,
+  email => users.find(user => user.username === username),
+  id => users.find(user => user.username === id)
+)
+
+// ********************* DELETE EVERYTHING IN THIS SECTION (BELOW) ******************************
+
+const users = []; // TODO: The tutorial I followed is storing the user data in a local variable (this array). I need to store the data in a locaion that will persist after server shutdown (MongoDB databse, JSON file, etc.).
+
+const createUser = async (username, password) => {
+    let hashedPassword = await bcrypt.hash(password, 10)
+    users.push({
+        id: Date.now().toString(),
+        username: username,
+        password: hashedPassword
+    })
+    console.log(users);
+}
+
+createUser('GoldenRamenBowl', 'PASSWORD');
+
+// ********************* DELETE EVERYTHING IN THIS SECTION (ABOVE) ******************************
+
+// app.set('view-engine', 'ejs')
+// app.use(express.urlencoded({ extended: false }))
+app.use(flash())
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(methodOverride('_method'))
+
+// app.get('/', checkAuthenticated, (req, res) => {
+//   res.render('index.ejs', { name: req.user.name })
+// })
+
+app.get('/login', checkNotAuthenticated, (req, res) => {
+  res.render('login.ejs')
+})
+
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}))
+
+app.delete('/logout', (req, res) => {
+  req.logOut()
+  res.redirect('/login')
+})
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+
+  res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/')
+  }
+  next()
+}
+
+// **************************************
+/***** LOGIN SYSTEM SETUP ATTEMPT 2 *****/
+// **************************************
+
+
+/***** LOGIN SYSTEM SETUP *****/
+
+// const passport = require('passport-local');
+// const flash = require('express-flash');
+// const session = require('express-session');
+
+// // Using dependencies for login system
+// app.use(flash());
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// ********************* DELETE EVERYTHING IN THIS SECTION (BELOW) ******************************
+
+// const bcrypt = require('bcrypt');
+
+// const users = []; // TODO: The tutorial I followed is storing the user data in a local variable (this array). I need to store the data in a locaion that will persist after server shutdown (MongoDB databse, JSON file, etc.).
+
+// const createUser = async (username, password) => {
+//     let hashedPassword = await bcrypt.hash(password, 10)
+//     users.push({
+//         id: Date.now().toString(),
+//         username: username,
+//         password: hashedPassword
+//     })
+//     console.log(users);
+// }
+
+// createUser('GoldenRamenBowl', 'PASSWORD');
+
+// module.exports = {
+//     users
+// }
+
+// ********************* DELETE EVERYTHING IN THIS SECTION (ABOVE) ******************************
+
+/***** END LOGIN SYSTEM SETUP *****/
+
 /***** ROUTING *****/
 
 // Listen for GET requests for the root of the domain ('/').

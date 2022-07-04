@@ -1,15 +1,32 @@
 <html lang="en">
-    <%- include('../partials/header.ejs') %>
-    <body>
-        <%- include('../partials/nav-bar.ejs') %>
-        <div class="class_login">
+<%- include('../partials/header.ejs') %>
+<body>
+    <%- include('../partials/nav-bar.ejs') %>
 
-            <!-- TODO: Add a large GRB logo above or to the left of the login box. Just to make this page look a bit nicer. -->
+    <h1>Admin Login</h1>
 
-            <h1>Admin Login</h1>
+    <% if (messages.error) { %> 
+        <% messages.error %> 
+    <% } %> 
+
+    <!-- TODO: Add a large GRB logo above or to the left of the login box. Just to make this page look a bit nicer. -->
+
+    <form action="/admin/login" method="POST">
+        <div>
+            <label for="name_username">Username</label>
+            <input type="text" id="id_username" name="name_username" required>
+        </div>
+
+        <div>
+            <label for="name_password">Password</label>
+            <input type="password" id="id_password" name="name_password" required>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
 
 
 
-        <%- include('../partials/footer.ejs') %>
-    </body>
+    <%- include('../partials/footer.ejs') %>
+</body>
 </html>

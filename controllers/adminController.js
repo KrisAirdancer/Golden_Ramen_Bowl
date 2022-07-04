@@ -1,4 +1,25 @@
 const Post = require('../models/post');
+const bcrypt = require('bcrypt');
+const users = require('../app');
+
+/***** SETTING UP PASSPORT *****/
+
+// const passport = require('passport-local');
+// const initializePassport = require('../views/admin/passport-config');
+
+// const getUserByUsername = username => {
+//     // Finds the user based on their username
+//     return users.find(user => user.username === username);
+// }
+
+// const getUserById = id => {
+//     // Finds user based on their id
+//     return users.find(user => user.id === id);
+// }
+
+// initializePassport.initialize(passport, getUserByUsername, getUserById); // This calls the function Initialize() in 'passport-config.js'.
+
+/***** END SETTING UP PASSPORT *****/
 
 /* Serves the Admin Console page.
  */
@@ -127,6 +148,11 @@ const serve_login_page = (req, res) => {
     res.render('admin/login', { title: 'Admin Login' } );
 }
 
+const log_user_in = (req, res) => {
+    // req.body.name_username; // The variable called on 'body' must correspond exatcly to the 'name' attribute in the form this is associated with. In this case, the form on 'login.ejs'.
+    console.log('AT: log_user_in');
+}
+
 /***** HELPER METHODS *****/
 
 /* Takes in a string of comma separated post tags and returns an
@@ -150,5 +176,6 @@ module.exports = {
     update_post_in_database,
     delete_post_from_database,
     serve_edit_posts_list_page,
-    serve_login_page
+    serve_login_page,
+    log_user_in
 }
