@@ -5,28 +5,28 @@ const adminController = require('../controllers/adminController')
 const router = express.Router();
 
 // Displays the admin console page
-router.get('/', adminController.serve_admin_console_page);
+router.get('/', isAuthenticated, adminController.serve_admin_console_page);
 
 // Displays the form to create a new blog post.
 router.get('/create', isAuthenticated, adminController.serve_create_post_page);
 
 // Sends a new blog post to the database.
-router.post('/', adminController.send_new_post_to_database);
+router.post('/', isAuthenticated, adminController.send_new_post_to_database);
 
 /* Serves the file upload page. The page where files can be uploaded to the server.
  */
-router.get('/upload', adminController.serve_file_upload_page);
+router.get('/upload', isAuthenticated, adminController.serve_file_upload_page);
 
 /* Serves the edit posts list page. A list of posts, hyperlinked to thier
  * corresponding "Edit Post" page.
  */
-router.get('/edit-posts-list', adminController.serve_edit_posts_list_page);
+router.get('/edit-posts-list', isAuthenticated, adminController.serve_edit_posts_list_page);
 
 /* Serves the login page.
  */
-router.get('/login', adminController.serve_login_page);
+router.get('/login', isNotAuthenticated, adminController.serve_login_page);
 
-router.post('/login', adminController.log_user_in);
+router.post('/login', isNotAuthenticated, adminController.log_user_in);
 
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a
@@ -34,13 +34,13 @@ router.post('/login', adminController.log_user_in);
  */
 
 // Updates a post's data in the MongoDB database
-router.post('/update-post/:id', adminController.update_post_in_database);
+router.post('/update-post/:id', isAuthenticated, adminController.update_post_in_database);
 
 // Displays the form to edit an existing blog post
-router.get('/edit/:id', adminController.serve_edit_post_page);
+router.get('/edit/:id', isAuthenticated, adminController.serve_edit_post_page);
 
 // Deletes a post.
-router.delete('/:id', adminController.delete_post_from_database);
+router.delete('/:id', isAuthenticated, adminController.delete_post_from_database);
 
 /***** MULTER FILE UPLOAD CODE *****/
 
@@ -77,6 +77,8 @@ router.post('/upload-image', multerUploader.single('name_imageUpload'), (req, re
 
 /***** NON-ROUTING METHODS *****/
 
+// TODO: Consider renaming the below two methods requireAuthentication and requireNotAuthenticated
+
 /* Checks if a user has been authenticated or not.
  * Returns 'next()' if user IS authenticated.
  * 
@@ -89,12 +91,15 @@ router.post('/upload-image', multerUploader.single('name_imageUpload'), (req, re
  * them to go to the page they requested.
  */
 function isAuthenticated(req, res, next) {
+    console.log('AT: isAuthenticated');
     // .isAuthenicated() is a passport function that returns true if a user has been authenticated.
     if (req.isAuthenticated()) {
-      return next()
+        console.log('HERE');
+        return next()
     }
+    console.log('THERE');
     // Redirect the user to the login page. This only triggers if the user hasn't been authenticated.
-    res.redirect('login');
+    res.redirect('admin/login');
   }
   
   /* Checks if a user is not authenticated.
@@ -106,11 +111,12 @@ function isAuthenticated(req, res, next) {
    * This is useful for keeping users from accessing the login page after they have logged in.
    */
   function isNotAuthenticated(req, res, next) {
+    console.log('AT: isNotAuthenticated');
     if (!req.isAuthenticated()) {
         return next();
     }
     // This triggers if the user has been authenticted.
-    res.redirect('/')
+    res.redirect('login')
   }
 
 /***** OTHER *****/

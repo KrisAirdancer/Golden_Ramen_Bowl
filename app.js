@@ -92,7 +92,7 @@ app.use(morgan('dev'));
 const users = [
     {
         id: '1657129412975',
-        name: 'Waldo',
+        name: 'GRB',
         email: 'goldenramenbowl@gmail.com',
         password: `${process.env.SITE_PWD}`
       }
