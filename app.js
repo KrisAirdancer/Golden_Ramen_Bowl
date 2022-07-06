@@ -24,6 +24,32 @@ const adminRoutes = require('./routes/adminRoutes');
 const bodyParser = require('body-parser');
 require('dotenv/config');
 
+/***** ADMIN LOGIN DEPENDENCIES *****/
+
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
+const methodOverride = require('method-override');
+
+/***** SETTING UP PASSPORT - for admin login *****/
+
+// This makes the function .initialize in passport-config.js available for use in this file.
+const initializePassport = require('./models/passport-config')
+
+/* This calls the initialize function in the passport-config.js file
+ * that sets up the passport "object" for use in this project.
+ */
+initializePassport(
+  passport, // This is the passport object to be used for authentication.
+  email => users.find(user => user.email === email), // This is the function being passed into passport-config.js as getUserByEmail
+  id => users.find(user => user.id === id) // This is the function being passed into passport-config.js as getUserById
+)
+
+/***** SERVER SETUP *****/
+
+// SERVER AND MONGODB SETUP
+
 // Setting up the Express app object
 const app = express(); // Initialize the Express app object. Not an instance of this file (app.js).
 
@@ -54,6 +80,32 @@ app.use(express.static('public'));
 
 // Setting up logging with morgan. This loggs information to the console.
 app.use(morgan('dev'));
+
+// ADMIN LOGIN SETUP
+
+// TODO: Replace the 'users' variable with a JSON file that stores the users. Hand code it. That is, the server shouldn't have logic to write to the JSON file (there will be no register page on this site), but will read from the JSON file on server startup and populate a variable like this one that is used to run the login system.
+/* This is storing the users that register on the site. Note that the data in
+ * this field is erased each time the server shuts down. Thus, this will need
+ * to be replaced with a data store that persists, such as a JSON file or a 
+ * database.
+ */
+const users = []
+
+// Telling our server to use express-flash
+app.use(flash())
+// Telling our server to use express-session
+app.use(session({
+  secret: process.env.SESSION_SECRET, // A key that is used by bcrypt to encrypt data. The key is used to encrypt data and then to decrypt the data. Anyone with the key can decrypt data that was encrypted using that key.
+  resave: false, // This is asking, "Should we save our session variables if nothing has changed?" In this case, no.
+  saveUninitialized: false // This is asking, "Do you want to save an empty value in the session if there is no value?" In this case, no.
+}))
+
+// This .initialize is NOT the same as .initialize() in passport-config.js. This simply sets up some of the passport stuff for us.
+app.use(passport.initialize())
+// This tells our server to persist users across sessions.
+app.use(passport.session())
+// method-override allows us to override methods when making/receiving POST, GET, etc. reqeusts.
+app.use(methodOverride('_method'))
 
 /***** ROUTING *****/
 
