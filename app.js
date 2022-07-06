@@ -48,7 +48,7 @@ initializePassport(
 
 /***** SERVER SETUP *****/
 
-// SERVER AND MONGODB SETUP
+/***** BASIC SERVER AND MONGODB SETUP *****/
 
 // Setting up the Express app object
 const app = express(); // Initialize the Express app object. Not an instance of this file (app.js).
@@ -81,7 +81,7 @@ app.use(express.static('public'));
 // Setting up logging with morgan. This loggs information to the console.
 app.use(morgan('dev'));
 
-// ADMIN LOGIN SETUP
+/***** ADMIN LOGIN SETUP *****/
 
 // TODO: Replace the 'users' variable with a JSON file that stores the users. Hand code it. That is, the server shouldn't have logic to write to the JSON file (there will be no register page on this site), but will read from the JSON file on server startup and populate a variable like this one that is used to run the login system.
 /* This is storing the users that register on the site. Note that the data in
@@ -89,7 +89,14 @@ app.use(morgan('dev'));
  * to be replaced with a data store that persists, such as a JSON file or a 
  * database.
  */
-const users = []
+const users = [
+    {
+        id: '1657129412975',
+        name: 'Waldo',
+        email: 'goldenramenbowl@gmail.com',
+        password: `${process.env.SITE_PWD}`
+      }
+];
 
 // Telling our server to use express-flash
 app.use(flash())

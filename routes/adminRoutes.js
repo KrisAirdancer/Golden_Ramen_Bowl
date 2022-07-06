@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', adminController.serve_admin_console_page);
 
 // Displays the form to create a new blog post.
-router.get('/create', adminController.serve_create_post_page);
+router.get('/create', isAuthenticated, adminController.serve_create_post_page);
 
 // Sends a new blog post to the database.
 router.post('/', adminController.send_new_post_to_database);
@@ -74,5 +74,45 @@ router.post('/upload-image', multerUploader.single('name_imageUpload'), (req, re
 });
 
 /***** END MULTER FILE UPLOAD CODE *****/
+
+/***** NON-ROUTING METHODS *****/
+
+/* Checks if a user has been authenticated or not.
+ * Returns 'next()' if user IS authenticated.
+ * 
+ * This function allows us to check if a user has been authenticated wherever
+ * we want to. Such as when .get() and .post() requests are made to the server.
+ * The `next` function is a function we call when we have finished
+ * authenticating the user that simply tells the calling function to continue.
+ * In this case, if the user hasn't been authenticated, and passport.isAuthenticated()
+ * returns false, we redirect the user back to the login page instaed of allowing
+ * them to go to the page they requested.
+ */
+function isAuthenticated(req, res, next) {
+    // .isAuthenicated() is a passport function that returns true if a user has been authenticated.
+    if (req.isAuthenticated()) {
+      return next()
+    }
+    // Redirect the user to the login page. This only triggers if the user hasn't been authenticated.
+    res.redirect('login');
+  }
+  
+  /* Checks if a user is not authenticated.
+   * Returns 'next()' if user is NOT authenticated.
+   * 
+   * If they aren't this will allow them to continiue with the
+   * request that they made to the server. If they have been authenticated, they will be
+   * redirected to the site homepage.
+   * This is useful for keeping users from accessing the login page after they have logged in.
+   */
+  function isNotAuthenticated(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    // This triggers if the user has been authenticted.
+    res.redirect('/')
+  }
+
+/***** OTHER *****/
 
 module.exports = router;
