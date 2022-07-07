@@ -19,8 +19,6 @@
 const express = require('express');
 const morgan = require('morgan'); // A middleware package for logging
 const mongoose = require('mongoose');
-const postsRoutes = require('./routes/blogRoutes') // Importing the router from the blogRoutes.js file.
-const adminRoutes = require('./routes/adminRoutes');
 const bodyParser = require('body-parser');
 const Post = require('./models/post');
 const multer = require('multer');
@@ -75,8 +73,9 @@ mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true })
 
 // EJS is a view engine. It allows you to write JavaScript directly in an html file (in this case a .ejs file). When that file is served to the browser, before it is sent, the view engine (EJS), and to some degree Express, will run that JavaScript and use it to generate additional HTML that it inserts into the HTML page before sending it to the browser. This is useful for inserting content from a database or filling the values of variables. Here's how to use it: https://www.youtube.com/watch?v=yXEesONd_54 and here's the docs https://ejs.co/
 app.set('view engine', 'ejs');
+
 // EJS looks in the views folder for its files by default. This is changing that from the default "views" to "myviews"
-// app.set('views', "myviews"); // We aren't changing the directory for EJS files.
+// app.set('views', "myviews"); // We aren't changing the directory for EJS files, so we don't need this.
 
 // Allows app.js to use functions that can parse URL encoded data.
 app.use(express.urlencoded({ extended: true }));
@@ -135,9 +134,6 @@ app.get('/', (req, res) => {
 
 /***** BLOG ROUTES *****/
 
-// The syntax for this can be .use(postsRoutes) or as below. If we use it as below, it only uses the routes in postsRoutes.js if the URL has /posts in it. As such, when we define the routes inside postsRoutes, we don't have to include /posts in front of every route in that file. Instead, in the postsRoutes.js file, we can just write the part of the route that comes after the /posts. eg. The route for /posts/:id would just be /:id in the postsRoutes.js file.
-// app.use('/posts', postsRoutes); // This tells Node.js to apply all of the handlers that are defined in postsRoutes.js to the app.js object. This is equivalent to putting all of the code from postsRoutes.js right here. In fact, if you look at previous commits before Express was added, that is exactly what you will see.
-
 // Displays a page that displays all of the blog posts on it.
 app.get('/posts', (req, res) => {
     console.log('AT: serve_index_page');
@@ -153,18 +149,6 @@ app.get('/posts', (req, res) => {
 
 
 /***** ADMIN ROUTES *****/
-
-// app.use('/admin', adminRoutes);
-
-
-
-
-
-
-
-
-
-
 
 // isAuthenticated
 // Displays the admin console page
@@ -312,22 +296,6 @@ app.delete('/admin/:id', (req, res) => {
         console.log(err.message);
       });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /***** OTHER ROUTES *****/
 
