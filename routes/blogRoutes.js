@@ -1,3 +1,5 @@
+// TRANSFERRED TO APP.JS
+
 /* This file defines all of the routes for '/posts'.
  * 
  * Here, instead of attaching all of our handlers to the 'app' object (as defined by app.js),
@@ -23,6 +25,7 @@ router.get('/', blogController.serve_index_page);
  */
 
 // Displays a single post.
-router.get('/:id', blogController.serve_post_details_page); // We must use the colon in front of the route parameter. If we don't, it will be interpreted as a string literal.
+// We must use the colon in front of the route parameter. If we don't, it will be interpreted as a string literal.
+router.get('/:id', blogController.serve_post_details_page);
 
 module.exports = router;
