@@ -1,3 +1,5 @@
+// TRANSFERRED TO APP.JS
+
 const Post = require('../models/post');
 
 /* Serves the Admin Console page.
@@ -117,8 +119,6 @@ const serve_edit_posts_list_page = (req, res) => {
     .catch( (err) => {
         console.log(err.message);
     })
-
-
 }
 
 const serve_login_page = (req, res) => {
@@ -133,8 +133,6 @@ const serve_login_page = (req, res) => {
  */
 const log_user_in = (req, res) => {
     console.log('AT: log_user_in');
-
-    // TODO: Set 'loggedIn = true'
 }
 
 /***** HELPER METHODS *****/

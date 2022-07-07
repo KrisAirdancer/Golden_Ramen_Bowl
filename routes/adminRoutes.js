@@ -1,3 +1,5 @@
+// TRANSFERRED TO APP.JS
+
 const express = require('express');
 const multer = require('multer');
 const adminController = require('../controllers/adminController')

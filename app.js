@@ -23,6 +23,7 @@ const postsRoutes = require('./routes/blogRoutes') // Importing the router from 
 const adminRoutes = require('./routes/adminRoutes');
 const bodyParser = require('body-parser');
 const Post = require('./models/post');
+const multer = require('multer');
 require('dotenv/config');
 
 /****************************
@@ -153,7 +154,180 @@ app.get('/posts', (req, res) => {
 
 /***** ADMIN ROUTES *****/
 
-app.use('/admin', adminRoutes);
+// app.use('/admin', adminRoutes);
+
+
+
+
+
+
+
+
+
+
+
+// isAuthenticated
+// Displays the admin console page
+app.get('/admin', (req, res) => {
+    console.log('AT: serve_admin_console_page');
+
+    // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
+    res.render('admin/admin-console', { title: 'Admin Console' });
+});
+
+// isAuthenticated
+// Displays the form to create a new blog post.
+app.get('/admin/create', (req, res) => {
+    console.log('AT: serve_create_post_page');
+
+    // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
+    res.render('admin/create', { title: 'Create', postData: new Post(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
+});
+
+// isAuthenticated
+// Sends a new blog post to the database.
+app.post('/admin', (req, res) => {
+    console.log('AT: send_new_post_to_database');
+
+    // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
+    const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
+    // Convert the tags string into an array of tags
+    post.tags = parseTags(req.body.tags);
+
+    console.log(req.body); // TODO: May want to remvoe this print line.
+    post.save()
+        .then( (result) => {
+            res.redirect(`/admin/edit/${result.id}`);
+        })
+        .catch( (err) => {
+            console.log(err.message);
+        })
+});
+
+// isAuthenticated
+/* Serves the file upload page. The page where files can be uploaded to the server.
+ */
+app.get('/admin/upload', (req, res) => {
+    console.log('AT: serve_file_upload_page');
+
+    res.render('admin/file-upload-form', { title: 'File Upload' } );
+});
+
+// isAuthenticated
+/* Serves the edit posts list page. A list of posts, hyperlinked to thier
+ * corresponding "Edit Post" page.
+ */
+app.get('/admin/edit-posts-list', (req, res) => {
+    console.log('AT: serve_edit_posts_list_page');
+
+    // res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
+
+    Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
+    .then( (result) => {
+        res.render('admin/edit-posts-list', { title: 'Edit Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+    })
+    .catch( (err) => {
+        console.log(err.message);
+    })
+});
+
+// isNotAuthenticated
+/* Serves the login page.
+ */
+app.get('/admin/login', (req, res) => {
+    console.log('AT: serve_login_page');
+
+    console.log(`request data: ${req.params}`)
+
+    res.render('admin/login', { title: 'Admin Login' } );
+});
+
+// isNotAuthenticated
+app.post('/admin/login', (req, res) => {
+    console.log('AT: log_user_in');
+});
+
+/***** IMPORTANT *****/
+/* All ':id' routes must be below the rest of the routes. Else the last part of a
+ * route will be interpreted as an id and the id route triggered.
+ */
+
+// isAuthenticated
+// Updates a post's data in the MongoDB database
+app.post('/admin/update-post/:id', (req, res) => {
+    console.log('AT: update_post_in_database');
+
+    // Get the id of the post to be updated from the request (req)
+    const id = req.params.id;
+
+    // Retrieve the Post object with matching id from the MongoDB database
+    Post.findById(id)
+        .then(post => {
+            // .set() updates all of the fields that are inputted via the obhject passed to it as an argument:
+                // https://mongoosejs.com/docs/api/document.html#document_Document-set
+                // Better explanation of .set() here: https://mongoosejs.com/docs/api/document.html#document_Document-overwrite
+            post.set(req.body);
+            // .save() updates the MongoDB database with the changes in the object
+            post.save();
+            res.redirect(`/admin/edit/${id}`);
+        })
+        .catch(err => {
+            // console.log(err.message);
+            res.status(404).render('404', { title: 'Page not found' })
+        })
+});
+
+// isAuthenticated
+// Displays the form to edit an existing blog post
+app.get('/admin/edit/:id', (req, res) => {
+    console.log('AT: serve_edit_post_page');
+
+    // Pull the id of the post that has been requested to be edited
+    const id = req.params.id;
+
+    Post.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
+        .then(result => {
+            // Render the page (aka. send the page to the browser).
+            // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
+            res.render('admin/edit', { title: 'Edit', postData: result, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+        })
+        .catch(err => {
+            // console.log(err.message);
+            res.status(404).render('404', { title: 'Page not found' })
+        })
+});
+
+// isAuthenticated
+// Deletes a post.
+app.delete('/admin/:id', (req, res) => {
+    console.log('AT: delete_post_from_database');
+
+    const id = req.params.id;
+    
+    Post.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/admin/edit-posts-list' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /***** OTHER ROUTES *****/
 
@@ -191,7 +365,44 @@ app.get('/posts/:id', (req, res) => {
         })
 });
 
-/***** ERROR ROUTES *****/
+// NOTE: ERROR ROUTES ARE BELOW THE MULTER CODE
+
+/***************************
+ * MULTER FILE UPLOAD CODE *
+ ***************************/
+
+// This sets the filename of the file that is being uploaded. Without this the file would be given an alphanumeric name with no file extension.
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        const { originalname } = file;
+        cb(null, originalname);
+    }
+})
+
+// This is Multer object that we use below in the .post() request to process the file.
+const multerUploader = multer({ storage: storage }); // or simply { dest: 'uploads/' }
+
+/* Uploads a file to the server (Stores files in the /images directory. Not in the
+ * MongoDB database.)
+ * The 'name_imageUpload' argument is linking the Malta middleware to the file input
+ * HTML field in image-upload.jpg. This is how the file gets sent from the HTML form
+ * to this method to be uploaded.
+ * 
+ * Followed this tutorial to set this up: https://www.youtube.com/watch?v=ysS4sL6lLDU&t=374s
+ */
+app.post('/admin/upload-image', multerUploader.single('name_imageUpload'), (req, res) => {
+    console.log('AT: multerUploader in postsRoutesjs');
+
+    // Redirect to the file uploads page
+    res.render('admin/file-upload-form', { title: 'File Upload' } );
+});
+
+/****************
+ * ERROR ROUTES *
+ ****************/
 
 /*  Handling invalid URLs by redirecting that request to the 404 page. If no match is found in any of the above functions, this function will fire. If a match is found above, this function will never run.
  *  This function does not take in a URL as a parameter b/c it fires for any request. This is why this one must be at the bottom of the file. It is the default case if all others don't match the incoming request. If you move this up in the code, it will cause other valid URLs to go to the 404 page.
@@ -201,3 +412,61 @@ app.get('/posts/:id', (req, res) => {
 app.use( (req, res) => { 
     res.status(404).render('404', { title: '404'} );
 });
+
+/************************
+ * ADDITIONAL FUNCTIONS *
+ ************************/
+
+// TODO: Consider renaming the below two methods requireAuthentication and requireNotAuthenticated
+
+/* Checks if a user has been authenticated or not.
+ * Returns 'next()' if user IS authenticated.
+ * 
+ * This function allows us to check if a user has been authenticated wherever
+ * we want to. Such as when .get() and .post() requests are made to the server.
+ * The `next` function is a function we call when we have finished
+ * authenticating the user that simply tells the calling function to continue.
+ * In this case, if the user hasn't been authenticated, and passport.isAuthenticated()
+ * returns false, we redirect the user back to the login page instaed of allowing
+ * them to go to the page they requested.
+ */
+function isAuthenticated(req, res, next) {
+    console.log('AT: isAuthenticated');
+    // .isAuthenicated() is a passport function that returns true if a user has been authenticated.
+    if (req.isAuthenticated()) {
+        console.log('HERE');
+        return next()
+    }
+    console.log('THERE');
+    // Redirect the user to the login page. This only triggers if the user hasn't been authenticated.
+    res.redirect('admin/login');
+  }
+  
+  /* Checks if a user is not authenticated.
+   * Returns 'next()' if user is NOT authenticated.
+   * 
+   * If they aren't this will allow them to continiue with the
+   * request that they made to the server. If they have been authenticated, they will be
+   * redirected to the site homepage.
+   * This is useful for keeping users from accessing the login page after they have logged in.
+   */
+  function isNotAuthenticated(req, res, next) {
+    console.log('AT: isNotAuthenticated');
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    // This triggers if the user has been authenticted.
+    res.redirect('login')
+  }
+
+/* Takes in a string of comma separated post tags and returns an
+ * array of tags.
+ */
+function parseTags(tags) {
+    // Strip all whitespace
+    tags = tags.replace(/\s+/g, '');
+    // Split tags on commas - tagList is an Array
+    let tagList = tags.split(',');
+
+    return tagList;
+}
