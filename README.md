@@ -191,15 +191,15 @@ WIP...
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
 
-**Stage Third to Last** - Cleare TODOs
+**Stage 10** - Clear TODOs
 
 - Go through the entire project and handle any TODOs that are left.
 
-**Stage Second to Last** - Archive learning material
+**Stage 11** - Archive learning material
 
 - Archive all of the tutorials that I've followed to get this stuff setup.
 
-**Stage Last** - Finialize Documentation
+**Stage 13** - Finialize Documentation
 
 - We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
 - Go throgh the entire project and do the following,
