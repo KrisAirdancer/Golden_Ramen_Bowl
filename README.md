@@ -159,21 +159,28 @@ WIP...
     - "newer" button should only appear when there is a page of newer posts ahead of the current page.
     - "older" button should only appear when there is a page of older posts ahead of the current page.
 
-**Stage 7** - Add contact system
+**Stage 7** - Add Mailchimp email newsletter API
 
-- **Stage 7.1** - Setup contact forms
+- Have Mailchimp send an email to our subscribers when we post a new post.
+- Add a "published" field to each post. When a post is first published, this gets set to true.
+- Each time a new post is submitted via the "submit" button, the system only sends a Mailchimp API call if the "status" field of the post is "published".
+- Each time a post is edited via the "save" button on the "edit post" page, the sytem checks that the post has BOTH a "status" field of "published" and a "published" boolean field of false. If it doesn't, the post is updated, but the newsletter isn't sent out.
+
+**Stage 8** - Add contact system
+
+- **Stage 8.1** - Setup contact forms
 
     - Make a "Contact Us" page that has a contact form on it.
     - The contact form should email us the contents of the form when it is submitted.
     - The information from the contact form should also be stored in the MongoDB database and displayed on a "communcations" page accessible from the Admin Console.
     - Use goldenramenbowl at gmail dot com as the contact email for now.
 
-**Stage 8** - Add custom page slugs
+**Stage 9** - Add custom page slugs
 
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
 
-**Stage 9** - Add additional pages
+**Stage 10** - Add additional pages
 
 - Add the following pages:
     - A page that lists all of the post titles as hyperlinks automatically.
@@ -184,11 +191,11 @@ WIP...
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
 
-**Stage 10** - Clear TODOs
+**Stage 11** - Clear TODOs
 
 - Go through the entire project and handle any TODOs that are left.
 
-**Stage 11** - Archive learning material
+**Stage 12** - Archive learning material
 
 - Archive all of the tutorials that I've followed to get this stuff setup.
 
