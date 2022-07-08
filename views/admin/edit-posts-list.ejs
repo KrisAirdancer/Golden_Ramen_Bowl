@@ -30,20 +30,21 @@
 
     <script>
 
-        const trashcan = document.querySelector('a.class_btn_delete');
+        const deleteBtn = document.querySelector('a.class_btn_delete');
 
-        trashcan.addEventListener('click', (e) => {
+        deleteBtn.addEventListener('click', (e) => {
             
-            if(alert('Are you sure? Refresh page or click back arrow to cancel.')) {
+            // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
+            // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
 
-                const endpoint = `/admin/${trashcan.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+                const endpoint = `/admin/${deleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
                 fetch(endpoint, {
                     method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
                 })
                 .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
                 .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
                 .catch(err => console.log(err));
-            }
+            // }
         });
     </script>
 

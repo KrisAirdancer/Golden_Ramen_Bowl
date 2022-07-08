@@ -12,6 +12,10 @@
             <li><a href="/admin/upload">File Upload</a></li>
         </ul>
 
+        <form action="/admin/logout?_method=DELETE" method="POST">
+            <button type="submit">Log Out</button>
+        </form>
+
     </div>
 
     <%- include('../partials/footer.ejs') %>

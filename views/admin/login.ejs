@@ -9,15 +9,19 @@
 
     <!-- TODO: Add a large GRB logo above or to the left of the login box. Just to make this page look a bit nicer. -->
 
+    <!-- This displays the messages that are passed to done(). -->
+    <% if (messages.error) { %>
+        <%= messages.error %>
+    <% } %>
     <form action="/admin/login" method="POST">
         <div>
-            <label for="name_username">Username</label>
-            <input type="text" id="id_username" name="name_username" required>
+            <label for="email">Username</label>
+            <input type="email" id="email" name="email" required>
         </div>
 
         <div>
-            <label for="name_password">Password</label>
-            <input type="password" id="id_password" name="name_password" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
         </div>
 
         <button type="submit">Login</button>

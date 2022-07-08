@@ -117,13 +117,13 @@ WIP...
     - Should allow a user to upload an image.
     - There should be a separate "upload images" option, that doesn't save the post, but does save all of the images to the correct directory. This way it is easy to upload any photos you want in a post as you write the post and know exactly what directory to reference when you add `<img>` tags to the post body.
 
-**Stage 5** - Hide edit and create pages behind admin login
+✔️ **Stage 5** - Hide edit and create pages behind admin login
 
 - REMAINING TODO
     - ✔️ Build out the "Edit Posts List" page.
     - ✔️ Remove "Edit" and "Delete" links from details.ejs (move these to the "Edit Posts List" page).
-    - Hide all of the admin pages behind a login system.
-    - Thouroughly test the system.
+    - ✔️ Hide all of the admin pages behind a login system.
+    - ✔️ Thouroughly test the system.
         - It doesn't need to be airtight. Just make it so that it isn't easy to accidentally reach an admin page.
 - Pages
     - ✔️ "Admin" page
@@ -161,19 +161,12 @@ WIP...
 
 **Stage 7** - Add contact system
 
-- **Stage 7.1** - Setup custom email domain
-
-    - Setup a custom email domain for goldenramenbowl.com
-    - Setup the email, chrisandvista at goldenramenbowl dot com (or similar)
-    - These emails should forward to...
-        - Its own GMail inbox.
-        - chris.scott.marston at gmail dot com
-
-- **Stage 7.2** - Setup contact forms
+- **Stage 7.1** - Setup contact forms
 
     - Make a "Contact Us" page that has a contact form on it.
     - The contact form should email us the contents of the form when it is submitted.
     - The information from the contact form should also be stored in the MongoDB database and displayed on a "communcations" page accessible from the Admin Console.
+    - Use goldenramenbowl at gmail dot com as the contact email for now.
 
 **Stage 8** - Add custom page slugs
 
@@ -224,6 +217,14 @@ WIP...
 # Future Upgrades & Other
 
 *Upgrades that might be added in the future
+
+**Setup custom email domain**
+
+- Setup a custom email domain for goldenramenbowl.com
+- Setup the email, chrisandvista at goldenramenbowl dot com (or similar)
+- These emails should forward to...
+    - Its own GMail inbox.
+    - chris.scott.marston at gmail dot com
 
 **Setting up post snippets/"more" divider**
 

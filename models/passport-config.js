@@ -38,6 +38,7 @@ function initialize(passport, getUserByEmail, getUserById) {
      * the above if statement). 
      */
     try {
+      console.log(`password: ${password}, user.password: ${user.password}`);
       // Compare the password entered by the user with the encrypted one on file.
       if (await bcrypt.compare(password, user.password)) {
         // If passwords match, return the user that we want to authenticate as. That is, the user profile that the user logged in as.

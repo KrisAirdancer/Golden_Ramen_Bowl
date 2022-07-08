@@ -39,7 +39,7 @@ const methodOverride = require('method-override');
  *****************************************/
 
 // This makes the function .initialize in passport-config.js available for use in this file.
-const initializePassport = require('./models/passport-config')
+const initializePassport = require('./models/passport-config.js')
 
 /* This calls the initialize function in the passport-config.js file
  * that sets up the passport "object" for use in this project.
@@ -48,7 +48,22 @@ initializePassport(
   passport, // This is the passport object to be used for authentication.
   email => users.find(user => user.email === email), // This is the function being passed into passport-config.js as getUserByEmail
   id => users.find(user => user.id === id) // This is the function being passed into passport-config.js as getUserById
-)
+);
+
+// TODO: Replace the 'users' variable with a JSON file that stores the users. Hand code it. That is, the server shouldn't have logic to write to the JSON file (there will be no register page on this site), but will read from the JSON file on server startup and populate a variable like this one that is used to run the login system.
+/* This is storing the users that register on the site. Note that the data in
+ * this field is erased each time the server shuts down. Thus, this will need
+ * to be replaced with a data store that persists, such as a JSON file or a 
+ * database.
+ */
+const users = [
+    {
+        id: '007',
+        name: 'w',
+        email: 'w@w',
+        password: `${process.env.SITE_PWD}`
+      }
+];
 
 /****************
  * SERVER SETUP *
@@ -78,7 +93,7 @@ app.set('view engine', 'ejs');
 // app.set('views', "myviews"); // We aren't changing the directory for EJS files, so we don't need this.
 
 // Allows app.js to use functions that can parse URL encoded data.
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false })); // TODO: Set this to 'true' again if possible.
 
 app.use(bodyParser.urlencoded({ extended: true} ));
 
@@ -92,36 +107,21 @@ app.use(morgan('dev'));
  * ADMIN LOGIN SETUP *
  *********************/
 
-// TODO: Replace the 'users' variable with a JSON file that stores the users. Hand code it. That is, the server shouldn't have logic to write to the JSON file (there will be no register page on this site), but will read from the JSON file on server startup and populate a variable like this one that is used to run the login system.
-/* This is storing the users that register on the site. Note that the data in
- * this field is erased each time the server shuts down. Thus, this will need
- * to be replaced with a data store that persists, such as a JSON file or a 
- * database.
- */
-const users = [
-    {
-        id: '1657129412975',
-        name: 'GRB',
-        email: 'goldenramenbowl@gmail.com',
-        password: `${process.env.SITE_PWD}`
-      }
-];
-
 // Telling our server to use express-flash
-app.use(flash())
+app.use(flash());
 // Telling our server to use express-session
 app.use(session({
   secret: process.env.SESSION_SECRET, // A key that is used by bcrypt to encrypt data. The key is used to encrypt data and then to decrypt the data. Anyone with the key can decrypt data that was encrypted using that key.
   resave: false, // This is asking, "Should we save our session variables if nothing has changed?" In this case, no.
   saveUninitialized: false // This is asking, "Do you want to save an empty value in the session if there is no value?" In this case, no.
-}))
+}));
 
 // This .initialize is NOT the same as .initialize() in passport-config.js. This simply sets up some of the passport stuff for us.
-app.use(passport.initialize())
+app.use(passport.initialize());
 // This tells our server to persist users across sessions.
-app.use(passport.session())
+app.use(passport.session());
 // method-override allows us to override methods when making/receiving POST, GET, etc. reqeusts.
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 
 /***********
  * ROUTING *
@@ -170,7 +170,7 @@ app.get('/admin/create', isAuthenticated, (req, res) => {
 
 // isAuthenticated
 // Sends a new blog post to the database.
-app.post('/admin', isAuthenticated, (req, res) => {
+app.post('/admin/create-new-post', isAuthenticated, (req, res) => {
     console.log('AT: send_new_post_to_database');
 
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
@@ -226,10 +226,35 @@ app.get('/admin/login', isNotAuthenticated, (req, res) => {
     res.render('admin/login', { title: 'Admin Login' } );
 });
 
+// console.log('AT: log_user_in');
 // isNotAuthenticated
-app.post('/admin/login', isNotAuthenticated, (req, res) => {
-    console.log('AT: log_user_in');
-});
+app.post('/admin/login', isNotAuthenticated, passport.authenticate('local', {
+    successRedirect: '/admin/console',
+    failureRedirect: '/admin/login',
+    failureFlash: true
+  }));
+
+  /* Logs the user out using the .logOut() function that is built
+ * into passport.
+ * Since this is a delete request, we cannot call it directly
+ * from HTML. So, we have to use an HTML form to make a POST
+ * request. But because DELETE requests are not supported by
+ * HTML forms, so we have to find a workaroud. That workaround
+ * is the method-override package. method-override allows us
+ * to override methods. In this case, we will override POST
+ * with DELETE. Thereby allowing us to use a DELETE request.
+ * 
+ *  * Note: We DON'T have to use a DELETE request to log a user out. It is just
+ * better practice to do so b/c we are technically "deleting" or "removing" data
+ * when we clear the session. If we didn't use the DELETE method, we wouldn't
+ * have to use the method-override package or any of this funny stuff.
+ */
+app.delete('/admin/logout', (req, res) => {
+    req.logOut(input => {
+        console.log(input);
+    }); // Clears the session and logs the user out.
+    res.redirect('/admin/login');
+  })
 
 /***** IMPORTANT *****/
 /* All ':id' routes must be below the rest of the routes. Else the last part of a

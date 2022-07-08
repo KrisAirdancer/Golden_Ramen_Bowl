@@ -17,6 +17,7 @@
                 <% posts.forEach(post => { %>
                     <!-- The anchor tag below is hyperlinking each post on the homepage to a page that shows only that post. The post._id part is assigning a unique ID to each of the hyperlinks so that they lead to a different page for each post. -->
                     <a class="single" href="/posts/<%= post._id %>">
+                        <img src="/images/<%= post.featuredImage %>" width="400">
                         <h3 class="title"><%= post.title %></h3>
                         <p class="snippet"><%= post.snippet %></p>
                     </a>
