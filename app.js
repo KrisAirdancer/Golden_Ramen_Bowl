@@ -152,7 +152,7 @@ app.get('/posts', (req, res) => {
 
 // isAuthenticated
 // Displays the admin console page
-app.get('/admin', (req, res) => {
+app.get('/admin/console', isAuthenticated, (req, res) => {
     console.log('AT: serve_admin_console_page');
 
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
@@ -161,7 +161,7 @@ app.get('/admin', (req, res) => {
 
 // isAuthenticated
 // Displays the form to create a new blog post.
-app.get('/admin/create', (req, res) => {
+app.get('/admin/create', isAuthenticated, (req, res) => {
     console.log('AT: serve_create_post_page');
 
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
@@ -170,7 +170,7 @@ app.get('/admin/create', (req, res) => {
 
 // isAuthenticated
 // Sends a new blog post to the database.
-app.post('/admin', (req, res) => {
+app.post('/admin', isAuthenticated, (req, res) => {
     console.log('AT: send_new_post_to_database');
 
     // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
@@ -191,7 +191,7 @@ app.post('/admin', (req, res) => {
 // isAuthenticated
 /* Serves the file upload page. The page where files can be uploaded to the server.
  */
-app.get('/admin/upload', (req, res) => {
+app.get('/admin/upload', isAuthenticated, (req, res) => {
     console.log('AT: serve_file_upload_page');
 
     res.render('admin/file-upload-form', { title: 'File Upload' } );
@@ -201,7 +201,7 @@ app.get('/admin/upload', (req, res) => {
 /* Serves the edit posts list page. A list of posts, hyperlinked to thier
  * corresponding "Edit Post" page.
  */
-app.get('/admin/edit-posts-list', (req, res) => {
+app.get('/admin/edit-posts-list', isAuthenticated, (req, res) => {
     console.log('AT: serve_edit_posts_list_page');
 
     // res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
@@ -218,7 +218,7 @@ app.get('/admin/edit-posts-list', (req, res) => {
 // isNotAuthenticated
 /* Serves the login page.
  */
-app.get('/admin/login', (req, res) => {
+app.get('/admin/login', isNotAuthenticated, (req, res) => {
     console.log('AT: serve_login_page');
 
     console.log(`request data: ${req.params}`)
@@ -227,7 +227,7 @@ app.get('/admin/login', (req, res) => {
 });
 
 // isNotAuthenticated
-app.post('/admin/login', (req, res) => {
+app.post('/admin/login', isNotAuthenticated, (req, res) => {
     console.log('AT: log_user_in');
 });
 
@@ -238,7 +238,7 @@ app.post('/admin/login', (req, res) => {
 
 // isAuthenticated
 // Updates a post's data in the MongoDB database
-app.post('/admin/update-post/:id', (req, res) => {
+app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
     console.log('AT: update_post_in_database');
 
     // Get the id of the post to be updated from the request (req)
@@ -263,7 +263,7 @@ app.post('/admin/update-post/:id', (req, res) => {
 
 // isAuthenticated
 // Displays the form to edit an existing blog post
-app.get('/admin/edit/:id', (req, res) => {
+app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
     console.log('AT: serve_edit_post_page');
 
     // Pull the id of the post that has been requested to be edited
@@ -283,7 +283,7 @@ app.get('/admin/edit/:id', (req, res) => {
 
 // isAuthenticated
 // Deletes a post.
-app.delete('/admin/:id', (req, res) => {
+app.delete('/admin/:id', isAuthenticated, (req, res) => {
     console.log('AT: delete_post_from_database');
 
     const id = req.params.id;
@@ -361,7 +361,7 @@ const multerUploader = multer({ storage: storage }); // or simply { dest: 'uploa
  * 
  * Followed this tutorial to set this up: https://www.youtube.com/watch?v=ysS4sL6lLDU&t=374s
  */
-app.post('/admin/upload-image', multerUploader.single('name_imageUpload'), (req, res) => {
+app.post('/admin/upload-image', isAuthenticated, multerUploader.single('name_imageUpload'), (req, res) => {
     console.log('AT: multerUploader in postsRoutesjs');
 
     // Redirect to the file uploads page
@@ -402,12 +402,10 @@ function isAuthenticated(req, res, next) {
     console.log('AT: isAuthenticated');
     // .isAuthenicated() is a passport function that returns true if a user has been authenticated.
     if (req.isAuthenticated()) {
-        console.log('HERE');
         return next()
     }
-    console.log('THERE');
     // Redirect the user to the login page. This only triggers if the user hasn't been authenticated.
-    res.redirect('admin/login');
+    res.redirect('/admin/login');
   }
   
   /* Checks if a user is not authenticated.
@@ -424,7 +422,7 @@ function isAuthenticated(req, res, next) {
         return next();
     }
     // This triggers if the user has been authenticted.
-    res.redirect('login')
+    res.redirect('/admin')
   }
 
 /* Takes in a string of comma separated post tags and returns an
