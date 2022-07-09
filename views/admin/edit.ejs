@@ -8,7 +8,7 @@
 
             <!-- The attributes labeled "name" below can be used to access those fields in other files -->
             <!-- The action attribute causes the Submit buttion to send a POST request to the specified URL ('/posts' in this case). However, we have to handle this on the server side with an app.post function. -->
-            <form action="/admin/update-post/<%= postData.id %> " method="POST">
+            <form action="/admin/update-post/<%= postData.id %>?status=<%= postData.publishingStatus %>" method="POST">
                 <%- include('../partials/create-edit-form-contents.ejs') %> 
                 <!-- When this button is clicked, it fires an event. That event bubbles through parent elements and triggers any event listeners on those elements. In this case, the event listener on the <form> tag. -->
                 <button>Save</button>

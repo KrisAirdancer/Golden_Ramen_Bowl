@@ -20,7 +20,8 @@ const express = require('express');
 const morgan = require('morgan'); // A middleware package for logging
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Post = require('./models/post');
+// const Post = require('./models/post');
+const schema_post = require('./models/post');
 const multer = require('multer');
 require('dotenv/config');
 
@@ -34,12 +35,20 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
+/***************************
+ * SETTING UP POST SCHEMAS *
+ ***************************/
+
+const DraftPost = mongoose.model('DraftPost', schema_post, 'posts_draft');
+const PublishedPost = mongoose.model('PublishedPost', schema_post, 'posts_published');
+
 /*****************************************
  * SETTING UP PASSPORT - for admin login *
  *****************************************/
 
 // This makes the function .initialize in passport-config.js available for use in this file.
-const initializePassport = require('./models/passport-config.js')
+const initializePassport = require('./models/passport-config.js');
+// const { post } = require('./models/post'); // TODO: What is this begin used for?
 
 /* This calls the initialize function in the passport-config.js file
  * that sets up the passport "object" for use in this project.
@@ -58,9 +67,9 @@ initializePassport(
  */
 const users = [
     {
-        id: '007',
-        name: 'w',
-        email: 'w@w',
+        id: '007', // TODO: Add better id.
+        name: 'w', // TODO: Add better username
+        email: 'w@w', // TODO: Remove email field.
         password: `${process.env.SITE_PWD}`
       }
 ];
@@ -134,11 +143,12 @@ app.get('/', (req, res) => {
 
 /***** BLOG ROUTES *****/
 
+// TODO: This method needs to use pagination.
 // Displays a page that displays all of the blog posts on it.
 app.get('/posts', (req, res) => {
     console.log('AT: serve_index_page');
 
-    Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
+    PublishedPost.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
     .then( (result) => {
         res.render('posts/index', { title: 'All Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
     })
@@ -150,7 +160,6 @@ app.get('/posts', (req, res) => {
 
 /***** ADMIN ROUTES *****/
 
-// isAuthenticated
 // Displays the admin console page
 app.get('/admin/console', isAuthenticated, (req, res) => {
     console.log('AT: serve_admin_console_page');
@@ -159,28 +168,35 @@ app.get('/admin/console', isAuthenticated, (req, res) => {
     res.render('admin/admin-console', { title: 'Admin Console' });
 });
 
-// isAuthenticated
 // Displays the form to create a new blog post.
 app.get('/admin/create', isAuthenticated, (req, res) => {
     console.log('AT: serve_create_post_page');
 
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
-    res.render('admin/create', { title: 'Create', postData: new Post(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
+    res.render('admin/create', { title: 'Create', postData: new DraftPost(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
 });
 
-// isAuthenticated
 // Sends a new blog post to the database.
 app.post('/admin/create-new-post', isAuthenticated, (req, res) => {
     console.log('AT: send_new_post_to_database');
 
-    // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
-    const post = new Post(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
-    // Convert the tags string into an array of tags
-    post.tags = parseTags(req.body.tags);
+    console.log(`Post Status: ${req.body.publishingStatus}`); // TODO: Delete this print line.
 
-    console.log(req.body); // TODO: May want to remvoe this print line.
+    let post = null;
+
+    if (req.body.publishingStatus === 'published') {
+        // req.body contains all of the information from the submitted new blog post form. But we can only parse the data as a string if we use the .urlencoded middleware.
+        post = new PublishedPost(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
+        
+    } else {
+        post = new DraftPost(req.body);
+        post.publishingStatus = 'draft'; // In the default case, we set the status to draft in case it came in as something strange. Just in case.
+    }
+
+    console.log(req.body); // TODO: May want to remove this print line.
     post.save()
         .then( (result) => {
+            console.log(result);
             res.redirect(`/admin/edit/${result.id}`);
         })
         .catch( (err) => {
@@ -188,7 +204,6 @@ app.post('/admin/create-new-post', isAuthenticated, (req, res) => {
         })
 });
 
-// isAuthenticated
 /* Serves the file upload page. The page where files can be uploaded to the server.
  */
 app.get('/admin/upload', isAuthenticated, (req, res) => {
@@ -197,22 +212,42 @@ app.get('/admin/upload', isAuthenticated, (req, res) => {
     res.render('admin/file-upload-form', { title: 'File Upload' } );
 });
 
-// isAuthenticated
 /* Serves the edit posts list page. A list of posts, hyperlinked to thier
  * corresponding "Edit Post" page.
  */
 app.get('/admin/edit-posts-list', isAuthenticated, (req, res) => {
     console.log('AT: serve_edit_posts_list_page');
 
-    // res.render('admin/edit-posts-list', { title: 'Edit Posts' } );
+    // TODO: Make the below mess prettier using async JavaScript.
+    /**
+     * Yes, this is a mess. This chunck should ultimately be updated to properly use
+     * JavaScript's asynchronus functionality, such as Promises. This will work for
+     * now until I learn how to properly use async JavaScript.
+     */
+    /**
+     * This is pulling the data for posts from the database. The two database calls
+     * are nested b/c it was the easiest way to ensure they properly awaited each
+     * other without implementing proper async JavaScript (I haven't learned async
+     * JavaScript yet). This has do be done b/c we have two post types that have to
+     * be collected from the database from two separate collections. Doing one request
+     * after the other resulted in race conditions. This was the easiest fix for now.
+     */
+    DraftPost.find().sort({ createdAt: -1 })
+        .then(result_draft => {
+            let draftPosts = result_draft;
 
-    Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
-    .then( (result) => {
-        res.render('admin/edit-posts-list', { title: 'Edit Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
-    })
-    .catch( (err) => {
-        console.log(err.message);
-    })
+                PublishedPost.find().sort({ createdAt: -1 })
+                    .then(result => {
+                        let publishedPosts = result;
+                        res.render('admin/edit-posts-list', { title: 'Edit Posts', draftPosts: draftPosts, publishedPosts: publishedPosts }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                });
+        })
+        .catch(err => {
+            console.log(err.message);
+    });
 });
 
 // isNotAuthenticated
@@ -261,10 +296,19 @@ app.delete('/admin/logout', (req, res) => {
  * route will be interpreted as an id and the id route triggered.
  */
 
-// isAuthenticated
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// ******************************************************************* Comment below.
+// TODO: This method not yet updated to use new Post objects.
 // Updates a post's data in the MongoDB database
 app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
     console.log('AT: update_post_in_database');
+
+
+    // console.log(`UPDATE VARIABLE: ${req.query.status}`);
+
 
     // Get the id of the post to be updated from the request (req)
     const id = req.params.id;
@@ -286,7 +330,6 @@ app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
         })
 });
 
-// isAuthenticated
 // Displays the form to edit an existing blog post
 app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
     console.log('AT: serve_edit_post_page');
@@ -294,19 +337,59 @@ app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
     // Pull the id of the post that has been requested to be edited
     const id = req.params.id;
 
-    Post.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
-        .then(result => {
-            // Render the page (aka. send the page to the browser).
-            // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
-            res.render('admin/edit', { title: 'Edit', postData: result, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+    // TODO: Make the below mess prettier using async JavaScript.
+    /**
+     * Yes, this is a mess. This chunck should ultimately be updated to properly use
+     * JavaScript's asynchronus functionality, such as Promises. This will work for
+     * now until I learn how to properly use async JavaScript.
+     */
+    /**
+     * This is pulling the data for the post from the database and then sending it
+     * to the browser to be rendered in HTML. The two queries are nested b/c they
+     * run asynchronously and this was the easiest way to ensure that they properly
+     * awaited when executing. We have to do this b/c there are two different post
+     * types stored in two different collections in the database. If we do one 
+     * database request after the other, race conditions result. Without proper
+     * async JavaScript, this was the easiest way to fix the issue. I will be learning
+     * async JavaScript later and hopefully cleaning this up then.
+     */
+    DraftPost.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
+        .then(draftResult => {
+            console.log(`DP RESULT: ${draftResult}`)
+
+            if (draftResult === null) {
+                PublishedPost.findById(id) // This retrieves the post associated with the ID from the database. The post object is stored in 'result'.
+                .then(publishedResult => {
+                    console.log(`PP RESULT: ${publishedResult}`);
+
+                    // Render the page (aka. send the page to the browser).
+                    // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
+                    res.render('admin/edit', { title: 'Edit', postData: publishedResult, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+                    return;
+                })
+                .catch(err => {
+                    // console.log(err.message);
+                    res.status(404).render('404', { title: 'Page not found' })
+                })
+            } else {
+                // Render the page (aka. send the page to the browser).
+                // Note: .render() is an Express method/function: https://expressjs.com/en/api.html#res.render 
+                res.render('admin/edit', { title: 'Edit', postData: draftResult, editing: true } ); // First parameter is the path of the file to be rendered. Second parameter is an objec that contains variables (data) that we can use via EJS in the associated .ejs file. In this case, we could use 'Edit' in edit.ejs by writing `<%= title %>`.
+            }
         })
         .catch(err => {
-            // console.log(err.message);
+            console.log(err.message);
+            console.log("HERE");
             res.status(404).render('404', { title: 'Page not found' })
         })
 });
 
-// isAuthenticated
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// ******************************************************************* Comment below.
+// TODO: This method not yet updated to use new Post objects.
 // Deletes a post.
 app.delete('/admin/:id', isAuthenticated, (req, res) => {
     console.log('AT: delete_post_from_database');
@@ -322,25 +405,12 @@ app.delete('/admin/:id', isAuthenticated, (req, res) => {
       });
 });
 
-/***** OTHER ROUTES *****/
-
-/* 'app' is the server object. When a request is made to the server (browser sends a 
- *  request to the server), the server object (app) gets that request. We can access
- *  that request using .get, .post, etc. and respond to it. In this case, we parse the
- *  URL that comes in as a GET request and if it matches the specified path ('/about-us')
- *  we use the response object to send the desired HTML (.ejs) page back to the browser.
- */
-app.get('/about-us', (req, res) => {
-    res.render('about-us', { title: 'About Us'} );
-});
-
-/***** id ROUTES *****/
-
-/* IMPORTANT:
- * All ':id' routes must be below the rest of the routes (except the 404 route).
- * Else the last part of a route will be interpreted as an id and the id route triggered.
- */
-
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
+// ******************************************************************* Comment below.
+// TODO: This method not yet updated to use new Post objects.
 // Displays a single post.
 // We must use the colon in front of the route parameter. If we don't, it will be interpreted as a string literal.
 app.get('/posts/:id', (req, res) => {
@@ -357,6 +427,20 @@ app.get('/posts/:id', (req, res) => {
             res.status(404).render('404', { title: 'Blog not found' })
         })
 });
+
+/****************
+ * OTHER ROUTES *
+ ****************/
+
+/* 'app' is the server object. When a request is made to the server (browser sends a 
+ *  request to the server), the server object (app) gets that request. We can access
+ *  that request using .get, .post, etc. and respond to it. In this case, we parse the
+ *  URL that comes in as a GET request and if it matches the specified path ('/about-us')
+ *  we use the response object to send the desired HTML (.ejs) page back to the browser.
+ */
+    app.get('/about-us', (req, res) => {
+        res.render('about-us', { title: 'About Us'} );
+    });
 
 // NOTE: ERROR ROUTES ARE BELOW THE MULTER CODE
 
@@ -461,3 +545,61 @@ function parseTags(tags) {
 
     return tagList;
 }
+
+/**
+ * Returns a fucntion that acts as middleware and returns a paginated list of data
+ * from the list of data (model) passed into this method.
+ * @param {*} model A list of data to be paginated.
+ * @returns A paginated list of data from 'model'.
+ */
+ function paginatedResults(model) {
+    return async (req, res, next) => {
+            // These variables are used to capture the values specified in the request "GET http://localhost:3000/users?page=1&limit=5"
+        const page = parseInt(req.query.page); // This gets the "page" variable from the request.
+        const limit = parseInt(req.query.limit); // This gets the "limit" variable from the request.
+
+        // These two variables are the range of pages that our data set has.
+        const startIndex = (page - 1) * limit; // Subtract 1 to start index at zero b/c of zero indexing.
+        const endIndex = page * limit;
+
+        // By returning an object containing the results, we are able to add information to the response.
+        const results = {};
+
+        /* These two objects contain information about which page is before and
+        * after the one the user (client) is currently on. This makes it easy
+        * for the client to know which data to request when the "next" and
+        * "previous" bttons are clicked.
+        * The "if" checks on both of these will prevent a next or previous page
+        * from being sent if there isn't one.
+        * Checking the .countDocuments() on the model returns the number of 
+        * elements in the data set.
+        */
+        if (endIndex < await model.countDocuments().exec()) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page -1,
+                limit: limit
+            };
+        }
+
+        try {
+            // This returns all of the elements within the specified range from the array.
+            // exec() is the "execute" function. It executes the database query.
+            /* This query is pulling all of the elements in the database with .find(), then
+             * starting at the element specified by startIndex in .skip(), and finally,
+             * .exec() executes the query.
+             */
+            results.results = await model.find().limit(limit).skip(startIndex).exec();
+            res.paginatedResults = results;
+            next();
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
+    };
+};
