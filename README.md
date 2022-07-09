@@ -175,15 +175,20 @@ WIP...
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
 
-**Stage 11** - Clear TODOs
+**Stage 11** - CCS Styling
+
+- Style the site with CSS.
+- Make sure it is responsive on different screen sizes.
+
+**Stage 12** - Clear TODOs
 
 - Go through the entire project and handle any TODOs that are left.
 
-**Stage 12** - Archive learning material
+**Stage 13** - Archive learning material
 
 - Archive all of the tutorials that I've followed to get this stuff setup.
 
-**Stage 13** - Finialize Documentation
+**Stage 14** - Finialize Documentation
 
 - We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
 - Go throgh the entire project and do the following,
@@ -200,7 +205,7 @@ WIP...
 - Fill out the "Features" section of this README.
     - Add a simple list of all of the features included in the site (admin login, post creation, post edit, etc.).
 
-**Stage 14** - Tag the final version on GitHub
+**Stage 15** - Tag the final version on GitHub
 
 - When the first version of GRB is complete, tag the final commit for that version in Git.
 - Figure out how to get the version tags to show up in GitHub (b/c it looks cool).
