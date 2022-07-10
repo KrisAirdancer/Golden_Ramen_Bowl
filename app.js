@@ -21,7 +21,9 @@ const morgan = require('morgan'); // A middleware package for logging
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Post = require('./models/post');
+const EmailSubscriber = require('./models/emailSubscriber');
 const multer = require('multer');
+const fs = require('fs');
 require('dotenv/config');
 
 /****************************
@@ -34,9 +36,9 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
-/********************
- * GLOBAL VARIABLES *
- ********************/
+/*********************************
+ * GLOBAL VARIABLES & DATASTORES *
+************* ********************/
 
 // Defines the number of posts to show per page.
 const paginationLimit = 5;
@@ -175,6 +177,49 @@ app.get('/', (req, res) => {
         posts: res.paginatedResults.posts,
         nextPreviousHtml: nextPreviousHtml
     });
+});
+
+app.post('/add-subscriber', (req, res) => {
+    console.log('AT: add-subscriber');
+
+    // console.log("body: %j", req.body);
+    console.log(`NAME: ${req.body.name}`);
+    console.log(`EMAIL: ${req.body.email}`);
+
+    const subscriber = new EmailSubscriber(req.body); // This property (req.body) is made readable in app.js by the app.use(express.urlencoded()) call above.
+
+    console.log(req.body); // TODO: May want to remvoe this print line.
+    subscriber.save()
+        .then(result => {
+            res.render('contact-us', { title: 'About Us' }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+        })
+        .catch( (err) => {
+            res.render('contact-us', { title: 'About Us' });
+        });
+
+
+
+
+
+
+
+
+
+
+    // fs.readFile('./data/mailing_list.txt', 'utf-8', (err, data) => {
+    //     if (err) {
+    //         console.error(err);
+    //         return;
+    //     }
+    //     console.log(data);
+    // });
+
+    // fs.writeFile('./data/mailing_list.txt', subscriberList, err => {
+    //     if (err) {
+    //         console.error(err);
+    //         return;
+    //     }
+    // });
 });
 
 /***** ADMIN ROUTES *****/
@@ -356,6 +401,13 @@ app.delete('/admin/:id', isAuthenticated, (req, res) => {
  */
 app.get('/about-us', (req, res) => {
     res.render('about-us', { title: 'About Us'} );
+});
+
+/**
+ * This serves the contact us page to the browser.
+ */
+app.get('/contact-us', (req, res) => {
+    res.render('contact-us', { title: 'About Us'} );
 });
 
 /***** id ROUTES *****/
