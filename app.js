@@ -129,6 +129,116 @@ app.use(passport.session());
 // method-override allows us to override methods when making/receiving POST, GET, etc. reqeusts.
 app.use(methodOverride('_method'));
 
+// TODO: Move the Mailchimp stuff to a better location in this file. Break up the pieces if necessary.
+/*******************
+ * MAILCHIMP SETUP *
+ *******************/
+
+const mailchimp = require("@mailchimp/mailchimp_marketing");
+const mailchimpAudienceId = process.env.MAILCHIMP_AUDIENCE_ID;
+const mailchimpCampaignId = process.env.MAILCHIMP_CAMPAIGN_ID;
+
+mailchimp.setConfig({
+    apiKey: process.env.MAILCHIMP_API_KEY,
+    server: process.env.MAILCHIMP_SERVER_PREFIX,
+});
+
+async function mailchimpHealthCheck() {
+    const response = await mailchimp.ping.get();
+    console.log(response);
+}
+  
+async function addSubscriber(subscribingUser) {
+    // const response = await mailchimp.lists.addListMember(mailchimpAudienceId, {
+    //     email_address: subscribingUser.email,
+    //     status: "subscribed",
+    //     merge_fields: {
+    //     FNAME: subscribingUser.firstName,
+    //     LNAME: subscribingUser.lastName
+    //     }
+    // });
+
+    const response = await mailchimp.lists.setListMember(
+        mailchimpAudienceId,
+        subscribingUser.email,
+        { email_address: subscribingUser.email, status: 'subscribed',
+            merge_fields: {
+                FNAME: subscribingUser.firstName,
+                LNAME: subscribingUser.lastName
+            } }
+    );
+
+    console.log(`USER ADD RES.ID: ${response.id}`);
+}
+
+async function sendTestEmail() {
+    const response = await mailchimp.campaigns.sendTestEmail(
+        mailchimpCampaignId,
+        {
+            test_emails: ['krisairdancer@gmail.com'],
+            send_type: 'plaintext'
+        }
+
+    );
+}
+
+// TODO: Change this to a POST request if possible.
+/**
+ * Use this URL to check that the Mailchimp connection is still good.
+ * This is not accessible from the frontend.
+ * Requires admin login.
+ * 
+ * Copy-Paste-URL: http://localhost:11000/admin/mailchimp-health-check
+ */
+app.post('/admin/mailchimp-health-check', isAuthenticated, (req, res) => {
+    console.log('AT: mailchimp-health-check');
+
+    mailchimpHealthCheck();
+});
+
+// TODO: This should be a POST request.
+/**
+ * This adds a new user to the Mailchimp audience.
+ * 
+ * Copy-Paste-URL: http://localhost:11000/admin/add-mc-user
+ */
+app.get('/admin/add-mc-user', (req, res) => {
+    console.log('AT: add-mc-user');
+    const subscribingUser = {
+        firstName: "Marston",
+        lastName: "Chris",
+        email: "chris.scott.marston@gmail.com"
+      };
+
+      addSubscriber(subscribingUser);
+      
+      res.redirect('/admin/console');
+});
+
+app.get('/admin/send-test-email', (req, res) => {
+    console.log('AT: send-test-email');
+
+    sendTestEmail();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /***********
  * ROUTING *
  ***********/

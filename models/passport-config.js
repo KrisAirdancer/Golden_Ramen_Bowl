@@ -38,6 +38,7 @@ function initialize(passport, getUserByUsername, getUserById) {
      * the above if statement). 
      */
     try {
+      // TODO: Delete this print statement after I've set the password in .env.
       console.log(`password: ${password}, user.password: ${user.password}`);
       // Compare the password entered by the user with the encrypted one on file.
       if (await bcrypt.compare(password, user.password)) {
