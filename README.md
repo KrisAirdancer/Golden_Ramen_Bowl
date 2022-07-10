@@ -143,28 +143,16 @@ WIP...
 - Displaying data elements in groups that can be "scrolled" through on pages is called "pagination."
 - Follow [this](https://www.youtube.com/watch?v=ZX3qt0UWifc) tutorial to set it up on the site.
 
-**Stage 7** - Add Mailchimp email newsletter API
+✔️ **Stage 7** - Add email system
 
-- Have Mailchimp send an email to our subscribers when we post a new post.
-- Add a "published" field to each post. When a post is first published, this gets set to true.
-- Each time a new post is submitted via the "submit" button, the system only sends a Mailchimp API call if the "status" field of the post is "published".
-- Each time a post is edited via the "save" button on the "edit post" page, the sytem checks that the post has BOTH a "status" field of "published" and a "published" boolean field of false. If it doesn't, the post is updated, but the newsletter isn't sent out.
+- Mailchimp integration prooved to be beyond by current skill set. As such, a simpler manual-operation email system has been implemented.
 
-**Stage 8** - Add contact system
-
-- **Stage 8.1** - Setup contact forms
-
-    - Make a "Contact Us" page that has a contact form on it.
-    - The contact form should email us the contents of the form when it is submitted.
-    - The information from the contact form should also be stored in the MongoDB database and displayed on a "communcations" page accessible from the Admin Console.
-    - Use goldenramenbowl at gmail dot com as the contact email for now.
-
-**Stage 9** - Add custom page slugs
+**Stage 8** - Add custom page slugs
 
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
 
-**Stage 10** - Add additional pages
+**Stage 9** - Add additional pages
 
 - Add the following pages:
     - A page that lists all of the post titles as hyperlinks automatically.
@@ -174,24 +162,27 @@ WIP...
     - *Might be able to automate the "posts by..." pages.
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
+    - Contact Us
+        - Add our email address and a short note on how to contact us to this page.
+    - Countries visited page.
+        - Make a static HTML page that lists all of the countries we've visited with a small emoji and the date we visited them next to them.
 
-**Stage 11** - CCS Styling
+**Stage 10** - CCS Styling
 
 - Style the site with CSS.
 - Make sure it is responsive on different screen sizes.
 
-**Stage 12** - Clear TODOs
+**Stage 11** - Clear TODOs
 
 - Go through the entire project and handle any TODOs that are left.
 
-**Stage 13** - Archive learning material
-
-- Archive all of the tutorials that I've followed to get this stuff setup.
-
-**Stage 14** - Finialize Documentation
+**Stage 12** - Finialize Documentation
 
 - We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
 - Go throgh the entire project and do the following,
+    - Clean up,
+        - All commented-out code.
+        - All print statements (if they are useful for testing, comment them out and add a comment 'testing print-statement').
     - Add documentation comments anywhere that I haven't already. Fill in the gaps.
         - Over explain if necessary, even if it feels silly. It is easy to forget how this stuff communicates.
     - Add a section to this README that explains (in stepwise fashion) how the entire project runs.
@@ -205,7 +196,7 @@ WIP...
 - Fill out the "Features" section of this README.
     - Add a simple list of all of the features included in the site (admin login, post creation, post edit, etc.).
 
-**Stage 15** - Tag the final version on GitHub
+**Stage 13** - Tag the final version on GitHub
 
 - When the first version of GRB is complete, tag the final commit for that version in Git.
 - Figure out how to get the version tags to show up in GitHub (b/c it looks cool).
@@ -289,6 +280,13 @@ WIP...
 **Consider changing from MongoDB to self-hosted JSON Server**
 
 - See these two tutorials from The Net Ninja: [Part 1](https://www.youtube.com/watch?v=mAqYJF-yxO8&t=1503s) and [Part 2](https://www.youtube.com/watch?v=VF3TI4Pj_kM&t=401s).
+
+**Add Mailchimp email newsletter API**
+
+- Have Mailchimp send an email to our subscribers when we post a new post.
+- Add a "published" field to each post. When a post is first published, this gets set to true.
+- Each time a new post is submitted via the "submit" button, the system only sends a Mailchimp API call if the "status" field of the post is "published".
+- Each time a post is edited via the "save" button on the "edit post" page, the sytem checks that the post has BOTH a "status" field of "published" and a "published" boolean field of false. If it doesn't, the post is updated, but the newsletter isn't sent out.
 
 # Ongoing Maintenance
 
