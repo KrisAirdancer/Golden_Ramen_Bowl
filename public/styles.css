@@ -3,6 +3,10 @@
     font-size: 32px;
     text-decoration: underline;
 }
+#btn_delete:hover {
+    color: red;
+    cursor: pointer;
+}
 .class_btn_delete:hover {
     color: red;
     cursor: pointer;

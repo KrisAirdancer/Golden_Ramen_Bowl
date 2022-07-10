@@ -19,7 +19,7 @@
                     <!-- TODO: List the date each post was posted next to the post. Need to figure out how to formate the Date object (see post.js). -->
                     <a href="/posts/<%= post._id %>"><%= post.title %></a>
                     <a class="class_edit" href="/admin/edit/<%= post.id %>?status=draft">Edit Post</a>
-                    <a id="btn_delete" class="class_btn_draftDelete" data-doc="<%= post._id %>">Delete</a>
+                    <a class="class_btn_delete" data-doc="<%= post._id %>">Delete</a>
                 </p>
 
             <% }) %>
@@ -42,7 +42,7 @@
                     <!-- TODO: List the date each post was posted next to the post. Need to figure out how to formate the Date object (see post.js). -->
                     <a href="/posts/<%= post._id %>"><%= post.title %></a>
                     <a class="class_edit" href="/admin/edit/<%= post.id %>?status=published">Edit Post</a>
-                    <a id="btn_delete" class="class_btn_publishedDelete" data-doc="<%= post._id %>">Delete</a>
+                    <a class="class_btn_delete" data-doc="<%= post._id %>">Delete</a>
                 </p>
 
             <% }) %>
@@ -55,15 +55,14 @@
 
     <script>
 
-        const draftDeleteDiv = document.querySelector('div.class_editDraftPostsListContent');
-        const draftDeleteBtn = document.querySelector('a.class_btn_draftDelete');
+        const draftDeleteBtn = document.querySelector('div.class_editDraftPostsListContent');
 
-        draftDeleteDiv.addEventListener('click', (e) => {
+        draftDeleteBtn.addEventListener('click', (e) => {
             
             // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
             // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
 
-                const endpoint = `/admin/${draftDeleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+                const endpoint = `/admin/${draftDeleteBtn.dataset.doc}?status=draft`; // This is getting the id from the data-doc=... object above.
                 fetch(endpoint, {
                     method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
                 })
@@ -73,15 +72,14 @@
             // }
         });
 
-        const publishedDeleteDiv = document.querySelector('div.class_editPublishedPostsListContent');
-        const publishedDeleteBtn = document.querySelector('a.class_btn_publishedDelete');
+        const publishedDeleteBtn = document.querySelector('div.class_editPublishedPostsListContent');
 
-        publishedDeleteDiv.addEventListener('click', (e) => {
+        publishedDeleteBtn.addEventListener('click', (e) => {
             
             // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
             // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
 
-                const endpoint = `/admin/${publishedDeleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+                const endpoint = `/admin/${publishedDeleteBtn.dataset.doc}?status=published`; // This is getting the id from the data-doc=... object above.
                 fetch(endpoint, {
                     method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
                 })

@@ -307,8 +307,12 @@ app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
     console.log('AT: update_post_in_database');
 
 
-    // console.log(`UPDATE VARIABLE: ${req.query.status}`);
+    console.log(`UPDATE VARIABLE: ${req.query.status}`);
+    console.log(`SELECT VARIABLE: ${req.body.publishingStatus}`);
 
+    // if () {
+
+    // }
 
     // Get the id of the post to be updated from the request (req)
     const id = req.params.id;
@@ -384,33 +388,30 @@ app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
         })
 });
 
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-// ******************************************************************* Comment below.
-// TODO: This method not yet updated to use new Post objects.
 // Deletes a post.
 app.delete('/admin/:id', isAuthenticated, (req, res) => {
     console.log('AT: delete_post_from_database');
 
     const id = req.params.id;
-    
-    Post.findByIdAndDelete(id)
-      .then(result => {
-        res.json({ redirect: '/admin/edit-posts-list' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+
+    DraftPost.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/admin/edit-posts-list' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
+        })
+        .catch(err => {
+            console.log(err.message);
+    });
+
+    PublishedPost.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/admin/edit-posts-list' }); // TODO: Upgrade. Have this redirect back to the "Edit Posts" page instead of back to the admin page. Just reload the "Edit Posts" page so it doesn't show the deleted post anymore.
+        })
+        .catch(err => {
+            console.log(err.message);
+    });
+
 });
 
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-// ******************************************************************* Comment below.
-// TODO: This method not yet updated to use new Post objects.
 // Displays a single post.
 // We must use the colon in front of the route parameter. If we don't, it will be interpreted as a string literal.
 app.get('/posts/:id', (req, res) => {
@@ -418,7 +419,7 @@ app.get('/posts/:id', (req, res) => {
 
     const id = req.params.id; // This gets the ID from the path that was generated in the browser by the JavaScript. I think. Something close to that. It definitely isn't accessing the database.
     // console.log(id); // This just logs the id to the console to show that it is working.
-    Post.findById(id) // This retrieves the post associated with the ID from the database.
+    PublishedPost.findById(id) // This retrieves the post associated with the ID from the database.
         .then(result => {
             res.render('posts/details', { post: result, title: 'Post Details' }); // 'details' is the view (an file called details.ejs) that contains the HTML outline of the page.
         })
