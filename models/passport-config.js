@@ -9,10 +9,10 @@ const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 
 /* passport is the passport object
- * getUserByEmail is a function that looks a user up using their email
+ * getUserByUsername is a function that looks a user up using their username
  * getUserById is a fucntion that looks a user up using their id
  */
-function initialize(passport, getUserByEmail, getUserById) {
+function initialize(passport, getUserByUsername, getUserById) {
 
   /* uthenticateUser is the function that we can call to authenticate a user. This
    * method is passed into .get(), .post(), etc. to authenticate users at the time
@@ -21,9 +21,9 @@ function initialize(passport, getUserByEmail, getUserById) {
    * authenticate the user. The 'done' parameter is a function that we call when
    * we have finished authenticating the user.
    */
-  const authenticateUser = async (email, password, done) => {
+  const authenticateUser = async (username, password, done) => {
     // Get the user object
-    const user = getUserByEmail(email)
+    const user = getUserByUsername(username)
     /* If we can't find the user, we call done with information about not being
      * able to find the user.
      * 1st parameter: Specifies/returns the error - we don't have an error, so return `null`
@@ -31,7 +31,7 @@ function initialize(passport, getUserByEmail, getUserById) {
      * 3rd parameter: Specifies/returns a message
      */
     if (user == null) {
-      return done(null, false, { message: 'No user with that email' })
+      return done(null, false, { message: 'No user with that username' })
     }
 
     /* If we made it this far, we must have found a user (else we would have triggered
@@ -58,14 +58,14 @@ function initialize(passport, getUserByEmail, getUserById) {
   /* This creates a new LocalStrategy object and passes it to the pasport object to be used
    * as the authentication strategy for that passport object.
    * Note: The options object passed in defaults to using 'username' as the value
-   * for 'usernameField'. Here, we are instructing it to use 'email' instead.
+   * for 'usernameField'. Here, we are instructing it to use 'username' instead.
    * Note: The values passed to 'usernameField', etc. must match the 'name' attribute
    * of the form whose data will be used to authenticate the user.
    * Note: authenticateUser is the function that we can call to authenticate a user. This
    * method is passed into .get(), .post(), etc. to authenticate users at the time
    * a request is made by that user.
    */
-  passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, authenticateUser))
+  passport.use(new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, authenticateUser))
   /* Serialization converts the given data into a byte stream.
      * 1st parameter: Specifies/returns the error - we don't have an error, so return `null`
      * 2nd parameter: Specifies/returns the id (in this case, other information can be passed in here.)

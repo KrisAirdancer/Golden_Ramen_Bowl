@@ -53,7 +53,7 @@ const initializePassport = require('./models/passport-config.js')
  */
 initializePassport(
   passport, // This is the passport object to be used for authentication.
-  email => users.find(user => user.email === email), // This is the function being passed into passport-config.js as getUserByEmail
+  username => users.find(user => user.username === username), // This is the function being passed into passport-config.js as getUserByUsername
   id => users.find(user => user.id === id) // This is the function being passed into passport-config.js as getUserById
 );
 
@@ -66,8 +66,7 @@ initializePassport(
 const users = [ // TODO: Store all user data in environment variables.
     {
         id: '007',
-        name: 'w',
-        email: 'w@w',
+        username: 'w',
         password: `${process.env.SITE_PWD}`
       }
 ];
@@ -141,19 +140,6 @@ app.get('/', (req, res) => {
 
 /***** BLOG ROUTES *****/
 
-// Displays a page that displays all of the blog posts on it.
-// app.get('/posts', (req, res) => {
-//     console.log('AT: serve_index_page');
-
-//     Post.find({ publishingStatus: 'published' }).sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
-//     .then( (result) => {
-//         res.render('posts/index', { title: 'All Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
-//     })
-//     .catch( (err) => {
-//         console.log(err.message);
-//     })
-// });
-
 /**
  * The paginatedResults() method, defined below in this class, is passed to .get().
  * It then returns a function that acts as middleware that in turn returns the
@@ -193,7 +179,6 @@ app.get('/', (req, res) => {
 
 /***** ADMIN ROUTES *****/
 
-// isAuthenticated
 // Displays the admin console page
 app.get('/admin/console', isAuthenticated, (req, res) => {
     console.log('AT: serve_admin_console_page');
@@ -202,7 +187,6 @@ app.get('/admin/console', isAuthenticated, (req, res) => {
     res.render('admin/admin-console', { title: 'Admin Console' });
 });
 
-// isAuthenticated
 // Displays the form to create a new blog post.
 app.get('/admin/create', isAuthenticated, (req, res) => {
     console.log('AT: serve_create_post_page');
@@ -211,7 +195,6 @@ app.get('/admin/create', isAuthenticated, (req, res) => {
     res.render('admin/create', { title: 'Create', postData: new Post(), editing: false } ); // Here we pass in an empty post to create values for the Mongoose post.js variables in the create-edit-form.ejs form. This is necessary b/c the edit post functionality needs to populate the variables on the create-edit-form.ejs.
 });
 
-// isAuthenticated
 // Sends a new blog post to the database.
 app.post('/admin/create-new-post', isAuthenticated, (req, res) => {
     console.log('AT: send_new_post_to_database');
@@ -231,7 +214,6 @@ app.post('/admin/create-new-post', isAuthenticated, (req, res) => {
         })
 });
 
-// isAuthenticated
 /* Serves the file upload page. The page where files can be uploaded to the server.
  */
 app.get('/admin/upload', isAuthenticated, (req, res) => {
@@ -240,7 +222,6 @@ app.get('/admin/upload', isAuthenticated, (req, res) => {
     res.render('admin/file-upload-form', { title: 'File Upload' } );
 });
 
-// isAuthenticated
 /* Serves the edit posts list page. A list of posts, hyperlinked to thier
  * corresponding "Edit Post" page.
  */
@@ -258,7 +239,6 @@ app.get('/admin/edit-posts-list', isAuthenticated, (req, res) => {
     })
 });
 
-// isNotAuthenticated
 /* Serves the login page.
  */
 app.get('/admin/login', isNotAuthenticated, (req, res) => {
@@ -269,8 +249,12 @@ app.get('/admin/login', isNotAuthenticated, (req, res) => {
     res.render('admin/login', { title: 'Admin Login' } );
 });
 
-// console.log('AT: log_user_in');
-// isNotAuthenticated
+/**
+ * Authenticates login attempts. If login credentials are invalid, redirect
+ * back to login page. If successful, redirect to admin console.
+ * Displays a message on the login page in the event of incorrect 
+ * credentials or errors.
+ */
 app.post('/admin/login', isNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/admin/console',
     failureRedirect: '/admin/login',
@@ -304,7 +288,6 @@ app.delete('/admin/logout', (req, res) => {
  * route will be interpreted as an id and the id route triggered.
  */
 
-// isAuthenticated
 // Updates a post's data in the MongoDB database
 app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
     console.log('AT: update_post_in_database');
@@ -329,7 +312,6 @@ app.post('/admin/update-post/:id', isAuthenticated, (req, res) => {
         })
 });
 
-// isAuthenticated
 // Displays the form to edit an existing blog post
 app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
     console.log('AT: serve_edit_post_page');
@@ -349,7 +331,6 @@ app.get('/admin/edit/:id', isAuthenticated, (req, res) => {
         })
 });
 
-// isAuthenticated
 // Deletes a post.
 app.delete('/admin/:id', isAuthenticated, (req, res) => {
     console.log('AT: delete_post_from_database');
@@ -490,7 +471,7 @@ function isAuthenticated(req, res, next) {
         return next();
     }
     // This triggers if the user has been authenticted.
-    res.redirect('/admin')
+    res.redirect('/admin/console')
   }
 
 /* Takes in a string of comma separated post tags and returns an
@@ -513,7 +494,7 @@ function parseTags(tags) {
  */
  function paginatedResults(model) {
     return async (req, res, next) => {
-            // These variables are used to capture the values specified in the request "GET http://localhost:3000/users?page=1&limit=5"
+        // These variables are used to capture the values specified in the request "GET http://localhost:3000/users?page=1&limit=5"
         const page = parseInt(req.query.page); // This gets the "page" variable from the request.
         const limit = parseInt(req.query.limit); // This gets the "limit" variable from the request.
 
@@ -535,11 +516,7 @@ function parseTags(tags) {
         * elements in the data set.
         */
         const count = await model.find({publishingStatus: 'published'}).count().exec();
-        // const count = await model.find({publishingStatus: 'draft'}).count().exec();
-        // const count = await model.find().count().exec();
-        console.log(`COUNT: ${count}`);
 
-        // if (endIndex < await model.countDocuments({ publishingStatus: 'published' }).exec()) {
         if (endIndex < await model.find({publishingStatus: 'published'}).count()) {
             results.next = {
                 hasNext: true,
@@ -568,8 +545,6 @@ function parseTags(tags) {
             };
         }
 
-
-        // console.log(`NEXT: ${results.next.page}`);
         try {
             // This returns all of the elements within the specified range from the array.
             // exec() is the "execute" function. It executes the database query.
