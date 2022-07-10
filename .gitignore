@@ -3,3 +3,7 @@ node_modules
 
 # Environment Variables
 .env
+
+# Email Subscribers
+data/mailing_list.txt
+mailing_list.txt

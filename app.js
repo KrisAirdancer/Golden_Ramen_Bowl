@@ -196,30 +196,6 @@ app.post('/add-subscriber', (req, res) => {
         .catch( (err) => {
             res.render('contact-us', { title: 'About Us' });
         });
-
-
-
-
-
-
-
-
-
-
-    // fs.readFile('./data/mailing_list.txt', 'utf-8', (err, data) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }
-    //     console.log(data);
-    // });
-
-    // fs.writeFile('./data/mailing_list.txt', subscriberList, err => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }
-    // });
 });
 
 /***** ADMIN ROUTES *****/
@@ -230,6 +206,20 @@ app.get('/admin/console', isAuthenticated, (req, res) => {
 
     // The res.render function compiles your template (please don't use ejs), inserts locals there, and creates html output out of those two things.
     res.render('admin/admin-console', { title: 'Admin Console' });
+});
+
+/**
+ * Serves a the Subscribers List page.
+ */
+app.get('/admin/subscribers-list', isAuthenticated, getSubscribersList(EmailSubscriber), (req, res) => {
+    console.log('AT: subscribers-list');
+
+    console.log(res.subscribersHtml);
+
+    res.render('admin/subscribers-list', {
+        title: 'Subscribers List',
+        subscribersHtml: res.subscribersListHtml
+    });
 });
 
 // Displays the form to create a new blog post.
@@ -616,3 +606,29 @@ function parseTags(tags) {
         }
     };
 };
+
+function getSubscribersList(model) {
+    return async (req, res, next) => {
+        const subscribersList = await model.find();
+        
+        let subscribersHtml = '';
+
+        subscribersList.forEach(subscriber => {
+            subscribersHtml += `${subscriber.email}, `;
+        });
+
+        // Remove the extra comma and space at the end of the string.
+        subscribersHtml = subscribersHtml.substring(0,subscribersHtml.length - 2);
+
+        // Write HTML string to a .txt file as backup.
+        fs.writeFile('./data/mailing_list.txt', subscribersHtml, err => {
+            if (err) {
+                console.error(err);
+            }
+        });
+
+        // console.log(subscribersHtml);
+        res.subscribersListHtml = subscribersHtml;
+        next();
+    }
+}
