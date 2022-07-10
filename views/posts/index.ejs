@@ -27,6 +27,12 @@
                 <p>There are no posts to display.</p>
             <% } %>
         </div>
+
+        <div>
+            <a href="/posts?page=<%= previousPage %>&limit=5">Newer Posts</a>
+            <a href="/posts?page=<%= nextPage %>&limit=5">Older Posts</a>
+        </div>
+
         <%- include('../partials/footer.ejs') %>
     </body>
 </html>
