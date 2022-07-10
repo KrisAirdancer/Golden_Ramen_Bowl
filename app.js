@@ -63,7 +63,7 @@ initializePassport(
  * to be replaced with a data store that persists, such as a JSON file or a 
  * database.
  */
-const users = [
+const users = [ // TODO: Store all user data in environment variables.
     {
         id: '007',
         name: 'w',

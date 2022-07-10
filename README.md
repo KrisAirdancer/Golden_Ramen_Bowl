@@ -138,7 +138,7 @@ WIP...
 - Use [this](https://www.youtube.com/watch?v=-RCnNyD0L-s&t=787s) YouTube tutorial to set this up.
     - [This](https://www.youtube.com/watch?v=W5Tb1MIeg-I) tutorial might be better.
 
-**Stage 6** - Paginate the posts on the homepage
+✔️ **Stage 6** - Paginate the posts on the homepage
 
 - Displaying data elements in groups that can be "scrolled" through on pages is called "pagination."
 - Follow [this](https://www.youtube.com/watch?v=ZX3qt0UWifc) tutorial to set it up on the site.

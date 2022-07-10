@@ -3,9 +3,9 @@
 <body>
     <%- include('../partials/nav-bar.ejs') %>
 
-    <div class="class_editPostsListContent">
+    <h2>Edit Posts</h2>
 
-        <h2>Edit Posts</h2>
+    <div class="class_editPostsListContent">
 
         <!-- Adding some JavaScript to this HTML template -->
         <!-- This is expecting an array of posts b/c it is cycling through all of the posts sent to it. -->
@@ -17,7 +17,7 @@
                     <!-- TODO: List the date each post was posted next to the post. Need to figure out how to formate the Date object (see post.js). -->
                     <a href="/posts/<%= post._id %>"><%= post.title %></a>
                     <a class="class_edit" href="/admin/edit/<%= post.id %>">Edit Post</a>
-                    <a class="class_btn_delete" data-doc="<%= post._id %>">Delete</a>
+                    <a name="name_btn_delete" class="class_btn_delete" data-doc="<%= post._id %>">Delete</a>
                 </p>
 
             <% }) %>
@@ -30,22 +30,42 @@
 
     <script>
 
-        const deleteBtn = document.querySelector('a.class_btn_delete');
+        const postsDiv = document.querySelector('div.class_editPostsListContent');
 
-        deleteBtn.addEventListener('click', (e) => {
-            
-            // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
-            // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
+        postsDiv.addEventListener('click', (e) => {
 
-                const endpoint = `/admin/${deleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+            if (e.target.name === 'name_btn_delete') {
+                const endpoint = `/admin/${e.target.dataset.doc}`; // This is getting the id from the data-doc=... object above.
                 fetch(endpoint, {
                     method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
                 })
                 .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
                 .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
                 .catch(err => console.log(err));
-            // }
+            }
         });
+
+
+
+
+
+
+        // const deleteBtn = document.querySelector('a.class_btn_delete');
+
+        // deleteBtn.addEventListener('click', (e) => {
+            
+        //     // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
+        //     // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
+
+        //         const endpoint = `/admin/${deleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
+        //         fetch(endpoint, {
+        //             method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
+        //         })
+        //         .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
+        //         .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
+        //         .catch(err => console.log(err));
+        //     // }
+        // });
     </script>
 
 </body>
