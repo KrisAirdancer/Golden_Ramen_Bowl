@@ -16,6 +16,7 @@
                 <p class="class_singlePost">
                     <!-- TODO: List the date each post was posted next to the post. Need to figure out how to formate the Date object (see post.js). -->
                     <a href="/posts/<%= post._id %>"><%= post.title %></a>
+                    <span><%= post.publishingStatus %></span>
                     <a class="class_edit" href="/admin/edit/<%= post.id %>">Edit Post</a>
                     <a name="name_btn_delete" class="class_btn_delete" data-doc="<%= post._id %>">Delete</a>
                 </p>
