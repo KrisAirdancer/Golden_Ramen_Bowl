@@ -138,42 +138,33 @@ WIP...
 - Use [this](https://www.youtube.com/watch?v=-RCnNyD0L-s&t=787s) YouTube tutorial to set this up.
     - [This](https://www.youtube.com/watch?v=W5Tb1MIeg-I) tutorial might be better.
 
-**Stage 6** - Improve post display format on all posts page (homepage)
+**Stage 6** - Paginate the posts on the homepage
 
-- **Stage 6.1** - Sort posts on homepage
-    
-    - Pull posts from database (or JSON file), sort them from newest (on top) to oldest, and list them on the homepage.
+- Displaying data elements in groups that can be "scrolled" through on pages is called "pagination."
+- Follow [this](https://www.youtube.com/watch?v=ZX3qt0UWifc) tutorial to set it up on the site.
 
-- **Stage 6.2** - Hyperlink posts on homepage to link to actual post pages
+**Stage 7** - Add Mailchimp email newsletter API
 
-    - Hyperlink the posts in the post list on the homepage
-    - Setup the system to generate an HTML page for a post when a user visits that post's URL. Such as via the new hyperlinks.
+- Have Mailchimp send an email to our subscribers when we post a new post.
+- Add a "published" field to each post. When a post is first published, this gets set to true.
+- Each time a new post is submitted via the "submit" button, the system only sends a Mailchimp API call if the "status" field of the post is "published".
+- Each time a post is edited via the "save" button on the "edit post" page, the sytem checks that the post has BOTH a "status" field of "published" and a "published" boolean field of false. If it doesn't, the post is updated, but the newsletter isn't sent out.
 
-- **Stage 6.3** - Show only 5 posts per page
+**Stage 8** - Add contact system
 
-    - Setup the homepage to show only the 5 most recent posts
-
-- **Stage 6.4** - Make older posts available on homepage
-
-    - Add "older" and "newer" links to homepage to allow users to scroll through posts, 5 at a time, starting with the newest posts.
-    - "newer" button should only appear when there is a page of newer posts ahead of the current page.
-    - "older" button should only appear when there is a page of older posts ahead of the current page.
-
-**Stage 7** - Add contact system
-
-- **Stage 7.1** - Setup contact forms
+- **Stage 8.1** - Setup contact forms
 
     - Make a "Contact Us" page that has a contact form on it.
     - The contact form should email us the contents of the form when it is submitted.
     - The information from the contact form should also be stored in the MongoDB database and displayed on a "communcations" page accessible from the Admin Console.
     - Use goldenramenbowl at gmail dot com as the contact email for now.
 
-**Stage 8** - Add custom page slugs
+**Stage 9** - Add custom page slugs
 
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
 
-**Stage 9** - Add additional pages
+**Stage 10** - Add additional pages
 
 - Add the following pages:
     - A page that lists all of the post titles as hyperlinks automatically.
@@ -184,15 +175,20 @@ WIP...
         - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
         - Same thing for year, but using the year tags.
 
-**Stage 10** - Clear TODOs
+**Stage 11** - CCS Styling
+
+- Style the site with CSS.
+- Make sure it is responsive on different screen sizes.
+
+**Stage 12** - Clear TODOs
 
 - Go through the entire project and handle any TODOs that are left.
 
-**Stage 11** - Archive learning material
+**Stage 13** - Archive learning material
 
 - Archive all of the tutorials that I've followed to get this stuff setup.
 
-**Stage 13** - Finialize Documentation
+**Stage 14** - Finialize Documentation
 
 - We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
 - Go throgh the entire project and do the following,
@@ -209,7 +205,7 @@ WIP...
 - Fill out the "Features" section of this README.
     - Add a simple list of all of the features included in the site (admin login, post creation, post edit, etc.).
 
-**Tag It** - Tag the final version on GitHub
+**Stage 15** - Tag the final version on GitHub
 
 - When the first version of GRB is complete, tag the final commit for that version in Git.
 - Figure out how to get the version tags to show up in GitHub (b/c it looks cool).

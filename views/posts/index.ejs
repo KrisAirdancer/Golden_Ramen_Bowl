@@ -29,8 +29,7 @@
         </div>
 
         <div>
-            <a href="/posts?page=<%= previousPage %>&limit=5">Newer Posts</a>
-            <a href="/posts?page=<%= nextPage %>&limit=5">Older Posts</a>
+            <%- nextPreviousHtml %> 
         </div>
 
         <%- include('../partials/footer.ejs') %>

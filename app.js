@@ -34,6 +34,13 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
+/********************
+ * GLOBAL VARIABLES *
+ ********************/
+
+// Defines the number of posts to show per page.
+const paginationLimit = 5;
+
 /*****************************************
  * SETTING UP PASSPORT - for admin login *
  *****************************************/
@@ -129,7 +136,7 @@ app.use(methodOverride('_method'));
 
 // Listen for GET requests for the root of the domain ('/').
 app.get('/', (req, res) => {
-    res.redirect('/posts?page=1&limit=5'); // Redirects homepage traffic to the page displaying all of the blog posts.
+    res.redirect(`/posts?page=1&limit=${paginationLimit}`); // Redirects homepage traffic to the page displaying all of the blog posts.
 });
 
 /***** BLOG ROUTES *****/
@@ -154,46 +161,33 @@ app.get('/', (req, res) => {
  */
  app.get('/posts', paginatedResults(Post), (req, res) => {
     console.log('AT: serve_index_page');
-    // res.json(res.paginatedResults);
 
-    // console.log(`OBJECT: ${res.paginatedResults.next.page}`);
+    const next = res.paginatedResults.next;
+    const previous = res.paginatedResults.previous;
 
-    // console.log(`PAGI RESULTS: ${res.paginatedResults.posts}`);
+    let nextPreviousHtml = '';
 
-    // const next = res.paginatedResults.next;
-    // const previous = res.paginatedResults.previous;
-    // const previous = 1;
-
-    // console.log(`VAR NEXT: ${next.page}`);
-    // console.log(`VAR PREVIOUS: ${previous.page}`);
-
-    // if ((previous === undefined || previous === null) && (next === undefined || next === null)) {
-    //     res.render('posts/index', {
-    //         title: 'All Posts',
-    //         posts: res.paginatedResults.posts,
-    //         previous: previous,
-    //         next: next.page
-    //     });
-    // } else if (previous === undefined || previous === null) {
-
-    // } else if (next === undefined || next === null) {
-        
-    // } else {
-
-    // }
-
-    // res.render('posts/index', {
-    //     title: 'All Posts',
-    //     posts: res.paginatedResults.posts,
-    //     previous: previous,
-    //     next: next.page
-    // });
+    if (!previous.hasNext && !next.hasNext) { // There are no posts to display.
+        nextPreviousHtml = '';
+    } else if (!previous.hasNext) { // There is only a next page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    } else if (!next.hasNext) { // There is only a previous page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>  
+        `;
+    } else { // There are both next and previous pages
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    }
 
     res.render('posts/index', {
         title: 'All Posts',
         posts: res.paginatedResults.posts,
-        nextPage: res.paginatedResults.next.page,
-        previousPage: res.paginatedResults.previous.page
+        nextPreviousHtml: nextPreviousHtml
     });
 });
 
@@ -548,17 +542,33 @@ function parseTags(tags) {
         // if (endIndex < await model.countDocuments({ publishingStatus: 'published' }).exec()) {
         if (endIndex < await model.find({publishingStatus: 'published'}).count()) {
             results.next = {
+                hasNext: true,
                 page: page + 1,
+                limit: limit
+            };
+        } else {
+            results.next = {
+                hasNext: false,
+                page: null,
                 limit: limit
             };
         }
 
         if (startIndex > 0) {
             results.previous = {
+                hasNext: true,
                 page: page - 1,
                 limit: limit
             };
+        } else {
+            results.previous = {
+                hasNext: false,
+                page: null,
+                limit: limit
+            };
         }
+
+
         // console.log(`NEXT: ${results.next.page}`);
         try {
             // This returns all of the elements within the specified range from the array.
