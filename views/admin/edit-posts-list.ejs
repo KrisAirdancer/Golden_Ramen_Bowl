@@ -29,7 +29,6 @@
     <%- include('../partials/footer.ejs') %>
 
     <script>
-
         const postsDiv = document.querySelector('div.class_editPostsListContent');
 
         postsDiv.addEventListener('click', (e) => {
@@ -44,28 +43,6 @@
                 .catch(err => console.log(err));
             }
         });
-
-
-
-
-
-
-        // const deleteBtn = document.querySelector('a.class_btn_delete');
-
-        // deleteBtn.addEventListener('click', (e) => {
-            
-        //     // TODO: Fix delete-confirmation functionality. Disabled it b/c it wasn't working correctly.
-        //     // if(alert('Are you sure? Click back arrow to cancel. Do not refresh page.')) {
-
-        //         const endpoint = `/admin/${deleteBtn.dataset.doc}`; // This is getting the id from the data-doc=... object above.
-        //         fetch(endpoint, {
-        //             method: 'DELETE', // This is specifying the request type (POST, GET, DELETE, etc.)
-        //         })
-        //         .then(response => response.json()) // response is the json data that is sent from the server to th browser. This file, details.ejs, lives on the frontend. response.json() returns an object that is then parsed into usable JavaScript object.
-        //         .then(data => window.location.href = data.redirect) // This logs the data, JavaScript, that came through the response.json() statement above.
-        //         .catch(err => console.log(err));
-        //     // }
-        // });
     </script>
 
 </body>
