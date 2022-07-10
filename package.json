@@ -19,6 +19,7 @@
   "homepage": "https://github.com/KrisAirdancer/nodejs-crash-course#readme",
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.75",
+    "@mailchimp/mailchimp_transactional": "^1.0.47",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",

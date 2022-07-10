@@ -134,17 +134,19 @@ app.use(methodOverride('_method'));
  * MAILCHIMP SETUP *
  *******************/
 
-const mailchimp = require("@mailchimp/mailchimp_marketing");
+const mailchimpMk = require("@mailchimp/mailchimp_marketing");
+const mailchimpTx = require("@mailchimp/mailchimp_transactional")(process.env.MAILCHIMP_API_KEY);
 const mailchimpAudienceId = process.env.MAILCHIMP_AUDIENCE_ID;
 const mailchimpCampaignId = process.env.MAILCHIMP_CAMPAIGN_ID;
 
-mailchimp.setConfig({
+mailchimpMk.setConfig({
     apiKey: process.env.MAILCHIMP_API_KEY,
     server: process.env.MAILCHIMP_SERVER_PREFIX,
 });
 
 async function mailchimpHealthCheck() {
-    const response = await mailchimp.ping.get();
+    // const response = await mailchimpMk.ping.get();
+    const response = await mailchimpTx.users.ping();
     console.log(response);
 }
   
@@ -158,7 +160,7 @@ async function addSubscriber(subscribingUser) {
     //     }
     // });
 
-    const response = await mailchimp.lists.setListMember(
+    const response = await mailchimpMk.lists.setListMember(
         mailchimpAudienceId,
         subscribingUser.email,
         { email_address: subscribingUser.email, status: 'subscribed',
@@ -172,14 +174,22 @@ async function addSubscriber(subscribingUser) {
 }
 
 async function sendTestEmail() {
-    const response = await mailchimp.campaigns.sendTestEmail(
-        mailchimpCampaignId,
-        {
-            test_emails: ['krisairdancer@gmail.com'],
-            send_type: 'plaintext'
-        }
+    const message = {
+        from_email: "goldenramenbowl@gmail.com",
+        subject: "GRB Test Email",
+        text: "Welcome to Mailchimp Transactional via GRB!",
+        to: [
+          {
+            email: "krisairdancer@gmail.com",
+            type: "to"
+          }
+        ]
+      };
 
-    );
+    const response = await mailchimpTx.messages.send({
+        message
+      });
+      console.log(response);
 }
 
 // TODO: Change this to a POST request if possible.
