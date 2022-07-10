@@ -179,6 +179,9 @@ app.get('/', (req, res) => {
     });
 });
 
+/**
+ * Adds a subscriber to the database.
+ */
 app.post('/add-subscriber', (req, res) => {
     console.log('AT: add-subscriber');
 
@@ -191,10 +194,73 @@ app.post('/add-subscriber', (req, res) => {
     console.log(req.body); // TODO: May want to remvoe this print line.
     subscriber.save()
         .then(result => {
-            res.render('contact-us', { title: 'About Us' }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+            res.render('./status-pages/subscribe-success.ejs', { title: 'Contact Us' }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
         })
         .catch( (err) => {
-            res.render('contact-us', { title: 'About Us' });
+            res.render('subscribe-failure', { title: 'Uh-oh!' });
+        });
+});
+
+/**
+ * Serves the site homepage with paginated results - 5 posts per page with
+ * next and previous buttons.
+ */
+app.get('/posts', paginatedResults(Post), (req, res) => {
+    console.log('AT: serve_index_page');
+
+    const next = res.paginatedResults.next;
+    const previous = res.paginatedResults.previous;
+
+    let nextPreviousHtml = '';
+
+    if (!previous.hasNext && !next.hasNext) { // There are no posts to display.
+        nextPreviousHtml = '';
+    } else if (!previous.hasNext) { // There is only a next page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    } else if (!next.hasNext) { // There is only a previous page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>  
+        `;
+    } else { // There are both next and previous pages
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    }
+
+    res.render('posts/index', {
+        title: 'All Posts',
+        posts: res.paginatedResults.posts,
+        nextPreviousHtml: nextPreviousHtml
+    });
+});
+
+/**
+ * Serves the Unsubscribe page.
+ */
+app.get('/unsubscribe', (req, res) => {
+    console.log('AT: unsubscribe');
+
+    res.render('unsubscribe', { title: 'Unsubscribe' });
+});
+
+/**
+ * Removes a subscriber from the database.
+ */
+app.post('/remove-subscriber', (req, res) => {
+    console.log('AT: remove-subscriber');
+
+    // console.log("body: %j", req.body);
+    console.log(`EMAIL: ${req.body.email}`);
+
+    EmailSubscriber.deleteMany({ email: req.body.email })
+        .then(result => {
+            res.render('./status-pages/unsubscribe-success.ejs', { title: 'Unsubscribe' });
+        })
+        .catch(err => {
+            res.render('unsubscribe-failure', { title: 'Uh-oh!' });
         });
 });
 
@@ -397,7 +463,7 @@ app.get('/about-us', (req, res) => {
  * This serves the contact us page to the browser.
  */
 app.get('/contact-us', (req, res) => {
-    res.render('contact-us', { title: 'About Us'} );
+    res.render('contact-us', { title: 'Contact Us'} );
 });
 
 /***** id ROUTES *****/
