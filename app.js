@@ -34,6 +34,13 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
+/********************
+ * GLOBAL VARIABLES *
+ ********************/
+
+// Defines the number of posts to show per page.
+const paginationLimit = 5;
+
 /*****************************************
  * SETTING UP PASSPORT - for admin login *
  *****************************************/
@@ -56,7 +63,7 @@ initializePassport(
  * to be replaced with a data store that persists, such as a JSON file or a 
  * database.
  */
-const users = [
+const users = [ // TODO: Store all user data in environment variables.
     {
         id: '007',
         name: 'w',
@@ -129,24 +136,60 @@ app.use(methodOverride('_method'));
 
 // Listen for GET requests for the root of the domain ('/').
 app.get('/', (req, res) => {
-    res.redirect('/posts'); // Redirects homepage traffic to the page displaying all of the blog posts.
+    res.redirect(`/posts?page=1&limit=${paginationLimit}`); // Redirects homepage traffic to the page displaying all of the blog posts.
 });
 
 /***** BLOG ROUTES *****/
 
 // Displays a page that displays all of the blog posts on it.
-app.get('/posts', (req, res) => {
+// app.get('/posts', (req, res) => {
+//     console.log('AT: serve_index_page');
+
+//     Post.find({ publishingStatus: 'published' }).sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
+//     .then( (result) => {
+//         res.render('posts/index', { title: 'All Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
+//     })
+//     .catch( (err) => {
+//         console.log(err.message);
+//     })
+// });
+
+/**
+ * The paginatedResults() method, defined below in this class, is passed to .get().
+ * It then returns a function that acts as middleware that in turn returns the
+ * list of paginated results.
+ */
+ app.get('/posts', paginatedResults(Post), (req, res) => {
     console.log('AT: serve_index_page');
 
-    Post.find().sort({ createdAt: -1 }) // Sorts the returned data based on the time it was created (createdAt) in descending order (-1).
-    .then( (result) => {
-        res.render('posts/index', { title: 'All Posts', posts: result }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
-    })
-    .catch( (err) => {
-        console.log(err.message);
-    })
-});
+    const next = res.paginatedResults.next;
+    const previous = res.paginatedResults.previous;
 
+    let nextPreviousHtml = '';
+
+    if (!previous.hasNext && !next.hasNext) { // There are no posts to display.
+        nextPreviousHtml = '';
+    } else if (!previous.hasNext) { // There is only a next page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    } else if (!next.hasNext) { // There is only a previous page
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>  
+        `;
+    } else { // There are both next and previous pages
+        nextPreviousHtml = `
+            <a href="/posts?page=${res.paginatedResults.previous.page}&limit=${paginationLimit}">Newer Posts</a>
+            <a href="/posts?page=${res.paginatedResults.next.page}&limit=${paginationLimit}">Older Posts</a>    
+        `;
+    }
+
+    res.render('posts/index', {
+        title: 'All Posts',
+        posts: res.paginatedResults.posts,
+        nextPreviousHtml: nextPreviousHtml
+    });
+});
 
 /***** ADMIN ROUTES *****/
 
@@ -461,3 +504,88 @@ function parseTags(tags) {
 
     return tagList;
 }
+
+/**
+ * Returns a fucntion that acts as middleware and returns a paginated list of data
+ * from the list of data (model) passed into this method.
+ * @param {*} model A list of data to be paginated.
+ * @returns A paginated list of data from 'model'.
+ */
+ function paginatedResults(model) {
+    return async (req, res, next) => {
+            // These variables are used to capture the values specified in the request "GET http://localhost:3000/users?page=1&limit=5"
+        const page = parseInt(req.query.page); // This gets the "page" variable from the request.
+        const limit = parseInt(req.query.limit); // This gets the "limit" variable from the request.
+
+        // These two variables are the range of pages that our data set has.
+        const startIndex = (page - 1) * limit; // Subtract 1 to start index at zero b/c of zero indexing.
+        const endIndex = page * limit;
+        console.log(`START: ${startIndex}, END: ${endIndex}`);
+
+        // By returning an object containing the results, we are able to add information to the response.
+        const results = {};
+
+        /* These two objects contain information about which page is before and
+        * after the one the user (client) is currently on. This makes it easy
+        * for the client to know which data to request when the "next" and
+        * "previous" bttons are clicked.
+        * The "if" checks on both of these will prevent a next or previous page
+        * from being sent if there isn't one.
+        * Checking the .countDocuments() on the model returns the number of 
+        * elements in the data set.
+        */
+        const count = await model.find({publishingStatus: 'published'}).count().exec();
+        // const count = await model.find({publishingStatus: 'draft'}).count().exec();
+        // const count = await model.find().count().exec();
+        console.log(`COUNT: ${count}`);
+
+        // if (endIndex < await model.countDocuments({ publishingStatus: 'published' }).exec()) {
+        if (endIndex < await model.find({publishingStatus: 'published'}).count()) {
+            results.next = {
+                hasNext: true,
+                page: page + 1,
+                limit: limit
+            };
+        } else {
+            results.next = {
+                hasNext: false,
+                page: null,
+                limit: limit
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                hasNext: true,
+                page: page - 1,
+                limit: limit
+            };
+        } else {
+            results.previous = {
+                hasNext: false,
+                page: null,
+                limit: limit
+            };
+        }
+
+
+        // console.log(`NEXT: ${results.next.page}`);
+        try {
+            // This returns all of the elements within the specified range from the array.
+            // exec() is the "execute" function. It executes the database query.
+            /* This query is pulling all of the elements in the database with .find(), then
+             * starting at the element specified by startIndex in .skip(), and finally,
+             * .exec() executes the query.
+             */
+            results.posts = await model.find({ publishingStatus: 'published' })
+                                         .limit(limit)
+                                         .skip(startIndex)
+                                         .sort({ createdAt: -1 })
+                                         .exec();
+            res.paginatedResults = results;
+            next();
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
+    };
+};
