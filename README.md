@@ -151,6 +151,9 @@ WIP...
 
 - Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
   - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
+- Instead of using a package for this, do it custom.
+    - Add a field to the Edit and Create pages that allows us to specify a snippet (will have to add the a field to the Post object).
+    - In the routes that look up a post, set them up to use the snippet to look up the post in the database.
 
 **Stage 9** - Add additional pages
 
