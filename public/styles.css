@@ -1,3 +1,38 @@
+/***** Homepage (index.html) *****/
+
+/* TODO: Consider putting each post in a card w/ shadow behind it. */
+
+.class_postPreview_Hyperlink {
+    text-decoration: none;
+}
+.class_postPreview_Snippet {
+    color: black;
+}
+.class_postPreview_Title {
+    color: black;
+}
+.class_postPreview_Title:hover {
+    color: #BD9000;
+}
+.class_postPreview_Image {
+    border-radius: 1%;
+    box-shadow: #a0a09f70 2px 2px;
+}
+.class_postPreview_Image:hover {
+    opacity: 0.8;
+}
+.class_postPreview_MoreLink {
+    text-decoration: none;
+    color: black;
+}
+.class_postPreview_MoreLink:hover {
+    color: #BD9000;
+}
+
+
+
+/***** UNSURE TODO: Organize these*****/
+
 #id_navBarSiteTitle {
     color: #BD9000;
     font-size: 32px;
