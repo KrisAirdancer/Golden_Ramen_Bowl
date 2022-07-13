@@ -1,5 +1,8 @@
-/***** Homepage (index.html) *****/
+/*************************
+ * HOMEPAGE (index.html) *
+ *************************/
 
+/* PAGINATED POSTS */
 /* TODO: Consider putting each post in a card w/ shadow behind it. */
 
 .class_postPreview_Hyperlink {
@@ -16,7 +19,7 @@
 }
 .class_postPreview_Image {
     border-radius: 1%;
-    box-shadow: #a0a09f70 2px 2px;
+    box-shadow: #80808070 2px 2px;
 }
 .class_postPreview_Image:hover {
     opacity: 0.8;
@@ -29,15 +32,47 @@
     color: #BD9000;
 }
 
+/************
+ * PARTIALS *
+ ************/
 
+/* NAV BAR */
 
-/***** UNSURE TODO: Organize these*****/
-
-#id_navBarSiteTitle {
+nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+}
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+nav li {
+    list-style-type: none;
+    margin-left: 20px;
+}
+nav h1 {
+    font-size: 3em;
+}
+nav p, nav a {
+    color: #777;
+    font-weight: 300;
+}
+#id_navBar_Hyperlink {
+    text-decoration: none;
+}
+#id_navBar_SiteTitle {
     color: #BD9000;
     font-size: 32px;
-    text-decoration: underline;
 }
+
+/********************************
+ * Unsure TODO: Organise these. *
+ ********************************/
+
 .class_btn_delete:hover {
     color: red;
     cursor: pointer;
