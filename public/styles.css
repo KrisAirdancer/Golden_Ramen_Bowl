@@ -12,7 +12,10 @@
     color: black;
 }
 .class_postPreview_Title {
+    /* TODO: Set the font for the entire site globally, then set any font that is different individually. Instead of setting the font for each element. They are all the same font! */
+    font-family: Montserrat, "Helvetica Neue", sans-serif;
     color: black;
+    font-size: 2em;
 }
 .class_postPreview_Title:hover {
     color: #BD9000;
@@ -20,6 +23,7 @@
 .class_postPreview_Image {
     border-radius: 1%;
     box-shadow: #80808070 2px 2px;
+    width: auto;
 }
 .class_postPreview_Image:hover {
     opacity: 0.8;
@@ -39,34 +43,39 @@
 /* NAV BAR */
 
 nav {
+    text-decoration: none;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    text-transform: uppercase;
 }
 nav ul {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    text-transform: uppercase;
 }
 nav li {
+    text-decoration: none;
+    font-family: Montserrat, "Helvetica Neue", sans-serif;
     list-style-type: none;
     margin-left: 20px;
 }
 nav h1 {
-    font-size: 3em;
+    font-size: 2em;
 }
 nav p, nav a {
-    color: #777;
-    font-weight: 300;
+    text-decoration: none;
+    color: rgb(81, 81, 81);
+    /* font-weight: 300; */
 }
-#id_navBar_Hyperlink {
+#id_navBar_StiteTitleHyperlink {
     text-decoration: none;
 }
 #id_navBar_SiteTitle {
+    font-family: Montserrat, "Helvetica Neue", sans-serif;
     color: #BD9000;
-    font-size: 32px;
+    /* font-size: 32px; */
 }
 
 /********************************
