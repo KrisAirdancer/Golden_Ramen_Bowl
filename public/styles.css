@@ -6,13 +6,8 @@
 /* TODO: Consider putting each post in a card w/ shadow behind it. */
 
 .class_homepage_PostContent {
-    /* width: 50%; */
-    /* position: absolute; */
-    /* left: 25%; */
-    /* padding: 5%; */
     margin-left: 10%;
     margin-right:40%;
-    /* max-width: 700px; */
 }
 .class_postPreview_Hyperlink {
     text-decoration: none;
@@ -24,17 +19,7 @@
     font-size: 1.2em;
     color: black;
 }
-/* .class_postPreview_Snippet { */
-    /* font-family: Merriweather, Georgia, serif; */
-    /* padding: 1%; */
-    /* margin-left: 10%; */
-    /* font-size: 1.2em; */
-    /* color: black; */
-/* } */
 .class_postPreview_Title {
-    /* TODO: Set the font for the entire site globally, then set any font that is different individually. Instead of setting the font for each element. They are all the same font! */
-    /* font-family: Montserrat, "Helvetica Neue", sans-serif; */
-    /* font-family: Merriweather, Georgia, serif; */
     font-family: Montserrat, "Helvetica Neue", sans-serif;
     color: black;
     font-size: 2.3em;
@@ -46,7 +31,6 @@
     width: 100%;
     border-radius: 1%;
     box-shadow: #80808070 2px 2px;
-    /* width: 50%; */
 }
 .class_postPreview_Image:hover {
     opacity: 0.8;
@@ -95,6 +79,9 @@ nav p, nav a {
     color: rgb(81, 81, 81);
     /* font-weight: 300; */
 }
+.class_navBar_SiteLogo {
+    display: flex;
+}
 #id_navBar_StiteTitleHyperlink {
     text-decoration: none;
 }
@@ -104,18 +91,18 @@ nav p, nav a {
     /* font-size: 32px; */
 }
 
-/********************************
- * Unsure TODO: Organise these. *
- ********************************/
+/*********
+ * Other *
+ *********/
 
- .class_footer {
-
+ .class_BasicPageMargins {
+    margin-left: 10%;
+    margin-right:40%;
  }
-
-/********************************
- * Unsure TODO: Organise these. *
- ********************************/
-
+ .class_footer {
+    margin-top: 50px;
+    margin-left: 10%;
+ }
 .class_btn_delete:hover {
     color: red;
     cursor: pointer;
