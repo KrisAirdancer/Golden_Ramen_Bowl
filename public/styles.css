@@ -95,14 +95,20 @@ nav p, nav a {
  * Other *
  *********/
 
- .class_BasicPageMargins {
+.class_createEdit_CreateEditForm {
+    width: 100%;
+}
+.class_createEdit_CreateEditForm label {
+    width: 100%;
+}
+.class_BasicPageMargins {
     margin-left: 10%;
     margin-right:40%;
- }
- .class_footer {
+}
+.class_footer {
     margin-top: 50px;
     margin-left: 10%;
- }
+}
 .class_btn_delete:hover {
     color: red;
     cursor: pointer;
