@@ -3,29 +3,34 @@
 <body>
     <%- include('../partials/nav-bar.ejs') %>
 
-    <h1>Admin Login</h1>
+    <div class="class_BasicPageMargins">
 
-    <!-- TODO: Add styling/logic to display a message if the login credentials are incorrect. -->
+        <h1>Admin Login</h1>
+    
+        <!-- TODO: Add styling/logic to display a message if the login credentials are incorrect. -->
+    
+        <!-- TODO: Add a large GRB logo above or to the left of the login box. Just to make this page look a bit nicer. -->
+    
+        <!-- This displays the messages that are passed to done(). -->
+        <% if (messages.error) { %>
+            <%= messages.error %>
+        <% } %>
+        <form action="/admin/login" method="POST">
+            <div>
+                <label for="username">Username</label>
+                <input type="username" id="username" name="username" required>
+            </div>
+    
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+    
+            <button type="submit">Login</button>
+        </form>  
 
-    <!-- TODO: Add a large GRB logo above or to the left of the login box. Just to make this page look a bit nicer. -->
+    </div>
 
-    <!-- This displays the messages that are passed to done(). -->
-    <% if (messages.error) { %>
-        <%= messages.error %>
-    <% } %>
-    <form action="/admin/login" method="POST">
-        <div>
-            <label for="username">Username</label>
-            <input type="username" id="username" name="username" required>
-        </div>
-
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-
-        <button type="submit">Login</button>
-    </form>
 
     <%- include('../partials/footer.ejs') %>
 </body>
