@@ -99,18 +99,23 @@ nav a:hover {
  * Other *
  *********/
 
+ .class_details_postTitle {
+     font-size: 28pt;
+ }
 .class_details_content img {
-    max-width: 70%;
+    max-width: 80%;
+    border-radius: 1%;
+    box-shadow: #80808070 2px 2px;
 }
 .class_details_content p {
-    max-width: 70%;
+    max-width: 50%;
 }
 .class_details_postContent {
     padding-left: 10%;
     padding-right: 10%;
 }
-.class_details_postContent img {
-    width: 70%;
+.class_details_featuredImage {
+    width: 100%;
     border-radius: 1%;
     box-shadow: #80808070 2px 2px;
 }
