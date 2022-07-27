@@ -79,6 +79,10 @@ nav p, nav a {
     color: rgb(81, 81, 81);
     /* font-weight: 300; */
 }
+nav a:hover {
+    color:#BD9000;
+    text-decoration: underline;
+}
 .class_navBar_SiteLogo {
     display: flex;
 }
@@ -95,6 +99,11 @@ nav p, nav a {
  * Other *
  *********/
 
+ .class_index_nextPreviousBtns {
+    padding-left: 10%;
+    padding-top: 5%;
+    font-size: 12pt;
+ }
 .class_createEdit_CreateEditForm {
     width: 100%;
 }
