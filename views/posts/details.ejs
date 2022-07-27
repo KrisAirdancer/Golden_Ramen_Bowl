@@ -9,9 +9,9 @@
             <h2><%= post.title %></h2>
             
             <!-- <img src="/glenfinnan-viaduct-uk.jpg" alt="featured image"/> -->
-            <img src="/images/<%= post.featuredImage %>" alt="featured image"/>
+            <img class="class_details_featuredImage" src="/images/<%= post.featuredImage %>"/>
 
-            <div class="content">
+            <div class="class_details_content">
                 <!-- This injects the content directly into the HTML. Thus, it will be parsed like HTML. -->
                 <%- post.body %>
             </div>
