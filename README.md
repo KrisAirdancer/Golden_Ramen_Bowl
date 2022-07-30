@@ -4,7 +4,11 @@ A website where my wife and I document our travels.
 
 The current version of this site is built using Wordpress and can be viewed [here](https://www.goldenramenbowl.com).
 
-This site might eventually replace the current one and be hosted on our Raspberry Pi instead of on Bluehost.
+Here's a quick look at the site:
+
+<img src="demo_content/grb-public-pages-demo.gif" width="75%">
+
+<img src="demo_content/admin-pages-demo.gif" width="75%">
 
 # Setting up & running this project for development
 
