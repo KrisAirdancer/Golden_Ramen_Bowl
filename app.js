@@ -197,7 +197,7 @@ app.post('/add-subscriber', (req, res) => {
             res.render('./status-pages/subscribe-success.ejs', { title: 'Contact Us' }); // This sends the retrieved data to the browser. The "title" tag matches the HTML tag in header.ejs partial and therefore MUST include it. The "blogs" field is sending over the data itself (the data is stored in "result").
         })
         .catch( (err) => {
-            res.render('subscribe-failure', { title: 'Uh-oh!' });
+            res.render('status-pages/subscribe-failure', { title: 'Uh-oh!' });
         });
 });
 
