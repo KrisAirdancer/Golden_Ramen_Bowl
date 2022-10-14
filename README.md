@@ -37,10 +37,6 @@ hint: preference for all repositories. You can also pass --rebase, --no-rebase,
 hint: or --ff-only on the command line to override the configured default per
 hint: invocation.
 
-# Features
-
-WIP...
-
 # Development Stages
 
 ✔️ **Stage 1** - Setup server
@@ -147,66 +143,10 @@ WIP...
 - Displaying data elements in groups that can be "scrolled" through on pages is called "pagination."
 - Follow [this](https://www.youtube.com/watch?v=ZX3qt0UWifc) tutorial to set it up on the site.
 
-✔️ **Stage 7** - Add email system
-
-- Mailchimp integration prooved to be beyond by current skill set. As such, a simpler manual-operation email system has been implemented.
-
-**Stage 8** - Add custom page slugs
-
-- Add custom slugs to the webpages (especially the articles that will have a slug that is a random ID)
-  - See [this](https://www.youtube.com/watch?v=1NrHkjlWVhM&t=2461s) at ~42:00.
-- Instead of using a package for this, do it custom.
-    - Add a field to the Edit and Create pages that allows us to specify a snippet (will have to add the a field to the Post object).
-    - In the routes that look up a post, set them up to use the snippet to look up the post in the database.
-
-**Stage 9** - Add additional pages
-
-- Add the following pages:
-    - A page that lists all of the post titles as hyperlinks automatically.
-        - This is the equivalent of the "Super Simple Archive" WordPress plugin we use.
-    - Posts by activity type page
-    - Posts by year page
-    - *Might be able to automate the "posts by..." pages.
-        - Activity type uses tags to list them out: `if tag === hiking, add <h2>Hiking</h2> and list posts with that tag`
-        - Same thing for year, but using the year tags.
-    - Contact Us
-        - Add our email address and a short note on how to contact us to this page.
-    - Countries visited page.
-        - Make a static HTML page that lists all of the countries we've visited with a small emoji and the date we visited them next to them.
-
-**Stage 10** - CCS Styling
+✔️**Stage 10** - CCS Styling
 
 - Style the site with CSS.
 - Make sure it is responsive on different screen sizes.
-
-**Stage 11** - Clear TODOs
-
-- Go through the entire project and handle any TODOs that are left.
-
-**Stage 12** - Finialize Documentation
-
-- We won't be working with this code often, but we WILL be using the blog and will need to maintain and upgrade it from time to time, so we need to make sure our future selves can understand it.
-- Go throgh the entire project and do the following,
-    - Clean up,
-        - All commented-out code.
-        - All print statements (if they are useful for testing, comment them out and add a comment 'testing print-statement').
-    - Add documentation comments anywhere that I haven't already. Fill in the gaps.
-        - Over explain if necessary, even if it feels silly. It is easy to forget how this stuff communicates.
-    - Add a section to this README that explains (in stepwise fashion) how the entire project runs.
-        - How the server is setup.
-        - How browser requests are made.
-        - How our server responds to requests.
-        - How HTML pages are built before being served to the browser.
-        - How any JavaScript works/fits into the project.
-        - etc. 
-        - Explain and document everything.
-- Fill out the "Features" section of this README.
-    - Add a simple list of all of the features included in the site (admin login, post creation, post edit, etc.).
-
-**Stage 13** - Tag the final version on GitHub
-
-- When the first version of GRB is complete, tag the final commit for that version in Git.
-- Figure out how to get the version tags to show up in GitHub (b/c it looks cool).
 
 # Future Upgrades & Other
 
