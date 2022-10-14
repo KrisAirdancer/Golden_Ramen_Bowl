@@ -19,24 +19,6 @@ Here's a quick look at the site:
     - 'nodemon app' to run using Nodemon
     - 'node app' to run using vanilla Node.js
 
-# Git SOP
-
-- When pulling changes down to the Pi, pull them onto an "upgrading" branch and then merge that branch into the main branch.
-- [This](https://stackoverflow.com/questions/62653114/how-can-i-deal-with-this-git-warning-pulling-without-specifying-how-to-reconci) might help with the below error.
-- Look into how best to handle this error:
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint:
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint:
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-
 # Development Stages
 
 ✔️ **Stage 1** - Setup server
